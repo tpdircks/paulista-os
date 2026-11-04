@@ -1,6 +1,6 @@
 # Paulista OS
 
-A simple bilingual (English / Português) operating system for Troy's two Brazil pizza stores, **Pizzaria do Paulista Barcarena (sede)** and **Pizzaria do Paulista Vila**. It looks like Smackin' OS (Barlow font, navy header, left nav) but is much smaller: one page of static files, no build step, no server, no database.
+A simple bilingual (English / Português) operating system for Troy's two Brazil pizza stores, **Pizzaria do Paulista Barcarena (sede)** and **Pizzaria do Paulista Vila**. It looks like Smackin' OS (Barlow font, navy header, top tabs) but is much smaller: one page of static files, no build step, no server, no database.
 
 ## What it does
 
@@ -35,7 +35,7 @@ Note: GitHub Pages sites are public. Anyone with the link can see the numbers in
 
 ## Files
 
-- `index.html`: the app layout (header, nav, main view)
+- `index.html`: the app layout (sticky header + top section tabs, main view)
 - `styles.css`: the visual style
 - `data.js`: seeded numbers and their sources
 - `i18n.js`: EN/PT strings

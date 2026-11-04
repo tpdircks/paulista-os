@@ -5,19 +5,20 @@ window.PDATA = {
     "money", "lucas", "draw", "vila", "debt"
   ],
   stores: [
-    { id: "bar", name: "Barcarena (sede)", address: "Tv. São Francisco, 614 – Centro, Barcarena/PA, CEP 68.445-000",
+    { id: "bar", name: "Barcarena (sede)", phone: "(91) 98600-1589", address: "Tv. São Francisco, 614 – Centro, Barcarena/PA, CEP 68.445-000",
       anota: "Fabiana Valente Maia", stone: "Ana Paula Maia Dircks · Stone ag 0001 conta 43106076-3",
       fixed: [ { k: "rent", who: "Jairo Soares", amt: "R$ 900 (day 10) + R$ 700 (day 20)", total: 1600 },
                { k: "energy", who: "Equatorial", amt: "R$ 900 – 1.000", total: 950 },
                { k: "water", who: "Águas de São Francisco", amt: "R$ 150 – 200", total: 175 } ],
       ownerDraw: true },
-    { id: "vila", name: "Vila", address: "Av. Cônego Batista Campos, 33 – Barcarena/PA, CEP 68.445-000",
+    { id: "vila", name: "Vila", phone: "(91) 99603-5471", address: "Av. Cônego Batista Campos, 33 – Barcarena/PA, CEP 68.445-000",
       anota: "Adan Maia", stone: "Thiago · Stone conta 64744532-9",
       fixed: [ { k: "rent", who: "Seu Valter", amt: "R$ 750 (day 4) + R$ 750 (day 23)", total: 1500 },
                { k: "energy", who: "Equatorial", amt: "R$ 550 – 700", total: 625 },
                { k: "water", who: "—", amt: "none / nenhuma", total: 0 } ],
       ownerDraw: false }
   ],
+  phoneSource: "Instagram @pizzariadopaulistapa flyer (\"Hoje é dia de Pizza\")",
   fixedSource: "Lucas, WhatsApp 2026-11-02 (midpoints used for totals)",
   sales: { period: "2026-10", source: "Anota AI, October 2026",
     bar: { revenue: 71343.51, orders: 1074, ticket: 66.43 },

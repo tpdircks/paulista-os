@@ -16,12 +16,18 @@
   const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
   const txt = (v) => v && typeof v === "object" ? (v[lang] || v.en) : v;
 
+  // Flat top-tab order; same section ids as before.
   const NAV = [
-    { g: "grp_overview", items: [["dashboard", "M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"]] },
-    { g: "grp_money", items: [["debt", "M3 17l6-6 4 4 8-8M14 7h7v7"], ["cash", "M2 7h20v10H2zM12 9a3 3 0 100 6 3 3 0 000-6z"], ["approvals", "M9 11l3 3 8-8M20 12v7H4V5h11"]] },
-    { g: "grp_ops", items: [["sales", "M4 20V10M10 20V4M16 20v-7M22 20H2"], ["menu", "M12 2L2 20h20zM9 13h.01M14 15h.01M12 9h.01"], ["stores", "M3 9l2-5h14l2 5M4 9v11h16V9M9 20v-6h6v6"], ["suppliers", "M1 7h13v10H1zM14 10h4l4 4v3h-8M5 20a2 2 0 100-4 2 2 0 000 4zM18 20a2 2 0 100-4 2 2 0 000 4z"]] }
+    ["dashboard", "M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"],
+    ["debt", "M3 17l6-6 4 4 8-8M14 7h7v7"],
+    ["cash", "M2 7h20v10H2zM12 9a3 3 0 100 6 3 3 0 000-6z"],
+    ["approvals", "M9 11l3 3 8-8M20 12v7H4V5h11"],
+    ["sales", "M4 20V10M10 20V4M16 20v-7M22 20H2"],
+    ["menu", "M12 2L2 20h20zM9 13h.01M14 15h.01M12 9h.01"],
+    ["stores", "M3 9l2-5h14l2 5M4 9v11h16V9M9 20v-6h6v6"],
+    ["suppliers", "M1 7h13v10H1zM14 10h4l4 4v3h-8M5 20a2 2 0 100-4 2 2 0 000 4zM18 20a2 2 0 100-4 2 2 0 000 4z"]
   ];
-  const ico = (d) => `<span class="navico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg></span>`;
+  const ico = (d) => `<span class="tabico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg></span>`;
 
   /* ---------- Debt model ---------- */
   const debtStart = () => D.debt.bar + D.debt.vila;
@@ -59,7 +65,11 @@
     const days = Math.round((parseD(raise) - parseD(today)) / 864e5);
     const raiseSub = days > 0 ? `${days} ${t("k_days")}` : days === 0 ? t("k_today") : t("k_live");
     const z = zeroWeek();
-    return card(t("dash_title"), t("dash_hint"),
+    const hero = `<section class="hero"><img class="herologo" src="assets/logo.jpg" alt="Pizzaria do Paulista" width="84" height="84">
+      <div class="herotxt"><div class="herotag">${t("brand_tag")}</div><div class="heroline">${t("brand_line")}</div>
+      <div class="phones">${D.stores.map((x) => `<a class="phonepill" href="tel:+55${x.phone.replace(/\D/g, "")}"><b>${t(x.id)}</b> ${esc(x.phone)}</a>`).join("")}</div></div>
+      <div class="heroimg" aria-hidden="true"></div></section>`;
+    return hero + card(t("dash_title"), t("dash_hint"),
       `<div class="kpis">${kpi(t("k_debt"), brl(rem, 0), `${t("debt_start")} ${brl(debtStart(), 0)} · ${t("k_paid")} ${brl(paidTotal(), 0)}`, "alert")}
       ${kpi(t("k_weeks"), weeksLeft(), t("k_weeks_sub"))}
       ${kpi(t("k_zero"), z ? fmtD(z) : "✓", z ? `${t("wk_of")} ${fmtD(z)} – ${fmtD(addDays(z, 6))}` : "")}
@@ -124,7 +134,7 @@
   };
   V.stores = () => D.stores.map((s) => {
     const tot = s.fixed.reduce((a, f) => a + f.total, 0);
-    return card(t(s.id), "", `<dl class="facts"><dt>${t("addr")}</dt><dd>${esc(s.address)}</dd><dt>${t("anota")}</dt><dd>${esc(s.anota)}</dd>
+    return card(t(s.id), "", `<dl class="facts"><dt>${t("addr")}</dt><dd>${esc(s.address)}</dd><dt>${t("phone")}</dt><dd><a href="tel:+55${s.phone.replace(/\D/g, "")}">${esc(s.phone)}</a> <span class="tag muted">Instagram</span></dd><dt>${t("anota")}</dt><dd>${esc(s.anota)}</dd>
       <dt>${t("stone")}</dt><dd>${esc(s.stone)}</dd><dt>${t("draw")}</dt><dd><span class="pill ${s.ownerDraw ? "low" : "out"}">${t(s.ownerDraw ? "draw_yes" : "draw_no")}</span></dd></dl>
       <h3>${t("fixed")}</h3>${table([t("m_item"), t("f_who"), t("f_amt")], s.fixed.map((f) => [t("f_" + f.k), esc(f.who), esc(f.amt)]).concat([[`<b>${t("f_mo")}</b>`, "", `<b>≈ ${brl(tot, 0)}</b>`]]))}
       <p class="flag">${esc(t(s.id === "vila" ? "vila_note" : "bar_note"))}</p>${src(D.fixedSource)}`);
@@ -151,24 +161,26 @@
 
   /* ---------- Shell ---------- */
   let view = localStorage.getItem(LS.view) || "dashboard";
-  function renderNav() {
-    $("#nav").innerHTML = NAV.map((g) => `<div class="navgroup"><div class="navlabel">${t(g.g)}</div>${g.items.map(([id, d]) =>
-      `<button class="navitem${id === view ? " active" : ""}" data-view="${id}">${ico(d)}<span>${t("nav_" + id)}</span>${id === "approvals" && pending() ? `<span class="navbadge">${pending()}</span>` : ""}</button>`).join("")}</div>`).join("");
+  function renderTabs() {
+    const el = $("#tabs");
+    el.innerHTML = NAV.map(([id, d]) =>
+      `<button class="tab${id === view ? " active" : ""}" role="tab" aria-selected="${id === view}" data-view="${id}">${ico(d)}<span>${t("nav_" + id)}</span>${id === "approvals" && pending() ? `<span class="tabbadge">${pending()}</span>` : ""}</button>`).join("");
+    const a = el.querySelector(".tab.active");
+    if (a && el.scrollWidth > el.clientWidth) { const l = a.offsetLeft - (el.clientWidth - a.offsetWidth) / 2; el.scrollLeft = Math.max(0, l); }
   }
   function render() {
     if (!V[view]) view = "dashboard";
     document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
     $("#sub").textContent = t("sub"); $("#asof").textContent = `${t("asof")} ${fmtD(D.asOf)}`;
     document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
-    renderNav(); $("#view").innerHTML = V[view](); document.title = `Paulista OS · ${t("nav_" + view)}`;
+    renderTabs(); $("#view").innerHTML = V[view](); document.title = `Paulista OS · ${t("nav_" + view)}`;
   }
-  function go(v) { view = v; localStorage.setItem(LS.view, v); location.hash = v; document.body.classList.remove("navopen"); render(); window.scrollTo(0, 0); }
+  function go(v) { view = v; localStorage.setItem(LS.view, v); location.hash = v; render(); window.scrollTo(0, 0); }
 
   document.addEventListener("click", (e) => {
-    const b = e.target.closest("button"); if (!b) { if (document.body.classList.contains("navopen") && !e.target.closest("nav")) document.body.classList.remove("navopen"); return; }
+    const b = e.target.closest("button"); if (!b) return;
     if (b.dataset.view) return go(b.dataset.view);
     if (b.dataset.lang) { lang = b.dataset.lang; localStorage.setItem(LS.lang, lang); return render(); }
-    if (b.id === "navtoggle") return document.body.classList.toggle("navopen");
     if (b.dataset.delpay != null) { const p = payments(); p.splice(+b.dataset.delpay, 1); save(LS.pays, p); return render(); }
     if (b.dataset.ap != null) { const a = approvals(); a[+b.dataset.ap].status = b.dataset.st; save(LS.ap, a); return render(); }
     if (b.id === "apreset") { localStorage.removeItem(LS.ap); return render(); }
