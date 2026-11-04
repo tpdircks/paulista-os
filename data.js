@@ -1,6 +1,6 @@
 /* Paulista OS seed data. Sources noted per block. All amounts in BRL. No passwords are stored here, ever. */
 window.PDATA = {
-  asOf: "2026-11-03",
+  asOf: "2026-11-04",
   rules: [
     "money", "lucas", "draw", "vila", "debt"
   ],
@@ -42,11 +42,11 @@ window.PDATA = {
   /* bar + vila = Boutique dos Frios only (R$ 32.724). This is what the R$ 1.000/week plan pays down. */
   debt: { asOf: "2026-11-03", source: "Lucas, WhatsApp 2026-11-02/03", boutique: 32724, bar: 24325, vila: 8399, loans: 0,
     weekly: 1000, start: "2026-11-10",
-    jonas: { name: "Jonas Miranda Distribuidora (refrigerante)", amount: 1752, store: null, terms: "paid weekly; store not specified; outside the Boutique R$ 32.724" },
-    onlyTheseTwo: true },
+    jonas: { name: "Jonas Miranda Distribuidora (refrigerante)", amount: 1752, store: "both", vila: 450, bar: 1302, range: "Vila ~R$ 400–500, Barcarena the rest (~R$ 1.252–1.352); split approximate (Lucas 03/11)", terms: "paid weekly; outside the Boutique R$ 32.724. Unknown: does Friday Pix pay down this balance or only weekly purchases?" },
+    onlyTheseTwo: true, paidOff: ["Mateus Supermercados", "Atacadão", "Mercurio Alimentos"], paidOffNote: "Lucas 03/11: only Boutique and Jonas remain; Mateus, Atacadão, Mercurio already paid." },
   staff: [
-    { name: "Thiago", store: "vila", pay: "R$ 125/day, almost every day + moto fuel allowance", daily: 125, fuel: null,
-      estMonth: [3250, 3750], seenOct: 3633, note: "Vila → Thiago Santander R$ 3.633 in Oct ≈ 29 days × R$ 125. Probably his pay, not an owner draw. Confirm." },
+    { name: "Thiago", store: "vila", pay: "R$ 125/day (diária), almost every day + R$ 100/week gas allowance", daily: 125, fuel: 100, fuelPer: "week",
+      estMonth: [3680, 4180], seenOct: 3633, note: "Lucas 03/11: diária R$ 125 + R$ 100/week gas. Est. month ≈ 26–30 days × R$ 125 + ~4,3 × R$ 100. Vila → Thiago Santander R$ 3.633 in Oct. Still unconfirmed whether that Santander Pix is the diária." },
     { name: "Lucas Lima Maia", store: "bar", pay: "Probable GM pay R$ 1.080/week from Barcarena Stone (not confirmed)", weekly: 1080, seenOct: 4320 }
   ],
   logins: [
@@ -59,12 +59,12 @@ window.PDATA = {
   ],
   loginNote: "Emails and access holders only. Passwords are never stored in Paulista OS.",
   notes: [
-    { k: "water", store: "bar", en: "High water bill was a bathroom leak. Fixed. Normalized recently (Lucas 03/11). No water payment seen in Oct extrato.", pt: "Conta de água alta era vazamento no banheiro. Consertado. Normalizou recentemente (Lucas 03/11). Nenhum pagamento de água no extrato de outubro." },
-    { k: "mixer", store: "both", en: "Dough mixer is being repaired. Waiting for the mechanic's quote.", pt: "Masseira em conserto. Aguardando orçamento do mecânico." },
+    { k: "water", store: "bar", en: "High water bill was a bathroom leak. Fixed. Normalized recently (Lucas 03/11). October water bill NOT paid yet (Lucas 03/11).", pt: "Conta de água alta era vazamento no banheiro. Consertado. Normalizou recentemente (Lucas 03/11). Conta de água de outubro AINDA NÃO FOI PAGA (Lucas 03/11)." },
+    { k: "mixer", store: "both", en: "Dough mixer is being repaired. Lucas goes to a parts store in Vila on 04/11 to quote the part. No amount yet.", pt: "Masseira em conserto. Lucas vai a uma loja na Vila em 04/11 orçar a peça. Sem valor ainda." },
     { k: "sys", store: "both", en: "System fee is due day 10 with rent and products. Amount not given. Stone shows Tuna Pagamentos R$ 279,99 per store around day 10. Probably this.", pt: "A mensalidade do sistema vence dia 10 junto com aluguel e produtos. Valor não informado. A Stone mostra Tuna Pagamentos R$ 279,99 por loja perto do dia 10. Provavelmente é isso." },
     { k: "rent", store: "vila", en: "Vila rent: Socorro is Seu Valter's wife. They changed the receiving account recently. Confirm the account before paying on 04/11.", pt: "Aluguel Vila: Socorro é esposa do Seu Valter. Trocaram a conta que recebe recentemente. Confirmar a conta antes de pagar em 04/11." },
     { k: "boutique", store: "both", en: "Boutique got R$ 19.550 in Oct (Bar 13.900 + Vila 5.650) and the debt is still R$ 32.724. The R$ 1.000/week must be on top of weekly purchases.", pt: "A Boutique recebeu R$ 19.550 em outubro (Bar 13.900 + Vila 5.650) e a dívida segue R$ 32.724. Os R$ 1.000/semana têm que ser além das compras da semana." },
-    { k: "anota", store: "both", en: "Anota Oct sales R$ 100.810 vs Stone credited R$ 78.987. Gap R$ 21.823 is card fees plus cash and Pix outside the machine. Ask where cash goes.", pt: "Vendas Anota out R$ 100.810 x Stone creditado R$ 78.987. Diferença de R$ 21.823 é taxa de cartão mais dinheiro e Pix fora da maquininha. Perguntar para onde vai o dinheiro vivo." }
+    { k: "anota", store: "both", en: "Anota Oct sales R$ 100.810 vs Stone credited R$ 78.987. Gap R$ 21.823 is card fees plus cash and Pix outside the machine. Lucas/Fabiana 03/11: little cash vs card/Pix; most 'cash'-tagged orders are really customer Pix; counter staff also log cash as Pix; real cash goes mostly to pay employees, plus purchases/refrigerante. Cash paid out is not tracked.", pt: "Vendas Anota out R$ 100.810 x Stone creditado R$ 78.987. Diferença de R$ 21.823 é taxa de cartão mais dinheiro e Pix fora da maquininha. Lucas/Fabiana 03/11: pouco dinheiro vivo comparado a cartão/Pix; a maioria dos pedidos marcados como dinheiro é Pix do cliente; balcão também lança dinheiro como Pix; o dinheiro vivo vai principalmente para pagar funcionários, além de compras/refrigerante. Saídas em dinheiro não são registradas." }
   ],
   suppliers: [
     { name: "Boutique dos Frios Comércio Atacadista", role: "primary", bar: 13515.30, vila: 4700.00, barOct: 13900, vilaOct: 5650 },
@@ -86,10 +86,11 @@ window.PDATA = {
     { id: "s2", date: "2026-11-04", store: "vila", type: "rent", desc: { en: "Vila rent 1st half – Seu Valter via Socorro (confirm new account)", pt: "Aluguel Vila 1ª parte – Seu Valter via Socorro (confirmar conta nova)" }, amount: 750 },
     { id: "s3", date: "2026-11-10", store: "bar", type: "rent", desc: { en: "Barcarena rent 1st half – Jairo Soares (due day 10)", pt: "Aluguel Barcarena 1ª parte – Jairo Soares (vence dia 10)" }, amount: 900 },
     { id: "s5", date: "2026-11-10", store: "both", type: "other", desc: { en: "System fee (due day 10). Probably Tuna R$ 279,99 per store. Confirm amount.", pt: "Mensalidade do sistema (vence dia 10). Provável Tuna R$ 279,99 por loja. Confirmar valor." }, amount: null },
-    { id: "s6", date: "2026-11-06", store: "both", type: "supplier", desc: { en: "Jonas Miranda weekly soda payment. Confirm amount and store (open balance R$ 1.752)", pt: "Pagamento semanal Jonas Miranda (refrigerante). Confirmar valor e loja (saldo em aberto R$ 1.752)" }, amount: null },
-    { id: "s7", date: "2026-11-05", store: "both", type: "buy", desc: { en: "Dough mixer repair. Waiting for mechanic quote", pt: "Conserto da masseira. Aguardando orçamento do mecânico" }, amount: null },
+    { id: "s6", date: "2026-11-06", store: "both", type: "supplier", desc: { en: "Jonas Miranda weekly soda payment. Confirm amount and whether it pays down the R$ 1.752 balance (≈ Vila 450 / Bar 1.302)", pt: "Pagamento semanal Jonas Miranda (refrigerante). Confirmar valor e se abate o saldo de R$ 1.752 (≈ Vila 450 / Bar 1.302)" }, amount: null },
+    { id: "s7", date: "2026-11-05", store: "both", type: "buy", desc: { en: "Dough mixer part. Lucas quoting at a Vila store on 04/11", pt: "Peça da masseira. Lucas orçando em loja da Vila em 04/11" }, amount: null },
     { id: "s8", date: "2026-11-20", store: "bar", type: "rent", desc: { en: "Barcarena rent 2nd half – Jairo Soares (due day 20)", pt: "Aluguel Barcarena 2ª parte – Jairo Soares (vence dia 20)" }, amount: 700 },
-    { id: "s9", date: "2026-11-23", store: "vila", type: "rent", desc: { en: "Vila rent 2nd half – Seu Valter via Socorro (due day 23)", pt: "Aluguel Vila 2ª parte – Seu Valter via Socorro (vence dia 23)" }, amount: 750 }
+    { id: "s9", date: "2026-11-23", store: "vila", type: "rent", desc: { en: "Vila rent 2nd half – Seu Valter via Socorro (due day 23)", pt: "Aluguel Vila 2ª parte – Seu Valter via Socorro (vence dia 23)" }, amount: 750 },
+    { id: "s10", date: "2026-11-04", store: "bar", type: "other", desc: { en: "Barcarena October water bill – NOT paid yet (Lucas 03/11). Confirm amount (est. R$ 150–200)", pt: "Conta de água outubro Barcarena – AINDA NÃO PAGA (Lucas 03/11). Confirmar valor (est. R$ 150–200)" }, amount: null }
   ],
   retiredSeeds: ["s4"]
 };
