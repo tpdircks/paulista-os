@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1F3864">
+<title>Paulista OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
+</head>
+<body>
+<header>
+  <button class="navtoggle" id="navtoggle" aria-label="Menu">☰</button>
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3 L37 35 Q20 41 3 35 Z" fill="#F2C61E" stroke="#F26B21" stroke-width="3" stroke-linejoin="round"/><circle cx="20" cy="20" r="3.2" fill="#B52024"/><circle cx="14" cy="29" r="3" fill="#B52024"/><circle cx="26" cy="30" r="3" fill="#B52024"/></svg>
+    <div><div class="logo">Paulista <span class="thin">OS</span></div><div class="sub" id="sub"></div></div>
+  </div>
+  <div class="spacer"></div>
+  <span class="asof" id="asof"></span>
+  <div class="lang"><button data-lang="en">EN</button><button data-lang="pt">PT</button></div>
+</header>
+<div class="layout">
+  <nav id="nav"></nav>
+  <div class="backdrop" id="backdrop"></div>
+  <main id="view"></main>
+</div>
+<noscript>Paulista OS needs JavaScript. / O Paulista OS precisa de JavaScript.</noscript>
+<script src="data.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
