@@ -9772,7 +9772,7 @@ window.PDATA = {
     { name: "Atacadão", role: "secondary", bar: 3559.10, vila: null, barOct: 2144.07, vilaOct: 610.64 },
     { name: "Mercurio Alimentos", role: "secondary", bar: null, vila: null, barOct: 1379.64, vilaOct: 363 }
   ],
-  menu: { effective: "2026-11-10",
+  menu: { effective: "2026-11-07", printed: "2026-11-06",
     changes: [ { k: "medgrand", inc: 5 }, { k: "combo", inc: 10 }, { k: "soda1", inc: 1 }, { k: "soda2", inc: 2 }, { k: "calzone", inc: 2 } ],
     bands: [ { k: "medium", lo: 39.99, hi: 59.99, inc: 5 }, { k: "large", lo: 44.99, hi: 64.99, inc: 5 }, { k: "calzone", lo: 19.99, hi: 29.99, inc: 2 } ],
     sodas: [ { n: "Coca-Cola / Zero 1L", p: 10, inc: 1 }, { n: "Tuchaua 1L", p: 8, inc: 1 }, { n: "Coca-Cola / Zero 2L", p: 15, inc: 2 }, { n: "Tuchaua 2L", p: 10, inc: 2 } ],
