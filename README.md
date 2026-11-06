@@ -6,10 +6,10 @@ A simple bilingual (English / Português) operating system for Troy's two Brazil
 
 | Section | Purpose |
 |---|---|
-| Dashboard | Debt remaining, weeks to zero at R$ 1.000/week, debt-free week, Nov 10 price-raise countdown, pending approvals, per-store Oct sales / debt / Stone balance |
+| Dashboard | Home for daily Anota sales: yesterday (or the latest day) for Barcarena, Vila, and both, plus the last 14 days. Then debt remaining, weeks to zero at R$ 1.000/week, debt-free week, Nov 10 price-raise countdown, pending approvals, per-store Oct sales / debt / Stone balance. |
 | Debt | Supplier debt tracker (R$ 32.724 starting, from Lucas 02/11/2026), log weekly payments, 33-week payoff schedule (10/11/2026 → last R$ 724 on 22/06/2027, week ending 28/06/2027) |
 | Cash | September 2026 Stone summaries for both accounts, cash vs debt, approval rule for money out |
-| Sales | October 2026 Anota AI sales by store and a rough +R$ 5 raise effect |
+| Sales | Fuller daily Anota history (about 3 months) and the October 2026 monthly summary, plus a rough +R$ 5 raise effect |
 | Menu | Nov 10 raise package and before/after price bands |
 | Stores | Addresses, Anota users, Stone accounts, owner-draw rule, fixed costs from Lucas |
 | Suppliers | Boutique dos Frios (primary, paid first) and others, Sep payments, debt by store |
@@ -22,6 +22,10 @@ House rules built in: all company money goes through Troy; Lucas proposes buys; 
 Double-click `index.html`, or drag it into Chrome, Safari, or Edge. Use the **EN | PT** buttons at the top right. Your language, payments, and approvals are saved in that browser (`localStorage`). Other people's browsers won't see them.
 
 To update the seeded numbers, edit `data.js` (amounts, dates, sources). Labels for both languages are in `i18n.js`.
+
+## Daily sales
+
+`dailySales` in `data.js` is one Anota row per day (`date`, Barcarena, Vila, `source`). It currently holds 2026-08-06 through 2026-11-05 from Relatórios > Pedidos (cancelled orders excluded). Do not type in guessed revenue. A morning job refreshes `data.js` from the Anota CSV (about 3 months of history, then the new day each morning). The Dashboard is the home for that series: yesterday or the latest day (revenue, orders, ticket) for Barcarena, Vila, and both, then the last 14 days. The Sales tab keeps the longer list and the October summary. With an empty list both places show a short note and no guessed numbers. The monthly `sales` object stays for the October KPI cards. A later row with the same date replaces the earlier one.
 
 ## Deploy to GitHub Pages
 

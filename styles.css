@@ -117,3 +117,5 @@ button.ghost.sm{padding:3px 9px;margin:0;font-size:12px}
 }
 
 .notes{margin:0;padding-left:1.1em}.notes li{margin:.35em 0;line-height:1.4}
+.daylist{max-height:28rem;overflow:auto;border-radius:8px}
+.daylist th{position:sticky;top:0;z-index:1}
