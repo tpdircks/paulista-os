@@ -119,3 +119,7 @@ button.ghost.sm{padding:3px 9px;margin:0;font-size:12px}
 .notes{margin:0;padding-left:1.1em}.notes li{margin:.35em 0;line-height:1.4}
 .daylist{max-height:28rem;overflow:auto;border-radius:8px}
 .daylist th{position:sticky;top:0;z-index:1}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.chips button{background:#fff;color:var(--navy);border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+table.mix td:last-child,table.mix th:last-child{text-align:left}

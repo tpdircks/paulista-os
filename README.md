@@ -6,10 +6,11 @@ A simple bilingual (English / Português) operating system for Troy's two Brazil
 
 | Section | Purpose |
 |---|---|
-| Dashboard | Home for daily Anota sales: yesterday (or the latest day) for Barcarena, Vila, and both, plus the last 14 days. Then debt remaining, weeks to zero at R$ 1.000/week, debt-free week, Nov 10 price-raise countdown, pending approvals, per-store Oct sales / debt / Stone balance. |
+| Dashboard | Home for daily Anota sales: yesterday (or the latest day) for Barcarena, Vila, and both, plus the last 14 days. October item snapshot (sizes, top pizzas, top sodas). Then debt remaining, weeks to zero at R$ 1.000/week, debt-free week, Nov 10 price-raise countdown, pending approvals, per-store Oct sales / debt / Stone balance. |
 | Debt | Supplier debt tracker (R$ 32.724 starting, from Lucas 02/11/2026), log weekly payments, 33-week payoff schedule (10/11/2026 → last R$ 724 on 22/06/2027, week ending 28/06/2027) |
 | Cash | September 2026 Stone summaries for both accounts, cash vs debt, approval rule for money out |
 | Sales | Fuller daily Anota history (about 3 months) and the October 2026 monthly summary, plus a rough +R$ 5 raise effect |
+| Items | Every October 2026 Anota item count: sizes, pizzas, sodas, crusts, calzones, and sweets, with Barcarena, Vila, and combined quantities |
 | Menu | Nov 10 raise package and before/after price bands |
 | Stores | Addresses, Anota users, Stone accounts, owner-draw rule, fixed costs from Lucas |
 | Suppliers | Boutique dos Frios (primary, paid first) and others, Sep payments, debt by store |
@@ -26,6 +27,8 @@ To update the seeded numbers, edit `data.js` (amounts, dates, sources). Labels f
 ## Daily sales
 
 `dailySales` in `data.js` is one Anota row per day (`date`, Barcarena, Vila, `source`). It currently holds 2026-08-06 through 2026-11-05 from Relatórios > Pedidos (cancelled orders excluded). Do not type in guessed revenue. A morning job refreshes `data.js` from the Anota CSV (about 3 months of history, then the new day each morning). The Dashboard is the home for that series: yesterday or the latest day (revenue, orders, ticket) for Barcarena, Vila, and both, then the last 14 days. The Sales tab keeps the longer list and the October summary. With an empty list both places show a short note and no guessed numbers. The monthly `sales` object stays for the October KPI cards. A later row with the same date replaces the earlier one.
+
+`itemSales.periods` in `data.js` holds item counts from Anota Relatório de Itens (Principais and Adicionais/Sabores). October 2026 is the first period. Add the next month at the end of that array, or replace a period with the same dates. The Items tab and the Dashboard snapshot use the last period. Names are kept as Anota wrote them.
 
 ## Deploy to GitHub Pages
 
