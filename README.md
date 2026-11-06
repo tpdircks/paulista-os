@@ -28,7 +28,7 @@ To update the seeded numbers, edit `data.js` (amounts, dates, sources). Labels f
 
 `dailySales` in `data.js` is one Anota row per day (`date`, Barcarena, Vila, `source`). It currently holds 2026-08-06 through 2026-11-05 from Relatórios > Pedidos (cancelled orders excluded). Do not type in guessed revenue. A morning job refreshes `data.js` from the Anota CSV (about 3 months of history, then the new day each morning). The Dashboard is the home for that series: yesterday or the latest day (revenue, orders, ticket) for Barcarena, Vila, and both, then the last 14 days. The Sales tab keeps the longer list and the October summary. With an empty list both places show a short note and no guessed numbers. The monthly `sales` object stays for the October KPI cards. A later row with the same date replaces the earlier one.
 
-`itemSales.periods` in `data.js` holds item counts from Anota Relatório de Itens (Principais and Adicionais/Sabores). October 2026 is the first period. Add the next month at the end of that array, or replace a period with the same dates. The Items tab and the Dashboard snapshot use the last period. Names are kept as Anota wrote them.
+`itemSales` in `data.js` holds the Anota item reports. `defaultPeriod` is `2026-11-mtd` (Nov 1 to 5). `periods` also includes full October 2026. The nested `itemSales` object is the November copy and `itemSalesOctober` is October. The Dashboard and Items tab share a period switcher and open on November. Add a newer report to `periods` and point `defaultPeriod` at its id. Repeated Anota names are already merged in this file.
 
 ## Deploy to GitHub Pages
 

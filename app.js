@@ -134,11 +134,28 @@
     if (block.byCategory || block.combined) return [block];
     return [];
   }
+  function itemPeriodIndex() {
+    const ps = itemPeriods();
+    if (!ps.length) return -1;
+    if (itemPeriod >= 0 && itemPeriod < ps.length) return itemPeriod;
+    const id = D.itemSales && D.itemSales.defaultPeriod;
+    const found = id ? ps.findIndex((p) => p.id === id) : -1;
+    return found >= 0 ? found : 0;
+  }
   function currentItems() {
     const ps = itemPeriods();
-    if (!ps.length) return null;
-    const i = itemPeriod < 0 || itemPeriod >= ps.length ? ps.length - 1 : itemPeriod;
-    return ps[i];
+    const i = itemPeriodIndex();
+    return i < 0 ? null : ps[i];
+  }
+  function itemChipLabel(p) {
+    if (lang === "en" && p && p.periodLabel) return p.periodLabel;
+    return itemRange(p);
+  }
+  function itemPeriodChips() {
+    const ps = itemPeriods();
+    if (ps.length < 2) return "";
+    const cur = itemPeriodIndex();
+    return `<div class="chips">${ps.map((p, i) => `<button type="button" class="${i === cur ? "on" : ""}" data-itemperiod="${i}">${esc(itemChipLabel(p))}</button>`).join("")}</div>`;
   }
   function itemSkus(p) {
     if (!p) return [];
@@ -200,7 +217,8 @@
     const sodaQty = sodas.reduce((a, r) => a + r.qty, 0);
     const sizeKpis = sizes.slice(0, 4).map((r) => kpi(r.name, int(r.qty), `${t("bar")} ${int(r.bar)} · ${t("vila")} ${int(r.vila)}`)).join("");
     return card(t("items_title"), `${itemRange(p)}. ${t("items_dash_hint")}`,
-      `<div class="kpis">${sizeKpis}${kpi(t("items_soda_units"), int(sodaQty), t("items_soda_sub"))}</div>
+      `${itemPeriodChips()}
+      <div class="kpis">${sizeKpis}${kpi(t("items_soda_units"), int(sodaQty), t("items_soda_sub"))}</div>
       ${itemMini(t("items_sizes"), sizes)}
       ${itemMini(t("items_top_pizza"), pizzas, ITEM_TOP)}
       ${itemMini(t("items_top_soda"), sodas, ITEM_TOP)}
@@ -315,15 +333,14 @@
       <h3>${t("s_raise")}</h3><p class="hint">${t("s_raise_hint")} <b>${brl(mo, 0)}</b> ${t("s_permo")} · <b>${brl(wk, 0)}</b> ${t("s_perwk")} (${int(tot.orders)} × R$ 5).</p>${src(s.source)}`);
   };
   V.items = () => {
-    const ps = itemPeriods(), p = currentItems();
+    const p = currentItems();
     if (!p) return card(t("items_title"), t("items_empty"), "");
     const skus = itemSkus(p), rows = visibleItems(skus);
     const chips = (key, cur, opts) => `<div class="chips">${opts.map(([id, label]) => `<button type="button" class="${cur === id ? "on" : ""}" data-${key}="${esc(id)}">${esc(label)}</button>`).join("")}</div>`;
     const storeOpts = [["both", t("items_combined")], ["bar", t("bar")], ["vila", t("vila")]];
     const catOpts = [["all", t("items_all")]].concat(ITEM_CATS.map((c) => [c, t("cat_" + c)]));
-    const periodPick = ps.length < 2 ? "" : `<div><label>${t("items_period")}</label><select id="itemperiod">${ps.map((x, i) => `<option value="${i}"${(itemPeriod < 0 ? ps.length - 1 : itemPeriod) === i ? " selected" : ""}>${esc(itemRange(x) || x.periodLabel || String(i + 1))}</option>`).join("")}</select></div>`;
     return card(t("items_title"), `${itemRange(p)}. ${t("items_hint")}`,
-      `${periodPick}
+      `${itemPeriodChips()}
       ${chips("itemstore", itemStore, storeOpts)}
       ${chips("itemcat", itemCat, catOpts)}
       <div class="row"><div class="wide"><label for="itemq">${esc(t("items_search"))}</label><input id="itemq" type="search" value="${esc(itemQuery)}" autocomplete="off"></div></div>
@@ -402,6 +419,7 @@
     if (b.id === "dailyless") { dailyShowAll = false; return render(); }
     if (b.dataset.itemstore) { itemStore = b.dataset.itemstore; return render(); }
     if (b.dataset.itemcat) { itemCat = b.dataset.itemcat; return render(); }
+    if (b.dataset.itemperiod != null) { itemPeriod = Number(b.dataset.itemperiod); return render(); }
   });
   document.addEventListener("input", (e) => {
     if (e.target.id !== "itemq") return;
