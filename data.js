@@ -1,6 +1,6 @@
 /* Paulista OS seed data. Sources noted per block. All amounts in BRL. No passwords are stored here, ever. */
 window.PDATA = {
-  asOf: "2026-11-04",
+  asOf: "2026-11-06",
   rules: [
     "money", "lucas", "draw", "vila", "debt"
   ],
@@ -27,6 +27,11 @@ window.PDATA = {
   sales: { period: "2026-10", source: "Anota AI, October 2026 (Lucas screenshots)",
     bar: { revenue: 71343.51, orders: 1074, ticket: 66.43, stone: 57007.58 },
     vila: { revenue: 29466.37, orders: 441, ticket: 66.82, stone: 21979.77 } },
+  /* Daily Anota series, about 3 months. Empty until the morning job loads the CSV.
+     A later row with the same date replaces the earlier one.
+     { date: "YYYY-MM-DD", bar: { revenue, orders, ticket? }, vila: { revenue, orders, ticket? }, source: "Anota AI" }
+     Do not invent figures. */
+  dailySales: [],
   /* Latest month. jonas and gm split out from people since 2026-11-03. */
   stone: { period: "2026-10", source: "Stone extratos 01–31/10/2026 (issued 2026-11-03), reconciled line by line",
     bar: { open: 1460.21, inflow: 59051.31, outflow: 57271.11, close: 3240.41, sales: 57007.58, pixMaq: 26265.49, card: 30742.09,

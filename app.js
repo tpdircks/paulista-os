@@ -63,6 +63,64 @@
   const sname = (id) => id === "both" ? t("both") : t(id);
   const bar = (pct) => `<div class="pbar"><div style="width:${Math.min(100, pct).toFixed(1)}%"></div></div>`;
 
+  /* ---------- Daily Anota series ---------- */
+  const DAILY_WINDOW = 30;
+  let dailyShowAll = false;
+  const numOrNull = (v) => { if (v == null || v === "") return null; const n = Number(v); return Number.isFinite(n) ? n : null; };
+  const cellInt = (n) => n == null ? "—" : int(n);
+  function dailyRows() {
+    const raw = Array.isArray(D.dailySales) ? D.dailySales : [];
+    const byDate = new Map();
+    raw.forEach((r) => {
+      if (!r || typeof r.date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(r.date)) return;
+      byDate.set(r.date, r);
+    });
+    return [...byDate.values()].sort((a, b) => b.date.localeCompare(a.date));
+  }
+  function storeDay(row, id) {
+    const s = row && row[id];
+    if (!s || typeof s !== "object") return { revenue: null, orders: null, ticket: null };
+    const revenue = numOrNull(s.revenue), orders = numOrNull(s.orders);
+    let ticket = numOrNull(s.ticket);
+    if (ticket == null && revenue != null && orders) ticket = revenue / orders;
+    return { revenue, orders, ticket };
+  }
+  function dayTotal(row) {
+    const b = storeDay(row, "bar"), v = storeDay(row, "vila");
+    if (b.revenue == null || v.revenue == null) return { revenue: null, orders: null, ticket: null };
+    const orders = b.orders == null || v.orders == null ? null : b.orders + v.orders;
+    const revenue = b.revenue + v.revenue;
+    return { revenue, orders, ticket: orders ? revenue / orders : null };
+  }
+  function featuredDay(rows) {
+    if (!rows.length) return null;
+    const y = addDays(iso(new Date()), -1);
+    return rows.find((r) => r.date === y) || rows[0];
+  }
+  const dayBits = (x) => {
+    const bits = [];
+    if (x.orders != null) bits.push(`${int(x.orders)} ${t("k_orders")}`);
+    if (x.ticket != null) bits.push(`${t("k_ticket")} ${brl(x.ticket)}`);
+    return bits.join(" · ");
+  };
+  const DAILY_DASH = 14;
+  function dailyTable(rows) {
+    const head = [t("debt_date"), t("bar"), t("s_orders"), t("vila"), t("s_orders"), t("total"), t("s_orders")];
+    return table(head, rows.map((r) => {
+      const bb = storeDay(r, "bar"), vv = storeDay(r, "vila"), tt = dayTotal(r);
+      return [fmtD(r.date), brl(bb.revenue), cellInt(bb.orders), brl(vv.revenue), cellInt(vv.orders), brl(tt.revenue), cellInt(tt.orders)];
+    }), "num compact");
+  }
+  function dailyKpis(feat) {
+    const b = storeDay(feat, "bar"), v = storeDay(feat, "vila"), totD = dayTotal(feat);
+    return `<div class="kpis">${kpi(t("total"), brl(totD.revenue), dayBits(totD), "accent")}
+      ${kpi(t("bar"), brl(b.revenue), dayBits(b))}
+      ${kpi(t("vila"), brl(v.revenue), dayBits(v))}</div>`;
+  }
+  function dailySource(rows, feat) {
+    return (feat && feat.source) || rows.map((r) => r.source).find(Boolean) || "Anota AI";
+  }
+
   /* ---------- Views ---------- */
   const V = {};
   V.dashboard = () => {
@@ -70,11 +128,27 @@
     const days = Math.round((parseD(raise) - parseD(today)) / 864e5);
     const raiseSub = days > 0 ? `${days} ${t("k_days")}` : days === 0 ? t("k_today") : t("k_live");
     const z = zeroWeek();
+    const dRows = dailyRows(), feat = featuredDay(dRows);
+    let dailyCard;
+    if (!feat) {
+      dailyCard = card(t("ds_title"), t("ds_empty_dash"), "");
+    } else {
+      const isY = feat.date === addDays(today, -1);
+      const slice = dRows.slice(0, DAILY_DASH);
+      const count = dRows.length > slice.length ? `${int(slice.length)} / ${int(dRows.length)} ${t("ds_days")}` : `${int(slice.length)} ${t("ds_days")}`;
+      dailyCard = card(t("ds_title"), t("ds_dash_hint"),
+        `<h3>${esc(isY ? t("ds_yesterday") : t("ds_latest"))} · ${fmtD(feat.date)}</h3>
+        ${dailyKpis(feat)}
+        <h3>${esc(t("ds_recent"))}</h3><p class="hint">${esc(count)}</p>
+        ${dailyTable(slice)}
+        <button class="ghost" type="button" data-view="sales">${esc(t("ds_full"))}</button>
+        ${src(dailySource(dRows, feat), feat.date)}`);
+    }
     const hero = `<section class="hero"><img class="herologo" src="assets/logo.jpg" alt="Pizzaria do Paulista" width="84" height="84">
       <div class="herotxt"><div class="herotag">${t("brand_tag")}</div><div class="heroline">${t("brand_line")}</div>
       <div class="phones">${D.stores.map((x) => `<a class="phonepill" href="tel:+55${x.phone.replace(/\D/g, "")}"><b>${t(x.id)}</b> ${esc(x.phone)}</a>`).join("")}</div></div>
       <div class="heroimg" aria-hidden="true"></div></section>`;
-    return hero + card(t("dash_title"), t("dash_hint"),
+    return hero + dailyCard + card(t("dash_title"), t("dash_hint"),
       `<div class="kpis">${kpi(t("k_debt"), brl(rem, 0), `${t("debt_start")} ${brl(debtStart(), 0)} · ${t("k_paid")} ${brl(paidTotal(), 0)}`, "alert")}
       ${kpi(t("k_weeks"), weeksLeft(), t("k_weeks_sub"))}
       ${kpi(t("k_zero"), z ? fmtD(z) : "✓", z ? `${t("wk_of")} ${fmtD(z)} – ${fmtD(addDays(z, 6))}` : "")}
@@ -123,10 +197,29 @@
       card(t("cash_rule_t"), "", `<p class="rule">${esc(t("cash_rule"))}</p>`) + rulesBox();
   };
   V.sales = () => {
+    const rows = dailyRows(), feat = featuredDay(rows);
+    let daily;
+    if (!feat) {
+      daily = card(t("ds_title"), t("ds_hint"), `<p class="hint">${esc(t("ds_empty"))}</p>`);
+    } else {
+      const isY = feat.date === addDays(iso(new Date()), -1);
+      const visible = dailyShowAll ? rows : rows.slice(0, DAILY_WINDOW);
+      const tbl = dailyTable(visible);
+      const scrolled = dailyShowAll && rows.length > DAILY_WINDOW ? `<div class="daylist">${tbl}</div>` : tbl;
+      const more = rows.length <= DAILY_WINDOW ? "" : dailyShowAll
+        ? `<button class="ghost" id="dailyless" type="button">${esc(t("ds_less"))}</button>`
+        : `<button class="ghost" id="dailymore" type="button">${esc(t("ds_more"))} (${int(rows.length - DAILY_WINDOW)})</button>`;
+      const count = visible.length === rows.length ? `${int(rows.length)} ${t("ds_days")}` : `${int(visible.length)} / ${int(rows.length)} ${t("ds_days")}`;
+      daily = card(t("ds_title"), t("ds_hint"),
+        `<h3>${esc(isY ? t("ds_yesterday") : t("ds_latest"))} · ${fmtD(feat.date)}</h3>
+        ${dailyKpis(feat)}
+        <h3>${esc(t("ds_recent"))}</h3><p class="hint">${esc(count)}</p>
+        ${scrolled}${more}${src(dailySource(rows, feat), feat.date)}`);
+    }
     const s = D.sales, tot = { revenue: s.bar.revenue + s.vila.revenue, orders: s.bar.orders + s.vila.orders };
     const row = (l, x) => [l, brl(x.revenue), int(x.orders), brl(x.revenue / x.orders), (x.revenue / tot.revenue * 100).toFixed(1) + "%", brl(x.revenue / 31)];
     const mo = tot.orders * 5, wk = mo * 12 / 52;
-    return card(t("sales_title"), t("sales_hint"),
+    return daily + card(t("sales_title"), t("sales_hint"),
       `<div class="kpis">${kpi(t("total") + " · " + t("s_rev"), brl(tot.revenue), `${int(tot.orders)} ${t("k_orders")}`)}
       ${kpi(t("bar"), brl(s.bar.revenue), `${int(s.bar.orders)} ${t("k_orders")} · ${t("k_ticket")} ${brl(s.bar.ticket)}`)}
       ${kpi(t("vila"), brl(s.vila.revenue), `${int(s.vila.orders)} ${t("k_orders")} · ${t("k_ticket")} ${brl(s.vila.ticket)}`)}</div>
@@ -200,6 +293,8 @@
     if (b.dataset.delpay != null) { const p = payments(); p.splice(+b.dataset.delpay, 1); save(LS.pays, p); return render(); }
     if (b.dataset.ap != null) { const a = approvals(); a[+b.dataset.ap].status = b.dataset.st; save(LS.ap, a); return render(); }
     if (b.id === "apreset") { localStorage.removeItem(LS.ap); return render(); }
+    if (b.id === "dailymore") { dailyShowAll = true; return render(); }
+    if (b.id === "dailyless") { dailyShowAll = false; return render(); }
   });
   document.addEventListener("submit", (e) => {
     e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));
