@@ -11,6 +11,21 @@
   const parseD = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
   const iso = (dt) => dt.getFullYear() + "-" + String(dt.getMonth() + 1).padStart(2, "0") + "-" + String(dt.getDate()).padStart(2, "0");
   const fmtD = (s) => { const dt = typeof s === "string" ? parseD(s) : s; return dt.toLocaleDateString(lang === "pt" ? "pt-BR" : "en-US", { day: "2-digit", month: "short", year: "numeric" }); };
+  const WEEKDAY_PT = ["domingo", "segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado"];
+  const fmtStart = (s) => {
+    const dt = parseD(s);
+    if (lang === "pt") return String(dt.getDate()).padStart(2, "0") + "/" + String(dt.getMonth() + 1).padStart(2, "0") + "/" + dt.getFullYear();
+    return dt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  };
+  const fmtStartShort = (s) => {
+    const dt = parseD(s);
+    if (lang === "pt") return String(dt.getDate()).padStart(2, "0") + "/" + String(dt.getMonth() + 1).padStart(2, "0");
+    return dt.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  };
+  const fmtStartLong = (s) => {
+    const dt = parseD(s);
+    return lang === "pt" ? WEEKDAY_PT[dt.getDay()] + " " + fmtStart(s) : dt.toLocaleDateString("en-US", { weekday: "long" }) + ", " + fmtStart(s);
+  };
   const addDays = (s, n) => { const dt = parseD(s); dt.setDate(dt.getDate() + n); return iso(dt); };
   const load = (k, def) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? def : v; } catch (e) { return def; } };
   const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -58,7 +73,7 @@
   /* ---------- Render helpers ---------- */
   const kpi = (label, val, sub, cls = "") => `<div class="kpi ${cls}"><div class="kl">${esc(label)}</div><div class="kv">${val}</div>${sub ? `<div class="ks">${sub}</div>` : ""}</div>`;
   const card = (title, hint, body) => `<section class="card"><h2>${esc(title)}</h2>${hint ? `<p class="hint">${esc(hint)}</p>` : ""}${body}</section>`;
-  const src = (s, d) => `<p class="src">${t("source")}: ${esc(s)}${d ? " · " + t("asof") + " " + fmtD(d) : ""}</p>`;
+  const src = (s, d, fmt = fmtD) => `<p class="src">${t("source")}: ${esc(s)}${d ? " · " + t("asof") + " " + fmt(d) : ""}</p>`;
   const table = (head, rows, cls = "") => `<div class="tw"><table class="${cls}"><thead><tr>${head.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
   const rulesBox = () => `<section class="card rules"><h2>${t("rules_title")}</h2><ol>${D.rules.map((r) => `<li>${esc(t("rule_" + r))}</li>`).join("")}</ol></section>`;
   const sname = (id) => id === "both" ? t("both") : t(id);
@@ -258,6 +273,7 @@
     const s = D.sales, st = D.stone, rem = remaining(), raise = D.menu.effective, today = iso(new Date());
     const days = Math.round((parseD(raise) - parseD(today)) / 864e5);
     const raiseSub = days > 0 ? `${days} ${t("k_days")}` : days === 0 ? t("k_today") : t("k_live");
+    const raiseNote = fill(t("dash_raise"), { when: fmtStartLong(raise), printed: fmtStartLong(D.menu.printed || raise) });
     const z = zeroWeek();
     const dRows = dailyRows(), feat = featuredDay(dRows);
     let dailyCard;
@@ -284,8 +300,9 @@
     return hero + dailyCard + itemDashCard() + card(t("dash_title"), t("dash_hint"),
       `<div class="kpis">${kpi(t("k_weeks"), weeksLeft(), t("shared_plan"))}
       ${kpi(t("k_zero"), z ? fmtD(z) : "✓", z ? `${t("wk_of")} ${fmtD(z)} – ${fmtD(addDays(z, 6))}` : t("shared_plan"))}
-      ${kpi(t("k_raise"), fmtD(raise), `${raiseSub} · ${t("both_stores")}`, "accent")}
+      ${kpi(t("k_raise"), esc(fmtStart(raise)), `${raiseSub} · ${t("both_stores")}`, "accent")}
       ${kpi(t("k_pending"), pending(), "", pending() ? "warn" : "")}</div>
+      <p class="hint">${esc(raiseNote)}</p>
       ${bar(paidTotal() / debtStart() * 100)}<p class="hint">${esc(planNote)}</p>` ) +
       `<div class="two">${["bar", "vila"].map((id) => card(t(id), "",
         `<div class="kpis sm">${kpi(t("k_octsales"), brl(s[id].revenue), `${int(s[id].orders)} ${t("k_orders")} · ${t("k_ticket")} ${brl(s[id].ticket)}`)}
@@ -404,11 +421,14 @@
   };
   V.menu = () => {
     const m = D.menu;
-    return card(t("menu_title"), t("menu_hint"), table([t("m_item"), t("m_inc")], m.changes.map((c) => [t("m_" + c.k), `<b>+${brl(c.inc, 0)}</b>`])) ) +
-      card(t("m_bands"), "", table([t("m_item"), t("m_before"), t("m_after"), t("m_inc")],
+    const when = fmtStartLong(m.effective), printed = fmtStartLong(m.printed || m.effective), d = fmtStartShort(m.effective);
+    return card(fill(t("menu_title"), { when }), t("menu_hint"),
+      `<p class="flag">${esc(fill(t("menu_launch"), { when, printed }))}</p>` +
+      table([t("m_item"), t("m_inc")], m.changes.map((c) => [t("m_" + c.k), `<b>+${brl(c.inc, 0)}</b>`])) ) +
+      card(t("m_bands"), "", table([t("m_item"), t("m_before"), fill(t("m_after"), { d }), t("m_inc")],
         m.bands.map((b) => [t(b.k === "calzone" ? "m_calzone" : "m_" + b.k), `${brl(b.lo)} – ${brl(b.hi)}`, `<b>${brl(b.lo + b.inc)} – ${brl(b.hi + b.inc)}</b>`, "+" + brl(b.inc, 0)]), "num") +
-        `<p class="hint">${t("m_other")}</p>${src("Anota AI cardápio, 2026-10-30", m.effective)}`) +
-      card(t("m_sodas"), "", table([t("m_item"), t("m_before"), t("m_after")], m.sodas.map((x) => [esc(x.n), brl(x.p), `<b>${brl(x.p + x.inc)}</b>`]), "num") +
+        `<p class="hint">${esc(fill(t("m_other"), { when }))}</p>${src("Anota AI cardápio, 2026-10-30", m.effective, fmtStart)}`) +
+      card(fill(t("m_sodas"), { d }), "", table([t("m_item"), t("m_before"), fill(t("m_after"), { d })], m.sodas.map((x) => [esc(x.n), brl(x.p), `<b>${brl(x.p + x.inc)}</b>`]), "num") +
         `<p class="flag">${esc(t("m_combo_flag"))}</p>`) +
       card(t("m_flav"), t("m_flav_hint"), `<div class="kpis sm">${kpi(t("m_kept"), m.flavors.kept)}${kpi(t("m_new"), m.flavors.newUnpriced, t("m_unpriced"), "warn")}${kpi(t("m_removed"), m.flavors.removed)}</div>
         <p>${m.flavors.newList.map(esc).join(" · ")}</p>${src(m.flavors.file, "2026-11-03")}`);

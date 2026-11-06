@@ -11,7 +11,7 @@ A simple bilingual (English / Português) operating system for Troy's two Brazil
 | Cash | October 2026 Stone summaries split into balances, income, and expenses. Each section is Barcarena and Vila only. September sits under each figure. Approval rule for money out. |
 | Sales | Fuller daily Anota history (about 3 months) and the October 2026 monthly summary, plus a rough +R$ 5 raise effect |
 | Items | Anota item counts for the selected period: sizes, pizzas, sodas, crusts, calzones, and sweets. Barcarena and Vila columns are the default. Filter to one store when you want only that book. |
-| Menu | Nov 10 raise package and before/after price bands |
+| Menu | Nov 7, 2026 raise package (printed cardápio Fri Nov 6 at both stores; new prices and weekend frete grátis Sat Nov 7; no public announcement) and before/after price bands |
 | Stores | Addresses, Anota users, Stone accounts, owner-draw rule, fixed costs from Lucas |
 | Suppliers | Boutique dos Frios (primary, paid first) and others, Sep payments, debt by store |
 | Approvals | Lucas proposes, Troy approves or rejects. Saved in the browser |
