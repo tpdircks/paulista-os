@@ -6,11 +6,11 @@ A simple bilingual (English / Português) operating system for Troy's two Brazil
 
 | Section | Purpose |
 |---|---|
-| Dashboard | Home for daily Anota sales: yesterday (or the latest day) for Barcarena, Vila, and both, plus the last 14 days. October item snapshot (sizes, top pizzas, top sodas). Then debt remaining, weeks to zero at R$ 1.000/week, debt-free week, Nov 10 price-raise countdown, pending approvals, per-store Oct sales / debt / Stone balance. |
+| Dashboard | Home for daily Anota sales: yesterday (or the latest day) with Barcarena and Vila side by side, then the last 14 days as paired bars. October item snapshot (sizes, top pizzas, top sodas) split by store. The shared R$ 1.000/week debt plan is labeled as one plan; Oct sales, Boutique debt, and Stone balance stay on the two store cards. |
 | Debt | Supplier debt tracker (R$ 32.724 starting, from Lucas 02/11/2026), log weekly payments, 33-week payoff schedule (10/11/2026 → last R$ 724 on 22/06/2027, week ending 28/06/2027) |
-| Cash | September 2026 Stone summaries for both accounts, cash vs debt, approval rule for money out |
+| Cash | October 2026 Stone summaries split into balances, income, and expenses. Each section is Barcarena and Vila only. September sits under each figure. Approval rule for money out. |
 | Sales | Fuller daily Anota history (about 3 months) and the October 2026 monthly summary, plus a rough +R$ 5 raise effect |
-| Items | Every October 2026 Anota item count: sizes, pizzas, sodas, crusts, calzones, and sweets, with Barcarena, Vila, and combined quantities |
+| Items | Anota item counts for the selected period: sizes, pizzas, sodas, crusts, calzones, and sweets. Barcarena and Vila columns are the default. Filter to one store when you want only that book. |
 | Menu | Nov 10 raise package and before/after price bands |
 | Stores | Addresses, Anota users, Stone accounts, owner-draw rule, fixed costs from Lucas |
 | Suppliers | Boutique dos Frios (primary, paid first) and others, Sep payments, debt by store |
@@ -26,7 +26,7 @@ To update the seeded numbers, edit `data.js` (amounts, dates, sources). Labels f
 
 ## Daily sales
 
-`dailySales` in `data.js` is one Anota row per day (`date`, Barcarena, Vila, `source`). It currently holds 2026-08-06 through 2026-11-05 from Relatórios > Pedidos (cancelled orders excluded). Do not type in guessed revenue. A morning job refreshes `data.js` from the Anota CSV (about 3 months of history, then the new day each morning). The Dashboard is the home for that series: yesterday or the latest day (revenue, orders, ticket) for Barcarena, Vila, and both, then the last 14 days. The Sales tab keeps the longer list and the October summary. With an empty list both places show a short note and no guessed numbers. The monthly `sales` object stays for the October KPI cards. A later row with the same date replaces the earlier one.
+`dailySales` in `data.js` is one Anota row per day (`date`, Barcarena, Vila, `source`). It currently holds 2026-08-06 through 2026-11-05 from Relatórios > Pedidos (cancelled orders excluded). Do not type in guessed revenue. A morning job refreshes `data.js` from the Anota CSV (about 3 months of history, then the new day each morning). The Dashboard is the home for that series: yesterday or the latest day as two peer cards (revenue, orders, ticket), then the last 14 days as Barcarena and Vila bars on one scale. There is no combined total card. The Sales tab keeps the longer list, the same bars, and the October summary per store. With an empty list both places show a short note and no guessed numbers. The monthly `sales` object stays for the October cards. A later row with the same date replaces the earlier one.
 
 `itemSales` in `data.js` holds the Anota item reports. `defaultPeriod` is `2026-11-mtd` (Nov 1 to 5). `periods` also includes full October 2026. The nested `itemSales` object is the November copy and `itemSalesOctober` is October. The Dashboard and Items tab share a period switcher and open on November. Add a newer report to `periods` and point `defaultPeriod` at its id. Repeated Anota names are already merged in this file.
 
