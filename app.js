@@ -86,13 +86,6 @@
     if (ticket == null && revenue != null && orders) ticket = revenue / orders;
     return { revenue, orders, ticket };
   }
-  function dayTotal(row) {
-    const b = storeDay(row, "bar"), v = storeDay(row, "vila");
-    if (b.revenue == null || v.revenue == null) return { revenue: null, orders: null, ticket: null };
-    const orders = b.orders == null || v.orders == null ? null : b.orders + v.orders;
-    const revenue = b.revenue + v.revenue;
-    return { revenue, orders, ticket: orders ? revenue / orders : null };
-  }
   function featuredDay(rows) {
     if (!rows.length) return null;
     const y = addDays(iso(new Date()), -1);
@@ -105,18 +98,45 @@
     return bits.join(" · ");
   };
   const DAILY_DASH = 14;
-  function dailyTable(rows) {
-    const head = [t("debt_date"), t("bar"), t("s_orders"), t("vila"), t("s_orders"), t("total"), t("s_orders")];
-    return table(head, rows.map((r) => {
-      const bb = storeDay(r, "bar"), vv = storeDay(r, "vila"), tt = dayTotal(r);
-      return [fmtD(r.date), brl(bb.revenue), cellInt(bb.orders), brl(vv.revenue), cellInt(vv.orders), brl(tt.revenue), cellInt(tt.orders)];
-    }), "num compact");
+  const fill = (str, map) => Object.keys(map).reduce((a, k) => a.split("{" + k + "}").join(map[k]), str);
+  function peerStat(id, val, sub) {
+    return `<article class="peer ${id}"><div class="pl">${esc(t(id))}</div><div class="pv">${val}</div>${sub ? `<div class="ps">${esc(sub)}</div>` : ""}</article>`;
   }
-  function dailyKpis(feat) {
-    const b = storeDay(feat, "bar"), v = storeDay(feat, "vila"), totD = dayTotal(feat);
-    return `<div class="kpis">${kpi(t("total"), brl(totD.revenue), dayBits(totD), "accent")}
-      ${kpi(t("bar"), brl(b.revenue), dayBits(b))}
-      ${kpi(t("vila"), brl(v.revenue), dayBits(v))}</div>`;
+  function peerCard(id, x, maxRev) {
+    const rev = x && x.revenue != null ? x.revenue : null;
+    const pct = maxRev > 0 && rev != null && rev > 0 ? Math.max(3, (rev / maxRev) * 100) : 0;
+    return `<article class="peer ${id}"><div class="pl">${esc(t(id))}</div><div class="pv">${brl(rev)}</div><div class="ps">${esc(dayBits(x))}</div><div class="track ${id}" aria-hidden="true"><i style="width:${pct.toFixed(1)}%"></i></div></article>`;
+  }
+  function storePeers(row, maxRev) {
+    const b = storeDay(row, "bar"), v = storeDay(row, "vila");
+    const max = maxRev == null ? Math.max(b.revenue || 0, v.revenue || 0) : maxRev;
+    return `<div class="peers">${peerCard("bar", b, max)}${peerCard("vila", v, max)}</div>`;
+  }
+  function windowMax(rows) {
+    let max = 0;
+    rows.forEach((r) => { max = Math.max(max, storeDay(r, "bar").revenue || 0, storeDay(r, "vila").revenue || 0); });
+    return max;
+  }
+  function dailyBars(rows, maxRev) {
+    const max = maxRev == null ? windowMax(rows) : maxRev;
+    const line = (id, x) => {
+      const pct = max > 0 && x.revenue != null && x.revenue > 0 ? Math.max(2, (x.revenue / max) * 100) : 0;
+      return `<div class="storeline ${id}"><span class="sn">${esc(t(id))}</span><span class="track ${id}" aria-hidden="true"><i style="width:${pct.toFixed(1)}%"></i></span><span class="storeamt"><b>${brl(x.revenue)}</b><span class="storeord">${cellInt(x.orders)} ${esc(t("k_orders"))}</span></span></div>`;
+    };
+    const loc = lang === "pt" ? "pt-BR" : "en-US";
+    const wk = (s) => parseD(s).toLocaleDateString(loc, { weekday: "short" }).replace(/\./g, "");
+    const shortD = (s) => {
+      const dt = parseD(s);
+      const day = String(dt.getDate()).padStart(2, "0");
+      const mon = dt.toLocaleDateString(loc, { month: "short" }).replace(/\./g, "");
+      return lang === "pt" ? `${day} ${mon}` : `${mon} ${day}`;
+    };
+    return `<div class="daybars" role="list">${rows.map((r) => {
+      const b = storeDay(r, "bar"), v = storeDay(r, "vila");
+      const dow = parseD(r.date).getDay();
+      const weekend = dow === 0 || dow === 6 ? " weekend" : "";
+      return `<article class="dayrow${weekend}" role="listitem" title="${esc(fmtD(r.date))}"><div class="dayhead"><span class="daywk">${esc(wk(r.date))}</span><span class="daydate">${esc(shortD(r.date))}</span></div>${line("bar", b)}${line("vila", v)}</article>`;
+    }).join("")}</div>`;
   }
   function dailySource(rows, feat) {
     return (feat && feat.source) || rows.map((r) => r.source).find(Boolean) || "Anota AI";
@@ -125,7 +145,7 @@
   /* ---------- Item mix (Anota Principais + Sabores) ---------- */
   const ITEM_CATS = ["size", "soda", "pizza", "borda", "calzone", "sweet", "other"];
   const ITEM_TOP = 5;
-  let itemStore = "both", itemCat = "all", itemQuery = "", itemPeriod = -1;
+  let itemStore = "split", itemCat = "all", itemQuery = "", itemPeriod = -1;
   const fold = (s) => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   function itemPeriods() {
     const block = D.itemSales;
@@ -175,7 +195,7 @@
     ["principais", "sabores"].forEach((k) => { if (Array.isArray(c[k])) c[k].forEach((r) => push(r)); });
     return rows;
   }
-  function itemMeasure(r) { return itemStore === "bar" ? r.bar : itemStore === "vila" ? r.vila : r.qty; }
+  function itemMeasure(r) { return itemStore === "bar" ? r.bar : itemStore === "vila" ? r.vila : r.bar + r.vila; }
   function visibleItems(rows) {
     const q = fold(itemQuery.trim());
     let list = rows.filter((r) => (itemCat === "all" || r.category === itemCat));
@@ -188,37 +208,43 @@
     if (p && Array.isArray(p.period) && p.period.length === 2) return `${fmtD(p.period[0])} – ${fmtD(p.period[1])}`;
     return (p && p.periodLabel) || "";
   }
-  const itemTr = (r) => `<tr><td>${esc(r.name)}</td><td>${itemStore === "bar" ? `<b>${int(r.bar)}</b>` : int(r.bar)}</td><td>${itemStore === "vila" ? `<b>${int(r.vila)}</b>` : int(r.vila)}</td><td>${itemStore === "both" ? `<b>${int(r.qty)}</b>` : int(r.qty)}</td><td>${esc(t("cat_" + r.category))}</td></tr>`;
+  const itemTr = (r) => {
+    const b = itemStore === "bar" ? `<b>${int(r.bar)}</b>` : int(r.bar);
+    const v = itemStore === "vila" ? `<b>${int(r.vila)}</b>` : int(r.vila);
+    return `<tr><td>${esc(r.name)}</td><td>${b}</td><td>${v}</td><td>${esc(t("cat_" + r.category))}</td></tr>`;
+  };
   function itemTable(rows) {
-    const head = [t("m_item"), t("bar"), t("vila"), t("total"), t("items_cat")];
-    const body = rows.length ? rows.map(itemTr).join("") : `<tr><td colspan="5">${esc(t("items_none"))}</td></tr>`;
+    const head = [t("m_item"), t("bar"), t("vila"), t("items_cat")];
+    const body = rows.length ? rows.map(itemTr).join("") : `<tr><td colspan="4">${esc(t("items_none"))}</td></tr>`;
     return `<div class="tw"><table class="num compact mix"><thead><tr>${head.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody id="itembody">${body}</tbody></table></div>`;
   }
   function paintItems() {
     const rows = visibleItems(itemSkus(currentItems()));
     const body = document.getElementById("itembody");
-    if (body) body.innerHTML = rows.length ? rows.map(itemTr).join("") : `<tr><td colspan="5">${esc(t("items_none"))}</td></tr>`;
+    if (body) body.innerHTML = rows.length ? rows.map(itemTr).join("") : `<tr><td colspan="4">${esc(t("items_none"))}</td></tr>`;
     const c = document.getElementById("itemcount");
     if (c) c.textContent = `${int(rows.length)} ${t("items_rows")}`;
   }
   function itemMini(title, rows, shown) {
-    const head = [t("m_item"), t("bar"), t("vila"), t("total")];
-    const body = rows.map((r) => [esc(r.name), int(r.bar), int(r.vila), `<b>${int(r.qty)}</b>`]);
+    const head = [t("m_item"), t("bar"), t("vila")];
+    const body = rows.map((r) => [esc(r.name), int(r.bar), int(r.vila)]);
     const n = shown == null ? body.length : shown;
     const note = shown == null ? "" : `<p class="hint">${esc(t("items_showing"))} ${int(Math.min(n, rows.length))} / ${int(rows.length)}</p>`;
     return `<h3>${esc(title)}</h3>${note}${table(head, body.slice(0, n), "num compact")}`;
   }
+  const pairNums = (a, b) => `<span class="pairn"><span>${int(a)}</span><span>${int(b)}</span></span>`;
   function itemDashCard() {
     const p = currentItems();
     if (!p) return card(t("items_title"), t("items_empty"), "");
     const skus = itemSkus(p);
     const by = (cat) => skus.filter((r) => r.category === cat).sort((a, b) => b.qty - a.qty || a.name.localeCompare(b.name));
     const sizes = by("size"), pizzas = by("pizza"), sodas = by("soda");
-    const sodaQty = sodas.reduce((a, r) => a + r.qty, 0);
-    const sizeKpis = sizes.slice(0, 4).map((r) => kpi(r.name, int(r.qty), `${t("bar")} ${int(r.bar)} · ${t("vila")} ${int(r.vila)}`)).join("");
+    const sodaBar = sodas.reduce((a, r) => a + r.bar, 0);
+    const sodaVila = sodas.reduce((a, r) => a + r.vila, 0);
+    const sizeKpis = sizes.slice(0, 4).map((r) => kpi(r.name, pairNums(r.bar, r.vila), `${t("bar")} · ${t("vila")}`)).join("");
     return card(t("items_title"), `${itemRange(p)}. ${t("items_dash_hint")}`,
       `${itemPeriodChips()}
-      <div class="kpis">${sizeKpis}${kpi(t("items_soda_units"), int(sodaQty), t("items_soda_sub"))}</div>
+      <div class="kpis">${sizeKpis}${kpi(t("items_soda_units"), pairNums(sodaBar, sodaVila), `${t("bar")} · ${t("vila")} · ${t("items_soda_sub")}`)}</div>
       ${itemMini(t("items_sizes"), sizes)}
       ${itemMini(t("items_top_pizza"), pizzas, ITEM_TOP)}
       ${itemMini(t("items_top_soda"), sodas, ITEM_TOP)}
@@ -240,12 +266,13 @@
     } else {
       const isY = feat.date === addDays(today, -1);
       const slice = dRows.slice(0, DAILY_DASH);
+      const max = windowMax(slice);
       const count = dRows.length > slice.length ? `${int(slice.length)} / ${int(dRows.length)} ${t("ds_days")}` : `${int(slice.length)} ${t("ds_days")}`;
       dailyCard = card(t("ds_title"), t("ds_dash_hint"),
         `<h3>${esc(isY ? t("ds_yesterday") : t("ds_latest"))} · ${fmtD(feat.date)}</h3>
-        ${dailyKpis(feat)}
-        <h3>${esc(t("ds_recent"))}</h3><p class="hint">${esc(count)}</p>
-        ${dailyTable(slice)}
+        ${storePeers(feat)}
+        <h3>${esc(t("ds_recent"))}</h3><p class="hint">${esc(count)} · ${esc(t("ds_scale"))}</p>
+        ${dailyBars(slice, max)}
         <button class="ghost" type="button" data-view="sales">${esc(t("ds_full"))}</button>
         ${src(dailySource(dRows, feat), feat.date)}`);
     }
@@ -253,13 +280,13 @@
       <div class="herotxt"><div class="herotag">${t("brand_tag")}</div><div class="heroline">${t("brand_line")}</div>
       <div class="phones">${D.stores.map((x) => `<a class="phonepill" href="tel:+55${x.phone.replace(/\D/g, "")}"><b>${t(x.id)}</b> ${esc(x.phone)}</a>`).join("")}</div></div>
       <div class="heroimg" aria-hidden="true"></div></section>`;
+    const planNote = fill(t("plan_note"), { bar: brl(D.debt.bar, 0), vila: brl(D.debt.vila, 0), paid: brl(paidTotal(), 0), left: brl(rem, 0) });
     return hero + dailyCard + itemDashCard() + card(t("dash_title"), t("dash_hint"),
-      `<div class="kpis">${kpi(t("k_debt"), brl(rem, 0), `${t("debt_start")} ${brl(debtStart(), 0)} · ${t("k_paid")} ${brl(paidTotal(), 0)}`, "alert")}
-      ${kpi(t("k_weeks"), weeksLeft(), t("k_weeks_sub"))}
-      ${kpi(t("k_zero"), z ? fmtD(z) : "✓", z ? `${t("wk_of")} ${fmtD(z)} – ${fmtD(addDays(z, 6))}` : "")}
-      ${kpi(t("k_raise"), fmtD(raise), raiseSub, "accent")}
+      `<div class="kpis">${kpi(t("k_weeks"), weeksLeft(), t("shared_plan"))}
+      ${kpi(t("k_zero"), z ? fmtD(z) : "✓", z ? `${t("wk_of")} ${fmtD(z)} – ${fmtD(addDays(z, 6))}` : t("shared_plan"))}
+      ${kpi(t("k_raise"), fmtD(raise), `${raiseSub} · ${t("both_stores")}`, "accent")}
       ${kpi(t("k_pending"), pending(), "", pending() ? "warn" : "")}</div>
-      ${bar(paidTotal() / debtStart() * 100)}` ) +
+      ${bar(paidTotal() / debtStart() * 100)}<p class="hint">${esc(planNote)}</p>` ) +
       `<div class="two">${["bar", "vila"].map((id) => card(t(id), "",
         `<div class="kpis sm">${kpi(t("k_octsales"), brl(s[id].revenue), `${int(s[id].orders)} ${t("k_orders")} · ${t("k_ticket")} ${brl(s[id].ticket)}`)}
         ${kpi(t("k_debt"), brl(D.debt[id], 0), t("source") + ": Lucas 02/11")}
@@ -273,10 +300,11 @@
       return [r.w, `${fmtD(r.date)} – ${fmtD(r.end)}`, brl(r.pay, 0), brl(r.bal, 0), st]; });
     const opts = (arr) => arr.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
     return card(t("debt_title"), t("debt_hint"),
-      `<div class="kpis">${kpi(t("debt_start"), brl(debtStart(), 0), `${t("bar")} ${brl(D.debt.bar, 0)} · ${t("vila")} ${brl(D.debt.vila, 0)}`)}
-      ${kpi(t("k_paid"), brl(paid, 0), "", "good")}${kpi(t("k_debt"), brl(remaining(), 0), "", "alert")}
-      ${kpi(t("k_weeks"), weeksLeft(), t("k_weeks_sub"))}
-      ${kpi(t("k_jonas"), brl(D.debt.jonas.amount), t("jonas_sub"), "warn")}</div>${bar(paid / debtStart() * 100)}<p class="flag">${esc(t("debt_flag"))}</p>
+      `<div class="peers">${peerStat("bar", brl(D.debt.bar, 0), t("debt_start"))}${peerStat("vila", brl(D.debt.vila, 0), t("debt_start"))}</div>
+      <div class="kpis">${kpi(t("k_paid"), brl(paid, 0), t("shared_plan"), "good")}${kpi(t("plan_left"), brl(remaining(), 0), t("shared_plan"), "alert")}
+      ${kpi(t("k_weeks"), weeksLeft(), t("k_weeks_sub"))}</div>${bar(paid / debtStart() * 100)}
+      <p class="hint">${esc(t("k_jonas"))}: ${esc(t("bar"))} ${brl(D.debt.jonas.bar, 0)} · ${esc(t("vila"))} ${brl(D.debt.jonas.vila, 0)}. ${esc(t("jonas_sub"))}</p>
+      <p class="flag">${esc(t("debt_flag"))}</p>
       <h3>${t("debt_log")}</h3><form id="payf" class="row">
       <div><label>${t("debt_date")}</label><input type="date" name="date" value="${next}" required></div>
       <div><label>${t("debt_amt")}</label><input type="number" name="amount" step="0.01" min="0.01" value="${Math.min(D.debt.weekly, remaining())}" required></div>
@@ -289,16 +317,35 @@
       card(t("debt_sched"), t("debt_sched_hint"), table([t("wk"), t("wk_of"), t("pay"), t("bal"), t("status")], sched, "compact"));
   };
   V.cash = () => {
-    const s = D.stone, f = [["c_open", "open"], ["c_in", "inflow"], ["c_out", "outflow"], ["c_close", "close"], ["c_sales", "sales"], ["c_pix", "pixMaq"], ["c_card", "card"],
-      ["c_sup", "suppliers"], ["c_jonas", "jonas"], ["c_util", "utilities"], ["c_rent", "rent"], ["c_gm", "gm"], ["c_people", "people"], ["c_pers", "personal"], ["c_fees", "fees"]], p = D.stoneSep;
-    const rows = f.map(([l, k]) => [t(l), brl(s.bar[k]), brl(s.vila[k]), brl(s.bar[k] + s.vila[k]), brl(p.bar[k] + p.vila[k])]);
-    rows.push([t("c_low"), s.bar.low, s.vila.low, "—", p.bar.low + " · " + p.vila.low]);
-    rows.push([`<b>${t("c_today")} ${fmtD(D.cashToday.date)}</b>`, `<b>${brl(D.cashToday.bar)}</b>`, `<b>${brl(D.cashToday.vila)}</b>`, `<b>${brl(D.cashToday.bar + D.cashToday.vila)}</b>`, "—"]);
-    rows.push([t("c_cover"), (s.bar.close / D.debt.bar * 100).toFixed(1) + "%", (s.vila.close / D.debt.vila * 100).toFixed(1) + "%", ((s.bar.close + s.vila.close) / debtStart() * 100).toFixed(1) + "%", "—"]);
+    const s = D.stone, p = D.stoneSep;
+    const income = [["c_in", "inflow", true], ["c_sales", "sales", false], ["c_pix", "pixMaq", false], ["c_card", "card", false]];
+    const expense = [["c_out", "outflow", true], ["c_sup", "suppliers", false], ["c_jonas", "jonas", false], ["c_util", "utilities", false], ["c_rent", "rent", false], ["c_gm", "gm", false], ["c_people", "people", false], ["c_pers", "personal", false], ["c_fees", "fees", false]];
+    const subKey = { c_pix: true, c_card: true };
+    const moneyCell = (oct, sep) => {
+      const main = typeof oct === "number" ? brl(oct) : esc(oct);
+      const sepHtml = sep == null ? "" : `<span class="sepn">${esc(t("c_sep_store"))} ${typeof sep === "number" ? brl(sep) : esc(sep)}</span>`;
+      return `<span class="bamt"><b>${main}</b>${sepHtml}</span>`;
+    };
+    const lines = (id, rows) => rows.map(([lk, key, strong]) => `<div class="bline${strong ? " strong" : ""}${subKey[lk] ? " sub" : ""}"><span>${esc(t(lk))}</span>${moneyCell(s[id][key], p[id][key])}</div>`).join("");
+    const book = (id, rows) => `<article class="book ${id}"><h3>${esc(t(id))}</h3>${lines(id, rows)}</article>`;
+    const books = (kind, rows) => `<div class="books ${kind}">${["bar", "vila"].map((id) => book(id, rows)).join("")}</div>`;
+    const bal = (id) => {
+      const store = D.stores.find((x) => x.id === id);
+      return `<article class="book ${id}"><h3>${esc(t(id))}</h3><p class="acct">${esc(store.stone)}</p>
+        <div class="bline strong"><span>${esc(t("c_close"))}</span>${moneyCell(s[id].close, p[id].close)}</div>
+        <div class="bline strong"><span>${esc(t("c_today"))} ${esc(fmtD(D.cashToday.date))}</span>${moneyCell(D.cashToday[id])}</div>
+        <div class="bline"><span>${esc(t("c_open"))}</span>${moneyCell(s[id].open, p[id].open)}</div>
+        <div class="bline"><span>${esc(t("c_low"))}</span>${moneyCell(s[id].low, p[id].low)}</div>
+        <div class="bline"><span>${esc(t("c_cover"))}</span>${moneyCell((s[id].close / D.debt[id] * 100).toFixed(1) + "%")}</div></article>`;
+    };
     return card(t("cash_title"), t("cash_hint"),
-      `<div class="kpis">${kpi(t("bar") + " · " + t("c_close"), brl(s.bar.close), D.stores[0].stone)}${kpi(t("vila") + " · " + t("c_close"), brl(s.vila.close), D.stores[1].stone)}
-      ${kpi(t("total"), brl(s.bar.close + s.vila.close), `${t("k_debt")} ${brl(debtStart(), 0)}`, "alert")}</div>
-      ${table(["", t("bar"), t("vila"), t("total"), t("c_sep")], rows, "num")}<p class="flag">${esc(t("cash_flag"))}</p>${src(s.source)}${src(D.cashToday.source, D.cashToday.date)}`) +
+      `<h3 class="sec bal">${esc(t("cash_balances"))}</h3>
+      <div class="books balance">${["bar", "vila"].map(bal).join("")}</div>
+      <h3 class="sec in">${esc(t("cash_income"))}</h3><p class="hint">${esc(t("cash_sep_hint"))}</p>
+      ${books("income", income)}
+      <h3 class="sec out">${esc(t("cash_expenses"))}</h3>
+      ${books("expense", expense)}
+      <p class="flag">${esc(t("cash_flag"))}</p>${src(s.source)}${src(p.source)}${src(D.cashToday.source, D.cashToday.date)}`) +
       card(t("cash_rule_t"), "", `<p class="rule">${esc(t("cash_rule"))}</p>`) + rulesBox();
   };
   V.sales = () => {
@@ -309,35 +356,41 @@
     } else {
       const isY = feat.date === addDays(iso(new Date()), -1);
       const visible = dailyShowAll ? rows : rows.slice(0, DAILY_WINDOW);
-      const tbl = dailyTable(visible);
-      const scrolled = dailyShowAll && rows.length > DAILY_WINDOW ? `<div class="daylist">${tbl}</div>` : tbl;
+      const max = windowMax(visible);
+      const bars = dailyBars(visible, max);
+      const scrolled = dailyShowAll && rows.length > DAILY_WINDOW ? `<div class="daylist">${bars}</div>` : bars;
       const more = rows.length <= DAILY_WINDOW ? "" : dailyShowAll
         ? `<button class="ghost" id="dailyless" type="button">${esc(t("ds_less"))}</button>`
         : `<button class="ghost" id="dailymore" type="button">${esc(t("ds_more"))} (${int(rows.length - DAILY_WINDOW)})</button>`;
       const count = visible.length === rows.length ? `${int(rows.length)} ${t("ds_days")}` : `${int(visible.length)} / ${int(rows.length)} ${t("ds_days")}`;
       daily = card(t("ds_title"), t("ds_hint"),
         `<h3>${esc(isY ? t("ds_yesterday") : t("ds_latest"))} · ${fmtD(feat.date)}</h3>
-        ${dailyKpis(feat)}
-        <h3>${esc(t("ds_recent"))}</h3><p class="hint">${esc(count)}</p>
+        ${storePeers(feat)}
+        <h3>${esc(t("ds_recent"))}</h3><p class="hint">${esc(count)} · ${esc(t("ds_scale"))}</p>
         ${scrolled}${more}${src(dailySource(rows, feat), feat.date)}`);
     }
-    const s = D.sales, tot = { revenue: s.bar.revenue + s.vila.revenue, orders: s.bar.orders + s.vila.orders };
-    const row = (l, x) => [l, brl(x.revenue), int(x.orders), brl(x.revenue / x.orders), (x.revenue / tot.revenue * 100).toFixed(1) + "%", brl(x.revenue / 31)];
-    const mo = tot.orders * 5, wk = mo * 12 / 52;
+    const s = D.sales;
+    const sumRev = s.bar.revenue + s.vila.revenue;
+    const row = (id) => {
+      const x = s[id];
+      return [t(id), brl(x.revenue), int(x.orders), brl(x.ticket), (x.revenue / sumRev * 100).toFixed(1) + "%", brl(x.revenue / 31)];
+    };
+    const raiseBits = (id) => {
+      const mo = s[id].orders * 5, wk = mo * 12 / 52;
+      return `<b>${esc(t(id))}</b> ${brl(mo, 0)} ${t("s_permo")} · ${brl(wk, 0)} ${t("s_perwk")} (${int(s[id].orders)} × R$ 5)`;
+    };
     return daily + card(t("sales_title"), t("sales_hint"),
-      `<div class="kpis">${kpi(t("total") + " · " + t("s_rev"), brl(tot.revenue), `${int(tot.orders)} ${t("k_orders")}`)}
-      ${kpi(t("bar"), brl(s.bar.revenue), `${int(s.bar.orders)} ${t("k_orders")} · ${t("k_ticket")} ${brl(s.bar.ticket)}`)}
-      ${kpi(t("vila"), brl(s.vila.revenue), `${int(s.vila.orders)} ${t("k_orders")} · ${t("k_ticket")} ${brl(s.vila.ticket)}`)}</div>
-      ${table(["", t("s_rev"), t("s_orders"), t("s_ticket"), t("s_share"), t("s_daily")], [row(t("bar"), s.bar), row(t("vila"), s.vila), row(t("total"), tot)], "num")}
+      `${storePeers(s)}
+      ${table(["", t("s_rev"), t("s_orders"), t("s_ticket"), t("s_share"), t("s_daily")], [row("bar"), row("vila")], "num")}
       <h3>${t("s_stone")}</h3>${table(["", t("s_rev"), t("s_stonecr"), t("s_gap")], ["bar", "vila"].map((id) => [t(id), brl(s[id].revenue), brl(s[id].stone), brl(s[id].revenue - s[id].stone) + " (" + ((1 - s[id].stone / s[id].revenue) * 100).toFixed(1) + "%)"]), "num")}<p class="flag">${esc(t("s_gap_flag"))}</p>
-      <h3>${t("s_raise")}</h3><p class="hint">${t("s_raise_hint")} <b>${brl(mo, 0)}</b> ${t("s_permo")} · <b>${brl(wk, 0)}</b> ${t("s_perwk")} (${int(tot.orders)} × R$ 5).</p>${src(s.source)}`);
+      <h3>${t("s_raise")}</h3><p class="hint">${esc(t("s_raise_hint"))}</p><p class="hint">${raiseBits("bar")}<br>${raiseBits("vila")}</p>${src(s.source)}`);
   };
   V.items = () => {
     const p = currentItems();
     if (!p) return card(t("items_title"), t("items_empty"), "");
     const skus = itemSkus(p), rows = visibleItems(skus);
     const chips = (key, cur, opts) => `<div class="chips">${opts.map(([id, label]) => `<button type="button" class="${cur === id ? "on" : ""}" data-${key}="${esc(id)}">${esc(label)}</button>`).join("")}</div>`;
-    const storeOpts = [["both", t("items_combined")], ["bar", t("bar")], ["vila", t("vila")]];
+    const storeOpts = [["split", t("items_stores")], ["bar", t("bar")], ["vila", t("vila")]];
     const catOpts = [["all", t("items_all")]].concat(ITEM_CATS.map((c) => [c, t("cat_" + c)]));
     return card(t("items_title"), `${itemRange(p)}. ${t("items_hint")}`,
       `${itemPeriodChips()}
@@ -373,7 +426,9 @@
   V.suppliers = () => card(t("sup_title"), t("sup_hint"),
     table([t("sup_name"), t("sup_role"), t("sup_sep") + " · " + t("bar"), t("sup_sep") + " · " + t("vila"), t("sup_oct") + " · " + t("bar"), t("sup_oct") + " · " + t("vila")],
       D.suppliers.map((s) => [`<b>${esc(s.name)}</b>`, `<span class="pill ${s.role === "primary" ? "ok" : "plan"}">${t(s.role)}</span>`, brl(s.bar), brl(s.vila), brl(s.barOct), brl(s.vilaOct)]), "num") + src(D.stone.source)) +
-    card(t("sup_debt"), "", `<div class="kpis">${kpi(t("bar"), brl(D.debt.bar, 0))}${kpi(t("vila"), brl(D.debt.vila, 0))}${kpi(t("total"), brl(debtStart(), 0), `${t("k_debt")}: ${brl(remaining(), 0)}`, "alert")}${kpi(t("k_jonas"), brl(D.debt.jonas.amount), t("jonas_sub"), "warn")}</div>
+    card(t("sup_debt"), "", `<div class="peers">${peerStat("bar", brl(D.debt.bar, 0), t("debt_start"))}${peerStat("vila", brl(D.debt.vila, 0), t("debt_start"))}</div>
+      <p class="hint">${esc(t("k_jonas"))}: ${esc(t("bar"))} ${brl(D.debt.jonas.bar, 0)} · ${esc(t("vila"))} ${brl(D.debt.jonas.vila, 0)}. ${esc(t("jonas_sub"))}</p>
+      <p class="hint">${esc(t("shared_plan"))}. ${esc(t("plan_left"))}: ${brl(remaining(), 0)}.</p>
       <p class="flag">${esc(t("sup_gap"))}</p>${src(D.debt.source, D.debt.asOf)}`);
   V.approvals = () => {
     const a = approvals(), types = ["supplier", "rent", "buy", "draw", "other"];
