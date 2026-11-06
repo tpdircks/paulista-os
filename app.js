@@ -23,6 +23,7 @@
     ["cash", "M2 7h20v10H2zM12 9a3 3 0 100 6 3 3 0 000-6z"],
     ["approvals", "M9 11l3 3 8-8M20 12v7H4V5h11"],
     ["sales", "M4 20V10M10 20V4M16 20v-7M22 20H2"],
+    ["items", "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"],
     ["menu", "M12 2L2 20h20zM9 13h.01M14 15h.01M12 9h.01"],
     ["stores", "M3 9l2-5h14l2 5M4 9v11h16V9M9 20v-6h6v6"],
     ["suppliers", "M1 7h13v10H1zM14 10h4l4 4v3h-8M5 20a2 2 0 100-4 2 2 0 000 4zM18 20a2 2 0 100-4 2 2 0 000 4z"]
@@ -121,6 +122,92 @@
     return (feat && feat.source) || rows.map((r) => r.source).find(Boolean) || "Anota AI";
   }
 
+  /* ---------- Item mix (Anota Principais + Sabores) ---------- */
+  const ITEM_CATS = ["size", "soda", "pizza", "borda", "calzone", "sweet", "other"];
+  const ITEM_TOP = 5;
+  let itemStore = "both", itemCat = "all", itemQuery = "", itemPeriod = -1;
+  const fold = (s) => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  function itemPeriods() {
+    const block = D.itemSales;
+    if (!block) return [];
+    if (Array.isArray(block.periods)) return block.periods.filter(Boolean);
+    if (block.byCategory || block.combined) return [block];
+    return [];
+  }
+  function currentItems() {
+    const ps = itemPeriods();
+    if (!ps.length) return null;
+    const i = itemPeriod < 0 || itemPeriod >= ps.length ? ps.length - 1 : itemPeriod;
+    return ps[i];
+  }
+  function itemSkus(p) {
+    if (!p) return [];
+    const rows = [];
+    const push = (r, cat) => {
+      if (!r || r.name == null) return;
+      const bar = Number(r.bar) || 0, vila = Number(r.vila) || 0;
+      const qty = r.qty == null ? bar + vila : Number(r.qty);
+      if (!Number.isFinite(qty)) return;
+      rows.push({ name: String(r.name), bar, vila, qty, category: r.category || cat || "other" });
+    };
+    if (p.byCategory && typeof p.byCategory === "object") {
+      Object.entries(p.byCategory).forEach(([cat, arr]) => { if (Array.isArray(arr)) arr.forEach((r) => push(r, cat)); });
+      return rows;
+    }
+    const c = p.combined || {};
+    ["principais", "sabores"].forEach((k) => { if (Array.isArray(c[k])) c[k].forEach((r) => push(r)); });
+    return rows;
+  }
+  function itemMeasure(r) { return itemStore === "bar" ? r.bar : itemStore === "vila" ? r.vila : r.qty; }
+  function visibleItems(rows) {
+    const q = fold(itemQuery.trim());
+    let list = rows.filter((r) => (itemCat === "all" || r.category === itemCat));
+    if (itemStore === "bar") list = list.filter((r) => r.bar > 0);
+    if (itemStore === "vila") list = list.filter((r) => r.vila > 0);
+    if (q) list = list.filter((r) => fold(r.name).includes(q));
+    return list.sort((a, b) => itemMeasure(b) - itemMeasure(a) || a.name.localeCompare(b.name));
+  }
+  function itemRange(p) {
+    if (p && Array.isArray(p.period) && p.period.length === 2) return `${fmtD(p.period[0])} – ${fmtD(p.period[1])}`;
+    return (p && p.periodLabel) || "";
+  }
+  const itemTr = (r) => `<tr><td>${esc(r.name)}</td><td>${itemStore === "bar" ? `<b>${int(r.bar)}</b>` : int(r.bar)}</td><td>${itemStore === "vila" ? `<b>${int(r.vila)}</b>` : int(r.vila)}</td><td>${itemStore === "both" ? `<b>${int(r.qty)}</b>` : int(r.qty)}</td><td>${esc(t("cat_" + r.category))}</td></tr>`;
+  function itemTable(rows) {
+    const head = [t("m_item"), t("bar"), t("vila"), t("total"), t("items_cat")];
+    const body = rows.length ? rows.map(itemTr).join("") : `<tr><td colspan="5">${esc(t("items_none"))}</td></tr>`;
+    return `<div class="tw"><table class="num compact mix"><thead><tr>${head.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody id="itembody">${body}</tbody></table></div>`;
+  }
+  function paintItems() {
+    const rows = visibleItems(itemSkus(currentItems()));
+    const body = document.getElementById("itembody");
+    if (body) body.innerHTML = rows.length ? rows.map(itemTr).join("") : `<tr><td colspan="5">${esc(t("items_none"))}</td></tr>`;
+    const c = document.getElementById("itemcount");
+    if (c) c.textContent = `${int(rows.length)} ${t("items_rows")}`;
+  }
+  function itemMini(title, rows, shown) {
+    const head = [t("m_item"), t("bar"), t("vila"), t("total")];
+    const body = rows.map((r) => [esc(r.name), int(r.bar), int(r.vila), `<b>${int(r.qty)}</b>`]);
+    const n = shown == null ? body.length : shown;
+    const note = shown == null ? "" : `<p class="hint">${esc(t("items_showing"))} ${int(Math.min(n, rows.length))} / ${int(rows.length)}</p>`;
+    return `<h3>${esc(title)}</h3>${note}${table(head, body.slice(0, n), "num compact")}`;
+  }
+  function itemDashCard() {
+    const p = currentItems();
+    if (!p) return card(t("items_title"), t("items_empty"), "");
+    const skus = itemSkus(p);
+    const by = (cat) => skus.filter((r) => r.category === cat).sort((a, b) => b.qty - a.qty || a.name.localeCompare(b.name));
+    const sizes = by("size"), pizzas = by("pizza"), sodas = by("soda");
+    const sodaQty = sodas.reduce((a, r) => a + r.qty, 0);
+    const sizeKpis = sizes.slice(0, 4).map((r) => kpi(r.name, int(r.qty), `${t("bar")} ${int(r.bar)} · ${t("vila")} ${int(r.vila)}`)).join("");
+    return card(t("items_title"), `${itemRange(p)}. ${t("items_dash_hint")}`,
+      `<div class="kpis">${sizeKpis}${kpi(t("items_soda_units"), int(sodaQty), t("items_soda_sub"))}</div>
+      ${itemMini(t("items_sizes"), sizes)}
+      ${itemMini(t("items_top_pizza"), pizzas, ITEM_TOP)}
+      ${itemMini(t("items_top_soda"), sodas, ITEM_TOP)}
+      <button class="ghost" type="button" data-view="items">${esc(t("items_full"))}</button>
+      ${src(p.source || "Anota AI", p.asOf)}`);
+  }
+
   /* ---------- Views ---------- */
   const V = {};
   V.dashboard = () => {
@@ -148,7 +235,7 @@
       <div class="herotxt"><div class="herotag">${t("brand_tag")}</div><div class="heroline">${t("brand_line")}</div>
       <div class="phones">${D.stores.map((x) => `<a class="phonepill" href="tel:+55${x.phone.replace(/\D/g, "")}"><b>${t(x.id)}</b> ${esc(x.phone)}</a>`).join("")}</div></div>
       <div class="heroimg" aria-hidden="true"></div></section>`;
-    return hero + dailyCard + card(t("dash_title"), t("dash_hint"),
+    return hero + dailyCard + itemDashCard() + card(t("dash_title"), t("dash_hint"),
       `<div class="kpis">${kpi(t("k_debt"), brl(rem, 0), `${t("debt_start")} ${brl(debtStart(), 0)} · ${t("k_paid")} ${brl(paidTotal(), 0)}`, "alert")}
       ${kpi(t("k_weeks"), weeksLeft(), t("k_weeks_sub"))}
       ${kpi(t("k_zero"), z ? fmtD(z) : "✓", z ? `${t("wk_of")} ${fmtD(z)} – ${fmtD(addDays(z, 6))}` : "")}
@@ -227,6 +314,24 @@
       <h3>${t("s_stone")}</h3>${table(["", t("s_rev"), t("s_stonecr"), t("s_gap")], ["bar", "vila"].map((id) => [t(id), brl(s[id].revenue), brl(s[id].stone), brl(s[id].revenue - s[id].stone) + " (" + ((1 - s[id].stone / s[id].revenue) * 100).toFixed(1) + "%)"]), "num")}<p class="flag">${esc(t("s_gap_flag"))}</p>
       <h3>${t("s_raise")}</h3><p class="hint">${t("s_raise_hint")} <b>${brl(mo, 0)}</b> ${t("s_permo")} · <b>${brl(wk, 0)}</b> ${t("s_perwk")} (${int(tot.orders)} × R$ 5).</p>${src(s.source)}`);
   };
+  V.items = () => {
+    const ps = itemPeriods(), p = currentItems();
+    if (!p) return card(t("items_title"), t("items_empty"), "");
+    const skus = itemSkus(p), rows = visibleItems(skus);
+    const chips = (key, cur, opts) => `<div class="chips">${opts.map(([id, label]) => `<button type="button" class="${cur === id ? "on" : ""}" data-${key}="${esc(id)}">${esc(label)}</button>`).join("")}</div>`;
+    const storeOpts = [["both", t("items_combined")], ["bar", t("bar")], ["vila", t("vila")]];
+    const catOpts = [["all", t("items_all")]].concat(ITEM_CATS.map((c) => [c, t("cat_" + c)]));
+    const periodPick = ps.length < 2 ? "" : `<div><label>${t("items_period")}</label><select id="itemperiod">${ps.map((x, i) => `<option value="${i}"${(itemPeriod < 0 ? ps.length - 1 : itemPeriod) === i ? " selected" : ""}>${esc(itemRange(x) || x.periodLabel || String(i + 1))}</option>`).join("")}</select></div>`;
+    return card(t("items_title"), `${itemRange(p)}. ${t("items_hint")}`,
+      `${periodPick}
+      ${chips("itemstore", itemStore, storeOpts)}
+      ${chips("itemcat", itemCat, catOpts)}
+      <div class="row"><div class="wide"><label for="itemq">${esc(t("items_search"))}</label><input id="itemq" type="search" value="${esc(itemQuery)}" autocomplete="off"></div></div>
+      <p class="hint" id="itemcount">${int(rows.length)} ${t("items_rows")}</p>
+      ${itemTable(rows)}
+      <p class="hint">${esc(t("items_next"))}</p>
+      ${src(p.source || "Anota AI", p.asOf)}`);
+  };
   V.menu = () => {
     const m = D.menu;
     return card(t("menu_title"), t("menu_hint"), table([t("m_item"), t("m_inc")], m.changes.map((c) => [t("m_" + c.k), `<b>+${brl(c.inc, 0)}</b>`])) ) +
@@ -295,6 +400,18 @@
     if (b.id === "apreset") { localStorage.removeItem(LS.ap); return render(); }
     if (b.id === "dailymore") { dailyShowAll = true; return render(); }
     if (b.id === "dailyless") { dailyShowAll = false; return render(); }
+    if (b.dataset.itemstore) { itemStore = b.dataset.itemstore; return render(); }
+    if (b.dataset.itemcat) { itemCat = b.dataset.itemcat; return render(); }
+  });
+  document.addEventListener("input", (e) => {
+    if (e.target.id !== "itemq") return;
+    itemQuery = e.target.value;
+    paintItems();
+  });
+  document.addEventListener("change", (e) => {
+    if (e.target.id !== "itemperiod") return;
+    itemPeriod = Number(e.target.value);
+    render();
   });
   document.addEventListener("submit", (e) => {
     e.preventDefault(); const f = Object.fromEntries(new FormData(e.target));

@@ -1319,7 +1319,2500 @@ window.PDATA = {
       "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
     }
   ],
-  /* Latest month. jonas and gm split out from people since 2026-11-03. */
+  /* Item counts by period, newest last. Append the next Relatório de Itens here, or replace the period with the same dates. The Items tab shows the last period. */
+  itemSales: {
+    periods: [
+      {
+        "asOf": "2026-10-31",
+        "period": [
+          "2026-10-01",
+          "2026-10-31"
+        ],
+        "periodLabel": "October 2026",
+        "source": "Anota Relatório de Itens → Principais + Adicionais/Sabores (Fabiana Barcarena + Adan Vila)",
+        "combined": {
+          "principais": [
+            {
+              "name": "GRANDE (35 CM)",
+              "bar": 957,
+              "vila": 377,
+              "qty": 1334,
+              "category": "size"
+            },
+            {
+              "name": "MÉDIA (30 CM)",
+              "bar": 312,
+              "vila": 117,
+              "qty": 429,
+              "category": "size"
+            },
+            {
+              "name": "Coca Cola 1L",
+              "bar": 144,
+              "vila": 0,
+              "qty": 144,
+              "category": "soda"
+            },
+            {
+              "name": "Tuchaua 2L",
+              "bar": 107,
+              "vila": 0,
+              "qty": 107,
+              "category": "soda"
+            },
+            {
+              "name": "GUARANÁ ANTÁRTICA 1L",
+              "bar": 84,
+              "vila": 0,
+              "qty": 84,
+              "category": "soda"
+            },
+            {
+              "name": "PIZZA FECHADA",
+              "bar": 56,
+              "vila": 13,
+              "qty": 69,
+              "category": "calzone"
+            },
+            {
+              "name": "Coca cola 2L",
+              "bar": 68,
+              "vila": 0,
+              "qty": 68,
+              "category": "soda"
+            },
+            {
+              "name": "Coca-Cola 1 litro",
+              "bar": 0,
+              "vila": 62,
+              "qty": 62,
+              "category": "soda"
+            },
+            {
+              "name": "Tuchaua 1lt",
+              "bar": 52,
+              "vila": 0,
+              "qty": 52,
+              "category": "soda"
+            },
+            {
+              "name": "Pepsi 2L",
+              "bar": 44,
+              "vila": 7,
+              "qty": 51,
+              "category": "soda"
+            },
+            {
+              "name": "Coca Cola 2L zero",
+              "bar": 48,
+              "vila": 0,
+              "qty": 48,
+              "category": "soda"
+            },
+            {
+              "name": "Coca Cola Zero 1L",
+              "bar": 47,
+              "vila": 0,
+              "qty": 47,
+              "category": "soda"
+            },
+            {
+              "name": "Guaraná da Amazônia",
+              "bar": 38,
+              "vila": 0,
+              "qty": 38,
+              "category": "soda"
+            },
+            {
+              "name": "GUARANÁ ANTARTICA 1 LITRO",
+              "bar": 0,
+              "vila": 37,
+              "qty": 37,
+              "category": "soda"
+            },
+            {
+              "name": "REFRIGERANTE TUCHAUA - 2L",
+              "bar": 0,
+              "vila": 34,
+              "qty": 34,
+              "category": "soda"
+            },
+            {
+              "name": "COCA COLA - 2L",
+              "bar": 0,
+              "vila": 30,
+              "qty": 30,
+              "category": "soda"
+            },
+            {
+              "name": "coca cola zero 2L",
+              "bar": 0,
+              "vila": 19,
+              "qty": 19,
+              "category": "soda"
+            },
+            {
+              "name": "TUCHAUA DE 1 LITRO",
+              "bar": 0,
+              "vila": 13,
+              "qty": 13,
+              "category": "soda"
+            },
+            {
+              "name": "Guaraná Antártica 2L",
+              "bar": 12,
+              "vila": 0,
+              "qty": 12,
+              "category": "soda"
+            },
+            {
+              "name": "Coca-cola Zero 1L",
+              "bar": 0,
+              "vila": 12,
+              "qty": 12,
+              "category": "soda"
+            },
+            {
+              "name": "Guaraná Amazônia",
+              "bar": 0,
+              "vila": 11,
+              "qty": 11,
+              "category": "soda"
+            },
+            {
+              "name": "BARÉ 2lt",
+              "bar": 7,
+              "vila": 0,
+              "qty": 7,
+              "category": "soda"
+            },
+            {
+              "name": "Bare 2L",
+              "bar": 0,
+              "vila": 5,
+              "qty": 5,
+              "category": "soda"
+            }
+          ],
+          "sabores": [
+            {
+              "name": "PAULISTA",
+              "bar": 255,
+              "vila": 117,
+              "qty": 372,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO C/ CATUPIRY",
+              "bar": 181,
+              "vila": 58,
+              "qty": 239,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA C/ CATUPIRY",
+              "bar": 121,
+              "vila": 21,
+              "qty": 142,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO",
+              "bar": 70,
+              "vila": 39,
+              "qty": 109,
+              "category": "pizza"
+            },
+            {
+              "name": "4 QUEIJOS",
+              "bar": 77,
+              "vila": 17,
+              "qty": 94,
+              "category": "pizza"
+            },
+            {
+              "name": "MODA DA CASA",
+              "bar": 57,
+              "vila": 28,
+              "qty": 85,
+              "category": "pizza"
+            },
+            {
+              "name": "CALAFRANGO",
+              "bar": 67,
+              "vila": 17,
+              "qty": 84,
+              "category": "calzone"
+            },
+            {
+              "name": "PORTUGUESA",
+              "bar": 43,
+              "vila": 41,
+              "qty": 84,
+              "category": "pizza"
+            },
+            {
+              "name": "MISTA",
+              "bar": 53,
+              "vila": 30,
+              "qty": 83,
+              "category": "pizza"
+            },
+            {
+              "name": "SEM BORDA",
+              "bar": 80,
+              "vila": 0,
+              "qty": 80,
+              "category": "borda"
+            },
+            {
+              "name": "MUSSARELA",
+              "bar": 62,
+              "vila": 8,
+              "qty": 70,
+              "category": "pizza"
+            },
+            {
+              "name": "BACON II",
+              "bar": 47,
+              "vila": 11,
+              "qty": 58,
+              "category": "pizza"
+            },
+            {
+              "name": "CALACHEDDAR",
+              "bar": 54,
+              "vila": 3,
+              "qty": 57,
+              "category": "calzone"
+            },
+            {
+              "name": "2 QUEIJOS",
+              "bar": 45,
+              "vila": 10,
+              "qty": 55,
+              "category": "pizza"
+            },
+            {
+              "name": "COSTELA",
+              "bar": 28,
+              "vila": 22,
+              "qty": 50,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE CREAM CHEESE",
+              "bar": 36,
+              "vila": 13,
+              "qty": 49,
+              "category": "borda"
+            },
+            {
+              "name": "CAMARÃO",
+              "bar": 23,
+              "vila": 24,
+              "qty": 47,
+              "category": "pizza"
+            },
+            {
+              "name": "BAURU",
+              "bar": 30,
+              "vila": 14,
+              "qty": 44,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA BARBECUE",
+              "bar": 43,
+              "vila": 0,
+              "qty": 43,
+              "category": "pizza"
+            },
+            {
+              "name": "3 QUEIJOS",
+              "bar": 30,
+              "vila": 13,
+              "qty": 43,
+              "category": "pizza"
+            },
+            {
+              "name": "ROMANESCA",
+              "bar": 33,
+              "vila": 9,
+              "qty": 42,
+              "category": "pizza"
+            },
+            {
+              "name": "JARDINEIRA",
+              "bar": 31,
+              "vila": 10,
+              "qty": 41,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE CHEDDAR",
+              "bar": 28,
+              "vila": 13,
+              "qty": 41,
+              "category": "borda"
+            },
+            {
+              "name": "FILÉ",
+              "bar": 29,
+              "vila": 10,
+              "qty": 39,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO PHILADPHIA",
+              "bar": 37,
+              "vila": 0,
+              "qty": 37,
+              "category": "pizza"
+            },
+            {
+              "name": "HOLANDESA",
+              "bar": 25,
+              "vila": 9,
+              "qty": 34,
+              "category": "pizza"
+            },
+            {
+              "name": "BACON (sem milho)",
+              "bar": 32,
+              "vila": 0,
+              "qty": 32,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO COM CHEDDAR",
+              "bar": 27,
+              "vila": 4,
+              "qty": 31,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA ESPECIAL",
+              "bar": 23,
+              "vila": 8,
+              "qty": 31,
+              "category": "pizza"
+            },
+            {
+              "name": "COSTELA ESPECIAL",
+              "bar": 19,
+              "vila": 11,
+              "qty": 30,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE CHOCOLATE",
+              "bar": 19,
+              "vila": 10,
+              "qty": 29,
+              "category": "borda"
+            },
+            {
+              "name": "FRANGO BARBECUE",
+              "bar": 25,
+              "vila": 3,
+              "qty": 28,
+              "category": "pizza"
+            },
+            {
+              "name": "CAMARÃO C/ CATUPIRY",
+              "bar": 25,
+              "vila": 0,
+              "qty": 25,
+              "category": "pizza"
+            },
+            {
+              "name": "AMERICANA",
+              "bar": 14,
+              "vila": 10,
+              "qty": 24,
+              "category": "pizza"
+            },
+            {
+              "name": "Pizza de calabresa+ Pizza de Mussarela",
+              "bar": 23,
+              "vila": 0,
+              "qty": 23,
+              "category": "pizza"
+            },
+            {
+              "name": "CALAMAR",
+              "bar": 20,
+              "vila": 3,
+              "qty": 23,
+              "category": "calzone"
+            },
+            {
+              "name": "PARISIENSE",
+              "bar": 17,
+              "vila": 4,
+              "qty": 21,
+              "category": "pizza"
+            },
+            {
+              "name": "CALAMUSSA",
+              "bar": 18,
+              "vila": 2,
+              "qty": 20,
+              "category": "calzone"
+            },
+            {
+              "name": "BRIGADEIRO",
+              "bar": 13,
+              "vila": 6,
+              "qty": 19,
+              "category": "sweet"
+            },
+            {
+              "name": "LOBO",
+              "bar": 14,
+              "vila": 3,
+              "qty": 17,
+              "category": "pizza"
+            },
+            {
+              "name": "VENEZA",
+              "bar": 7,
+              "vila": 10,
+              "qty": 17,
+              "category": "pizza"
+            },
+            {
+              "name": "CE QUE SABE",
+              "bar": 16,
+              "vila": 0,
+              "qty": 16,
+              "category": "pizza"
+            },
+            {
+              "name": "BURUKUTU",
+              "bar": 10,
+              "vila": 6,
+              "qty": 16,
+              "category": "pizza"
+            },
+            {
+              "name": "CAIPIRA",
+              "bar": 9,
+              "vila": 5,
+              "qty": 14,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE CREAM COM ALHO FRITO",
+              "bar": 13,
+              "vila": 0,
+              "qty": 13,
+              "category": "borda"
+            },
+            {
+              "name": "FRANGO CATUPIRY",
+              "bar": 13,
+              "vila": 0,
+              "qty": 13,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE MUSSARELA",
+              "bar": 10,
+              "vila": 3,
+              "qty": 13,
+              "category": "borda"
+            },
+            {
+              "name": "5 QUEIJOS",
+              "bar": 11,
+              "vila": 1,
+              "qty": 12,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA PHILADELPHIA",
+              "bar": 0,
+              "vila": 12,
+              "qty": 12,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA REQUEIJÃO",
+              "bar": 11,
+              "vila": 0,
+              "qty": 11,
+              "category": "borda"
+            },
+            {
+              "name": "NORDESTINA",
+              "bar": 0,
+              "vila": 11,
+              "qty": 11,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO PHILADELPHIA",
+              "bar": 0,
+              "vila": 11,
+              "qty": 11,
+              "category": "pizza"
+            },
+            {
+              "name": "SALAME",
+              "bar": 9,
+              "vila": 1,
+              "qty": 10,
+              "category": "pizza"
+            },
+            {
+              "name": "LEÃO",
+              "bar": 6,
+              "vila": 4,
+              "qty": 10,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE CATUPIRY",
+              "bar": 0,
+              "vila": 10,
+              "qty": 10,
+              "category": "borda"
+            },
+            {
+              "name": "PRESUNTO",
+              "bar": 3,
+              "vila": 6,
+              "qty": 9,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE DOIS QUEIJOS",
+              "bar": 7,
+              "vila": 1,
+              "qty": 8,
+              "category": "borda"
+            },
+            {
+              "name": "CAIÇARA",
+              "bar": 5,
+              "vila": 3,
+              "qty": 8,
+              "category": "pizza"
+            },
+            {
+              "name": "Pizza de mussarela+Pizza de calabresa",
+              "bar": 0,
+              "vila": 8,
+              "qty": 8,
+              "category": "pizza"
+            },
+            {
+              "name": "CÊ QUE SABE",
+              "bar": 0,
+              "vila": 8,
+              "qty": 8,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA BARBEBUE",
+              "bar": 0,
+              "vila": 8,
+              "qty": 8,
+              "category": "pizza"
+            },
+            {
+              "name": "CROCANTE",
+              "bar": 7,
+              "vila": 0,
+              "qty": 7,
+              "category": "pizza"
+            },
+            {
+              "name": "CHEDDAR",
+              "bar": 6,
+              "vila": 1,
+              "qty": 7,
+              "category": "pizza"
+            },
+            {
+              "name": "PEPPERONI",
+              "bar": 4,
+              "vila": 3,
+              "qty": 7,
+              "category": "pizza"
+            },
+            {
+              "name": "BACON",
+              "bar": 0,
+              "vila": 7,
+              "qty": 7,
+              "category": "pizza"
+            },
+            {
+              "name": "PERÚ",
+              "bar": 6,
+              "vila": 0,
+              "qty": 6,
+              "category": "pizza"
+            },
+            {
+              "name": "LOMBO",
+              "bar": 6,
+              "vila": 0,
+              "qty": 6,
+              "category": "pizza"
+            },
+            {
+              "name": "DISQUETE",
+              "bar": 6,
+              "vila": 0,
+              "qty": 6,
+              "category": "sweet"
+            },
+            {
+              "name": "PAÇOCA",
+              "bar": 5,
+              "vila": 1,
+              "qty": 6,
+              "category": "sweet"
+            },
+            {
+              "name": "CAMARÃO / CATUPIRY",
+              "bar": 0,
+              "vila": 6,
+              "qty": 6,
+              "category": "pizza"
+            },
+            {
+              "name": "PRESTÍGIO",
+              "bar": 5,
+              "vila": 0,
+              "qty": 5,
+              "category": "sweet"
+            },
+            {
+              "name": "BORDA DE REQUEIJÃO",
+              "bar": 5,
+              "vila": 0,
+              "qty": 5,
+              "category": "borda"
+            },
+            {
+              "name": "CHOCOMUSSA",
+              "bar": 2,
+              "vila": 3,
+              "qty": 5,
+              "category": "sweet"
+            },
+            {
+              "name": "JAMAICANA",
+              "bar": 0,
+              "vila": 5,
+              "qty": 5,
+              "category": "pizza"
+            },
+            {
+              "name": "Baiana",
+              "bar": 0,
+              "vila": 5,
+              "qty": 5,
+              "category": "pizza"
+            },
+            {
+              "name": "ROMEU E JULIETA",
+              "bar": 0,
+              "vila": 4,
+              "qty": 4,
+              "category": "sweet"
+            },
+            {
+              "name": "STROGONOFF",
+              "bar": 0,
+              "vila": 4,
+              "qty": 4,
+              "category": "pizza"
+            },
+            {
+              "name": "MEXICANA",
+              "bar": 3,
+              "vila": 0,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE MUSARELA E PRESUNTO",
+              "bar": 3,
+              "vila": 0,
+              "qty": 3,
+              "category": "borda"
+            },
+            {
+              "name": "CHOCOBIZ",
+              "bar": 3,
+              "vila": 0,
+              "qty": 3,
+              "category": "sweet"
+            },
+            {
+              "name": "BORDA ROMEU E JULIETA(CREAM CHEESE COM CREME DE GOIABA)",
+              "bar": 2,
+              "vila": 1,
+              "qty": 3,
+              "category": "borda"
+            },
+            {
+              "name": "NAPOLITANA",
+              "bar": 2,
+              "vila": 1,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "SEI LÁ",
+              "bar": 1,
+              "vila": 2,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO COMPLETA",
+              "bar": 0,
+              "vila": 3,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "PODE SER",
+              "bar": 0,
+              "vila": 3,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE QUEIJO COM PRESUNTO",
+              "bar": 0,
+              "vila": 3,
+              "qty": 3,
+              "category": "borda"
+            },
+            {
+              "name": "PERUANA",
+              "bar": 2,
+              "vila": 0,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "MILHO",
+              "bar": 2,
+              "vila": 0,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "CALACATU",
+              "bar": 2,
+              "vila": 0,
+              "qty": 2,
+              "category": "calzone"
+            },
+            {
+              "name": "TANTO FAZ",
+              "bar": 0,
+              "vila": 2,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "BORDA DE CREAM CHEESE COM ALHO FRITO",
+              "bar": 0,
+              "vila": 2,
+              "qty": 2,
+              "category": "borda"
+            },
+            {
+              "name": "SICILIANA",
+              "bar": 0,
+              "vila": 2,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "MARGUERITA",
+              "bar": 0,
+              "vila": 2,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "PRESUNTO CATUPIRY",
+              "bar": 1,
+              "vila": 0,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO CHEDDAR",
+              "bar": 1,
+              "vila": 0,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "ELDORADO",
+              "bar": 0,
+              "vila": 1,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "BIJUPIRA",
+              "bar": 0,
+              "vila": 1,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "PERU",
+              "bar": 0,
+              "vila": 1,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "ITALIANA",
+              "bar": 0,
+              "vila": 1,
+              "qty": 1,
+              "category": "pizza"
+            }
+          ]
+        },
+        "byCategory": {
+          "size": [
+            {
+              "name": "GRANDE (35 CM)",
+              "bar": 957,
+              "vila": 377,
+              "qty": 1334,
+              "category": "size"
+            },
+            {
+              "name": "MÉDIA (30 CM)",
+              "bar": 312,
+              "vila": 117,
+              "qty": 429,
+              "category": "size"
+            }
+          ],
+          "soda": [
+            {
+              "name": "Coca Cola 1L",
+              "bar": 144,
+              "vila": 0,
+              "qty": 144,
+              "category": "soda"
+            },
+            {
+              "name": "Tuchaua 2L",
+              "bar": 107,
+              "vila": 0,
+              "qty": 107,
+              "category": "soda"
+            },
+            {
+              "name": "GUARANÁ ANTÁRTICA 1L",
+              "bar": 84,
+              "vila": 0,
+              "qty": 84,
+              "category": "soda"
+            },
+            {
+              "name": "Coca cola 2L",
+              "bar": 68,
+              "vila": 0,
+              "qty": 68,
+              "category": "soda"
+            },
+            {
+              "name": "Coca-Cola 1 litro",
+              "bar": 0,
+              "vila": 62,
+              "qty": 62,
+              "category": "soda"
+            },
+            {
+              "name": "Tuchaua 1lt",
+              "bar": 52,
+              "vila": 0,
+              "qty": 52,
+              "category": "soda"
+            },
+            {
+              "name": "Pepsi 2L",
+              "bar": 44,
+              "vila": 7,
+              "qty": 51,
+              "category": "soda"
+            },
+            {
+              "name": "Coca Cola 2L zero",
+              "bar": 48,
+              "vila": 0,
+              "qty": 48,
+              "category": "soda"
+            },
+            {
+              "name": "Coca Cola Zero 1L",
+              "bar": 47,
+              "vila": 0,
+              "qty": 47,
+              "category": "soda"
+            },
+            {
+              "name": "Guaraná da Amazônia",
+              "bar": 38,
+              "vila": 0,
+              "qty": 38,
+              "category": "soda"
+            },
+            {
+              "name": "GUARANÁ ANTARTICA 1 LITRO",
+              "bar": 0,
+              "vila": 37,
+              "qty": 37,
+              "category": "soda"
+            },
+            {
+              "name": "REFRIGERANTE TUCHAUA - 2L",
+              "bar": 0,
+              "vila": 34,
+              "qty": 34,
+              "category": "soda"
+            },
+            {
+              "name": "COCA COLA - 2L",
+              "bar": 0,
+              "vila": 30,
+              "qty": 30,
+              "category": "soda"
+            },
+            {
+              "name": "coca cola zero 2L",
+              "bar": 0,
+              "vila": 19,
+              "qty": 19,
+              "category": "soda"
+            },
+            {
+              "name": "TUCHAUA DE 1 LITRO",
+              "bar": 0,
+              "vila": 13,
+              "qty": 13,
+              "category": "soda"
+            },
+            {
+              "name": "Guaraná Antártica 2L",
+              "bar": 12,
+              "vila": 0,
+              "qty": 12,
+              "category": "soda"
+            },
+            {
+              "name": "Coca-cola Zero 1L",
+              "bar": 0,
+              "vila": 12,
+              "qty": 12,
+              "category": "soda"
+            },
+            {
+              "name": "Guaraná Amazônia",
+              "bar": 0,
+              "vila": 11,
+              "qty": 11,
+              "category": "soda"
+            },
+            {
+              "name": "BARÉ 2lt",
+              "bar": 7,
+              "vila": 0,
+              "qty": 7,
+              "category": "soda"
+            },
+            {
+              "name": "Bare 2L",
+              "bar": 0,
+              "vila": 5,
+              "qty": 5,
+              "category": "soda"
+            }
+          ],
+          "pizza": [
+            {
+              "name": "PAULISTA",
+              "bar": 255,
+              "vila": 117,
+              "qty": 372,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO C/ CATUPIRY",
+              "bar": 181,
+              "vila": 58,
+              "qty": 239,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA C/ CATUPIRY",
+              "bar": 121,
+              "vila": 21,
+              "qty": 142,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO",
+              "bar": 70,
+              "vila": 39,
+              "qty": 109,
+              "category": "pizza"
+            },
+            {
+              "name": "4 QUEIJOS",
+              "bar": 77,
+              "vila": 17,
+              "qty": 94,
+              "category": "pizza"
+            },
+            {
+              "name": "MODA DA CASA",
+              "bar": 57,
+              "vila": 28,
+              "qty": 85,
+              "category": "pizza"
+            },
+            {
+              "name": "PORTUGUESA",
+              "bar": 43,
+              "vila": 41,
+              "qty": 84,
+              "category": "pizza"
+            },
+            {
+              "name": "MISTA",
+              "bar": 53,
+              "vila": 30,
+              "qty": 83,
+              "category": "pizza"
+            },
+            {
+              "name": "MUSSARELA",
+              "bar": 62,
+              "vila": 8,
+              "qty": 70,
+              "category": "pizza"
+            },
+            {
+              "name": "BACON II",
+              "bar": 47,
+              "vila": 11,
+              "qty": 58,
+              "category": "pizza"
+            },
+            {
+              "name": "2 QUEIJOS",
+              "bar": 45,
+              "vila": 10,
+              "qty": 55,
+              "category": "pizza"
+            },
+            {
+              "name": "COSTELA",
+              "bar": 28,
+              "vila": 22,
+              "qty": 50,
+              "category": "pizza"
+            },
+            {
+              "name": "CAMARÃO",
+              "bar": 23,
+              "vila": 24,
+              "qty": 47,
+              "category": "pizza"
+            },
+            {
+              "name": "BAURU",
+              "bar": 30,
+              "vila": 14,
+              "qty": 44,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA BARBECUE",
+              "bar": 43,
+              "vila": 0,
+              "qty": 43,
+              "category": "pizza"
+            },
+            {
+              "name": "3 QUEIJOS",
+              "bar": 30,
+              "vila": 13,
+              "qty": 43,
+              "category": "pizza"
+            },
+            {
+              "name": "ROMANESCA",
+              "bar": 33,
+              "vila": 9,
+              "qty": 42,
+              "category": "pizza"
+            },
+            {
+              "name": "JARDINEIRA",
+              "bar": 31,
+              "vila": 10,
+              "qty": 41,
+              "category": "pizza"
+            },
+            {
+              "name": "FILÉ",
+              "bar": 29,
+              "vila": 10,
+              "qty": 39,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO PHILADPHIA",
+              "bar": 37,
+              "vila": 0,
+              "qty": 37,
+              "category": "pizza"
+            },
+            {
+              "name": "HOLANDESA",
+              "bar": 25,
+              "vila": 9,
+              "qty": 34,
+              "category": "pizza"
+            },
+            {
+              "name": "BACON (sem milho)",
+              "bar": 32,
+              "vila": 0,
+              "qty": 32,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO COM CHEDDAR",
+              "bar": 27,
+              "vila": 4,
+              "qty": 31,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA ESPECIAL",
+              "bar": 23,
+              "vila": 8,
+              "qty": 31,
+              "category": "pizza"
+            },
+            {
+              "name": "COSTELA ESPECIAL",
+              "bar": 19,
+              "vila": 11,
+              "qty": 30,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO BARBECUE",
+              "bar": 25,
+              "vila": 3,
+              "qty": 28,
+              "category": "pizza"
+            },
+            {
+              "name": "CAMARÃO C/ CATUPIRY",
+              "bar": 25,
+              "vila": 0,
+              "qty": 25,
+              "category": "pizza"
+            },
+            {
+              "name": "AMERICANA",
+              "bar": 14,
+              "vila": 10,
+              "qty": 24,
+              "category": "pizza"
+            },
+            {
+              "name": "Pizza de calabresa+ Pizza de Mussarela",
+              "bar": 23,
+              "vila": 0,
+              "qty": 23,
+              "category": "pizza"
+            },
+            {
+              "name": "PARISIENSE",
+              "bar": 17,
+              "vila": 4,
+              "qty": 21,
+              "category": "pizza"
+            },
+            {
+              "name": "LOBO",
+              "bar": 14,
+              "vila": 3,
+              "qty": 17,
+              "category": "pizza"
+            },
+            {
+              "name": "VENEZA",
+              "bar": 7,
+              "vila": 10,
+              "qty": 17,
+              "category": "pizza"
+            },
+            {
+              "name": "CE QUE SABE",
+              "bar": 16,
+              "vila": 0,
+              "qty": 16,
+              "category": "pizza"
+            },
+            {
+              "name": "BURUKUTU",
+              "bar": 10,
+              "vila": 6,
+              "qty": 16,
+              "category": "pizza"
+            },
+            {
+              "name": "CAIPIRA",
+              "bar": 9,
+              "vila": 5,
+              "qty": 14,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO CATUPIRY",
+              "bar": 13,
+              "vila": 0,
+              "qty": 13,
+              "category": "pizza"
+            },
+            {
+              "name": "5 QUEIJOS",
+              "bar": 11,
+              "vila": 1,
+              "qty": 12,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA PHILADELPHIA",
+              "bar": 0,
+              "vila": 12,
+              "qty": 12,
+              "category": "pizza"
+            },
+            {
+              "name": "NORDESTINA",
+              "bar": 0,
+              "vila": 11,
+              "qty": 11,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO PHILADELPHIA",
+              "bar": 0,
+              "vila": 11,
+              "qty": 11,
+              "category": "pizza"
+            },
+            {
+              "name": "SALAME",
+              "bar": 9,
+              "vila": 1,
+              "qty": 10,
+              "category": "pizza"
+            },
+            {
+              "name": "LEÃO",
+              "bar": 6,
+              "vila": 4,
+              "qty": 10,
+              "category": "pizza"
+            },
+            {
+              "name": "PRESUNTO",
+              "bar": 3,
+              "vila": 6,
+              "qty": 9,
+              "category": "pizza"
+            },
+            {
+              "name": "CAIÇARA",
+              "bar": 5,
+              "vila": 3,
+              "qty": 8,
+              "category": "pizza"
+            },
+            {
+              "name": "Pizza de mussarela+Pizza de calabresa",
+              "bar": 0,
+              "vila": 8,
+              "qty": 8,
+              "category": "pizza"
+            },
+            {
+              "name": "CÊ QUE SABE",
+              "bar": 0,
+              "vila": 8,
+              "qty": 8,
+              "category": "pizza"
+            },
+            {
+              "name": "CALABRESA BARBEBUE",
+              "bar": 0,
+              "vila": 8,
+              "qty": 8,
+              "category": "pizza"
+            },
+            {
+              "name": "CROCANTE",
+              "bar": 7,
+              "vila": 0,
+              "qty": 7,
+              "category": "pizza"
+            },
+            {
+              "name": "CHEDDAR",
+              "bar": 6,
+              "vila": 1,
+              "qty": 7,
+              "category": "pizza"
+            },
+            {
+              "name": "PEPPERONI",
+              "bar": 4,
+              "vila": 3,
+              "qty": 7,
+              "category": "pizza"
+            },
+            {
+              "name": "BACON",
+              "bar": 0,
+              "vila": 7,
+              "qty": 7,
+              "category": "pizza"
+            },
+            {
+              "name": "PERÚ",
+              "bar": 6,
+              "vila": 0,
+              "qty": 6,
+              "category": "pizza"
+            },
+            {
+              "name": "LOMBO",
+              "bar": 6,
+              "vila": 0,
+              "qty": 6,
+              "category": "pizza"
+            },
+            {
+              "name": "CAMARÃO / CATUPIRY",
+              "bar": 0,
+              "vila": 6,
+              "qty": 6,
+              "category": "pizza"
+            },
+            {
+              "name": "JAMAICANA",
+              "bar": 0,
+              "vila": 5,
+              "qty": 5,
+              "category": "pizza"
+            },
+            {
+              "name": "Baiana",
+              "bar": 0,
+              "vila": 5,
+              "qty": 5,
+              "category": "pizza"
+            },
+            {
+              "name": "STROGONOFF",
+              "bar": 0,
+              "vila": 4,
+              "qty": 4,
+              "category": "pizza"
+            },
+            {
+              "name": "MEXICANA",
+              "bar": 3,
+              "vila": 0,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "NAPOLITANA",
+              "bar": 2,
+              "vila": 1,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "SEI LÁ",
+              "bar": 1,
+              "vila": 2,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO COMPLETA",
+              "bar": 0,
+              "vila": 3,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "PODE SER",
+              "bar": 0,
+              "vila": 3,
+              "qty": 3,
+              "category": "pizza"
+            },
+            {
+              "name": "PERUANA",
+              "bar": 2,
+              "vila": 0,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "MILHO",
+              "bar": 2,
+              "vila": 0,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "TANTO FAZ",
+              "bar": 0,
+              "vila": 2,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "SICILIANA",
+              "bar": 0,
+              "vila": 2,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "MARGUERITA",
+              "bar": 0,
+              "vila": 2,
+              "qty": 2,
+              "category": "pizza"
+            },
+            {
+              "name": "PRESUNTO CATUPIRY",
+              "bar": 1,
+              "vila": 0,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "FRANGO CHEDDAR",
+              "bar": 1,
+              "vila": 0,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "ELDORADO",
+              "bar": 0,
+              "vila": 1,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "BIJUPIRA",
+              "bar": 0,
+              "vila": 1,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "PERU",
+              "bar": 0,
+              "vila": 1,
+              "qty": 1,
+              "category": "pizza"
+            },
+            {
+              "name": "ITALIANA",
+              "bar": 0,
+              "vila": 1,
+              "qty": 1,
+              "category": "pizza"
+            }
+          ],
+          "borda": [
+            {
+              "name": "SEM BORDA",
+              "bar": 80,
+              "vila": 0,
+              "qty": 80,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE CREAM CHEESE",
+              "bar": 36,
+              "vila": 13,
+              "qty": 49,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE CHEDDAR",
+              "bar": 28,
+              "vila": 13,
+              "qty": 41,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE CHOCOLATE",
+              "bar": 19,
+              "vila": 10,
+              "qty": 29,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE CREAM COM ALHO FRITO",
+              "bar": 13,
+              "vila": 0,
+              "qty": 13,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE MUSSARELA",
+              "bar": 10,
+              "vila": 3,
+              "qty": 13,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA REQUEIJÃO",
+              "bar": 11,
+              "vila": 0,
+              "qty": 11,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE CATUPIRY",
+              "bar": 0,
+              "vila": 10,
+              "qty": 10,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE DOIS QUEIJOS",
+              "bar": 7,
+              "vila": 1,
+              "qty": 8,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE REQUEIJÃO",
+              "bar": 5,
+              "vila": 0,
+              "qty": 5,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE MUSARELA E PRESUNTO",
+              "bar": 3,
+              "vila": 0,
+              "qty": 3,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA ROMEU E JULIETA(CREAM CHEESE COM CREME DE GOIABA)",
+              "bar": 2,
+              "vila": 1,
+              "qty": 3,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE QUEIJO COM PRESUNTO",
+              "bar": 0,
+              "vila": 3,
+              "qty": 3,
+              "category": "borda"
+            },
+            {
+              "name": "BORDA DE CREAM CHEESE COM ALHO FRITO",
+              "bar": 0,
+              "vila": 2,
+              "qty": 2,
+              "category": "borda"
+            }
+          ],
+          "calzone": [
+            {
+              "name": "CALAFRANGO",
+              "bar": 67,
+              "vila": 17,
+              "qty": 84,
+              "category": "calzone"
+            },
+            {
+              "name": "PIZZA FECHADA",
+              "bar": 56,
+              "vila": 13,
+              "qty": 69,
+              "category": "calzone"
+            },
+            {
+              "name": "CALACHEDDAR",
+              "bar": 54,
+              "vila": 3,
+              "qty": 57,
+              "category": "calzone"
+            },
+            {
+              "name": "CALAMAR",
+              "bar": 20,
+              "vila": 3,
+              "qty": 23,
+              "category": "calzone"
+            },
+            {
+              "name": "CALAMUSSA",
+              "bar": 18,
+              "vila": 2,
+              "qty": 20,
+              "category": "calzone"
+            },
+            {
+              "name": "CALACATU",
+              "bar": 2,
+              "vila": 0,
+              "qty": 2,
+              "category": "calzone"
+            }
+          ],
+          "sweet": [
+            {
+              "name": "BRIGADEIRO",
+              "bar": 13,
+              "vila": 6,
+              "qty": 19,
+              "category": "sweet"
+            },
+            {
+              "name": "DISQUETE",
+              "bar": 6,
+              "vila": 0,
+              "qty": 6,
+              "category": "sweet"
+            },
+            {
+              "name": "PAÇOCA",
+              "bar": 5,
+              "vila": 1,
+              "qty": 6,
+              "category": "sweet"
+            },
+            {
+              "name": "PRESTÍGIO",
+              "bar": 5,
+              "vila": 0,
+              "qty": 5,
+              "category": "sweet"
+            },
+            {
+              "name": "CHOCOMUSSA",
+              "bar": 2,
+              "vila": 3,
+              "qty": 5,
+              "category": "sweet"
+            },
+            {
+              "name": "ROMEU E JULIETA",
+              "bar": 0,
+              "vila": 4,
+              "qty": 4,
+              "category": "sweet"
+            },
+            {
+              "name": "CHOCOBIZ",
+              "bar": 3,
+              "vila": 0,
+              "qty": 3,
+              "category": "sweet"
+            }
+          ],
+          "other": []
+        },
+        "stores": {
+          "bar": {
+            "principais": [
+              {
+                "name": "GRANDE (35 CM)",
+                "qty": 957
+              },
+              {
+                "name": "MEDIA (30 CM)",
+                "qty": 289
+              },
+              {
+                "name": "Coca Cola 1L",
+                "qty": 144
+              },
+              {
+                "name": "Tuchaua 2L",
+                "qty": 107
+              },
+              {
+                "name": "GUARANÁ ANTÁRTICA 1L",
+                "qty": 84
+              },
+              {
+                "name": "Coca cola 2L",
+                "qty": 68
+              },
+              {
+                "name": "PIZZA FECHADA",
+                "qty": 56
+              },
+              {
+                "name": "Tuchaua 1lt",
+                "qty": 52
+              },
+              {
+                "name": "Coca Cola 2L zero",
+                "qty": 48
+              },
+              {
+                "name": "Coca Cola Zero 1L",
+                "qty": 47
+              },
+              {
+                "name": "Pepsi 2L",
+                "qty": 44
+              },
+              {
+                "name": "Guaraná da Amazônia",
+                "qty": 38
+              },
+              {
+                "name": "Media",
+                "qty": 23
+              },
+              {
+                "name": "Guaraná Antártica 2L",
+                "qty": 12
+              },
+              {
+                "name": "BARÉ 2lt",
+                "qty": 7
+              }
+            ],
+            "sabores": [
+              {
+                "name": "PAULISTA",
+                "qty": 255
+              },
+              {
+                "name": "FRANGO C/ CATUPIRY",
+                "qty": 181
+              },
+              {
+                "name": "CALABRESA C/ CATUPIRY",
+                "qty": 121
+              },
+              {
+                "name": "SEM BORDA",
+                "qty": 80
+              },
+              {
+                "name": "4 QUEIJOS",
+                "qty": 77
+              },
+              {
+                "name": "FRANGO",
+                "qty": 70
+              },
+              {
+                "name": "CALAFRANGO",
+                "qty": 67
+              },
+              {
+                "name": "MUSSARELA",
+                "qty": 62
+              },
+              {
+                "name": "MODA DA CASA",
+                "qty": 57
+              },
+              {
+                "name": "MISTA",
+                "qty": 53
+              },
+              {
+                "name": "CALACHEDDAR",
+                "qty": 50
+              },
+              {
+                "name": "BACON II",
+                "qty": 47
+              },
+              {
+                "name": "PORTUGUESA",
+                "qty": 43
+              },
+              {
+                "name": "CALABRESA BARBECUE",
+                "qty": 43
+              },
+              {
+                "name": "FRANGO PHILADPHIA",
+                "qty": 37
+              },
+              {
+                "name": "BORDA DE CREAM CHEESE",
+                "qty": 36
+              },
+              {
+                "name": "ROMANESCA",
+                "qty": 33
+              },
+              {
+                "name": "BACON (sem milho)",
+                "qty": 32
+              },
+              {
+                "name": "JARDINEIRA",
+                "qty": 31
+              },
+              {
+                "name": "2 QUEIJOS",
+                "qty": 30
+              },
+              {
+                "name": "3 QUEIJOS",
+                "qty": 30
+              },
+              {
+                "name": "BAURU",
+                "qty": 30
+              },
+              {
+                "name": "FILÉ",
+                "qty": 29
+              },
+              {
+                "name": "BORDA DE CHEDDAR",
+                "qty": 28
+              },
+              {
+                "name": "COSTELA",
+                "qty": 28
+              },
+              {
+                "name": "FRANGO C/ CHEDDAR",
+                "qty": 27
+              },
+              {
+                "name": "FRANGO BARBECUE",
+                "qty": 25
+              },
+              {
+                "name": "CAMARÃO C/ CATUPIRY",
+                "qty": 25
+              },
+              {
+                "name": "HOLANDESA",
+                "qty": 25
+              },
+              {
+                "name": "CALABRESA ESPECIAL",
+                "qty": 23
+              },
+              {
+                "name": "CAMARÃO",
+                "qty": 23
+              },
+              {
+                "name": "Pizza de calabresa+ Pizza de Mussarela",
+                "qty": 23
+              },
+              {
+                "name": "CALAMAR",
+                "qty": 20
+              },
+              {
+                "name": "COSTELA ESPECIAL",
+                "qty": 19
+              },
+              {
+                "name": "BORDA DE CHOCOLATE",
+                "qty": 19
+              },
+              {
+                "name": "CALAMUSSA",
+                "qty": 18
+              },
+              {
+                "name": "PARISIENSE",
+                "qty": 17
+              },
+              {
+                "name": "CE QUE SABE",
+                "qty": 16
+              },
+              {
+                "name": "2 Queijos",
+                "qty": 15
+              },
+              {
+                "name": "LOBO",
+                "qty": 14
+              },
+              {
+                "name": "AMERICANA",
+                "qty": 14
+              },
+              {
+                "name": "BORDA DE CREAM COM ALHO FRITO",
+                "qty": 13
+              },
+              {
+                "name": "FRANGO CATUPIRY",
+                "qty": 13
+              },
+              {
+                "name": "BRIGADEIRO",
+                "qty": 13
+              },
+              {
+                "name": "BORDA REQUEIJÃO",
+                "qty": 11
+              },
+              {
+                "name": "5 QUEIJOS",
+                "qty": 11
+              },
+              {
+                "name": "BURUKUTU",
+                "qty": 10
+              },
+              {
+                "name": "BORDA DE MUSSARELA",
+                "qty": 10
+              },
+              {
+                "name": "SALAME",
+                "qty": 9
+              },
+              {
+                "name": "CAIPIRA",
+                "qty": 9
+              },
+              {
+                "name": "VENEZA",
+                "qty": 7
+              },
+              {
+                "name": "BORDA DE DOIS QUEIJOS",
+                "qty": 7
+              },
+              {
+                "name": "CROCANTE",
+                "qty": 7
+              },
+              {
+                "name": "LEÃO",
+                "qty": 6
+              },
+              {
+                "name": "CHEDDAR",
+                "qty": 6
+              },
+              {
+                "name": "PERÚ",
+                "qty": 6
+              },
+              {
+                "name": "LOMBO",
+                "qty": 6
+              },
+              {
+                "name": "DISQUETE",
+                "qty": 6
+              },
+              {
+                "name": "PAÇOCA",
+                "qty": 5
+              },
+              {
+                "name": "PRESTÍGIO",
+                "qty": 5
+              },
+              {
+                "name": "BORDA DE REQUEIJÃO",
+                "qty": 5
+              },
+              {
+                "name": "CAIÇARA",
+                "qty": 5
+              },
+              {
+                "name": "PEPPERONI",
+                "qty": 4
+              },
+              {
+                "name": "CALACHEDDAR",
+                "qty": 4
+              },
+              {
+                "name": "PRESUNTO",
+                "qty": 3
+              },
+              {
+                "name": "MEXICANA",
+                "qty": 3
+              },
+              {
+                "name": "BORDA DE MUSARELA E PRESUNTO",
+                "qty": 3
+              },
+              {
+                "name": "CHOCOBIZ",
+                "qty": 3
+              },
+              {
+                "name": "CHOCOMUSSA",
+                "qty": 2
+              },
+              {
+                "name": "BORDA ROMEU E JULIETA(CREAM CHEESE COM CREME DE GOIABA)",
+                "qty": 2
+              },
+              {
+                "name": "PERUANA",
+                "qty": 2
+              },
+              {
+                "name": "MILHO",
+                "qty": 2
+              },
+              {
+                "name": "CALACATU",
+                "qty": 2
+              },
+              {
+                "name": "NAPOLITANA",
+                "qty": 2
+              },
+              {
+                "name": "SEI LÁ",
+                "qty": 1
+              },
+              {
+                "name": "PRESUNTO CATUPIRY",
+                "qty": 1
+              },
+              {
+                "name": "FRANGO CHEDDAR",
+                "qty": 1
+              }
+            ],
+            "principaisTotal": 1976,
+            "saboresTotal": 2078
+          },
+          "vila": {
+            "principais": [
+              {
+                "name": "GRANDE (35 CM)",
+                "qty": 377
+              },
+              {
+                "name": "MÉDIA (30 CM)",
+                "qty": 109
+              },
+              {
+                "name": "Coca-Cola 1 litro",
+                "qty": 62
+              },
+              {
+                "name": "GUARANÁ ANTARTICA 1 LITRO",
+                "qty": 37
+              },
+              {
+                "name": "REFRIGERANTE TUCHAUA - 2L",
+                "qty": 34
+              },
+              {
+                "name": "COCA COLA - 2L",
+                "qty": 30
+              },
+              {
+                "name": "coca cola zero 2L",
+                "qty": 19
+              },
+              {
+                "name": "TUCHAUA DE 1 LITRO",
+                "qty": 13
+              },
+              {
+                "name": "PIZZA FECHADA",
+                "qty": 13
+              },
+              {
+                "name": "Coca-cola Zero 1L",
+                "qty": 12
+              },
+              {
+                "name": "Guaraná Amazônia",
+                "qty": 11
+              },
+              {
+                "name": "Media",
+                "qty": 8
+              },
+              {
+                "name": "Pepsi 2L",
+                "qty": 7
+              },
+              {
+                "name": "Bare 2L",
+                "qty": 5
+              }
+            ],
+            "sabores": [
+              {
+                "name": "PAULISTA",
+                "qty": 117
+              },
+              {
+                "name": "FRANGO C/ CATUPIRY",
+                "qty": 57
+              },
+              {
+                "name": "PORTUGUESA",
+                "qty": 41
+              },
+              {
+                "name": "FRANGO",
+                "qty": 39
+              },
+              {
+                "name": "MISTA",
+                "qty": 30
+              },
+              {
+                "name": "MODA DA CASA",
+                "qty": 28
+              },
+              {
+                "name": "CAMARÃO",
+                "qty": 24
+              },
+              {
+                "name": "COSTELA",
+                "qty": 22
+              },
+              {
+                "name": "CALABRESA C/ CATUPIRY",
+                "qty": 21
+              },
+              {
+                "name": "4 QUEIJOS",
+                "qty": 17
+              },
+              {
+                "name": "CALAFRANGO",
+                "qty": 17
+              },
+              {
+                "name": "BAURU",
+                "qty": 14
+              },
+              {
+                "name": "BORDA DE CREAM CHEESE",
+                "qty": 13
+              },
+              {
+                "name": "BORDA DE CHEDDAR",
+                "qty": 13
+              },
+              {
+                "name": "3 QUEIJOS",
+                "qty": 13
+              },
+              {
+                "name": "CALABRESA PHILADELPHIA",
+                "qty": 12
+              },
+              {
+                "name": "COSTELA ESPECIAL",
+                "qty": 11
+              },
+              {
+                "name": "NORDESTINA",
+                "qty": 11
+              },
+              {
+                "name": "FRANGO PHILADELPHIA",
+                "qty": 11
+              },
+              {
+                "name": "BACON II",
+                "qty": 11
+              },
+              {
+                "name": "FILÉ",
+                "qty": 10
+              },
+              {
+                "name": "2 QUEIJOS",
+                "qty": 10
+              },
+              {
+                "name": "AMERICANA",
+                "qty": 10
+              },
+              {
+                "name": "VENEZA",
+                "qty": 10
+              },
+              {
+                "name": "BORDA DE CATUPIRY",
+                "qty": 10
+              },
+              {
+                "name": "BORDA DE CHOCOLATE",
+                "qty": 10
+              },
+              {
+                "name": "JARDINEIRA",
+                "qty": 10
+              },
+              {
+                "name": "HOLANDESA",
+                "qty": 9
+              },
+              {
+                "name": "ROMANESCA",
+                "qty": 9
+              },
+              {
+                "name": "CALABRESA ESPECIAL",
+                "qty": 8
+              },
+              {
+                "name": "MUSSARELA",
+                "qty": 8
+              },
+              {
+                "name": "Pizza de mussarela+Pizza de calabresa",
+                "qty": 8
+              },
+              {
+                "name": "CÊ QUE SABE",
+                "qty": 8
+              },
+              {
+                "name": "CALABRESA BARBEBUE",
+                "qty": 8
+              },
+              {
+                "name": "BACON",
+                "qty": 7
+              },
+              {
+                "name": "BURUKUTU",
+                "qty": 6
+              },
+              {
+                "name": "BRIGADEIRO",
+                "qty": 6
+              },
+              {
+                "name": "PRESUNTO",
+                "qty": 6
+              },
+              {
+                "name": "CAMARÃO / CATUPIRY",
+                "qty": 6
+              },
+              {
+                "name": "CAIPIRA",
+                "qty": 5
+              },
+              {
+                "name": "JAMAICANA",
+                "qty": 5
+              },
+              {
+                "name": "PARISIENSE",
+                "qty": 4
+              },
+              {
+                "name": "ROMEU E JULIETA",
+                "qty": 4
+              },
+              {
+                "name": "FRANGO COM CHEDDAR",
+                "qty": 4
+              },
+              {
+                "name": "BAIANA",
+                "qty": 4
+              },
+              {
+                "name": "LEÃO",
+                "qty": 4
+              },
+              {
+                "name": "STROGONOFF",
+                "qty": 4
+              },
+              {
+                "name": "CAIÇARA",
+                "qty": 3
+              },
+              {
+                "name": "FRANGO COMPLETA",
+                "qty": 3
+              },
+              {
+                "name": "FRANGO BARBECUE",
+                "qty": 3
+              },
+              {
+                "name": "BORDA DE MUSSARELA",
+                "qty": 3
+              },
+              {
+                "name": "CALAMAR",
+                "qty": 3
+              },
+              {
+                "name": "PODE SER",
+                "qty": 3
+              },
+              {
+                "name": "LOBO",
+                "qty": 3
+              },
+              {
+                "name": "PEPPERONI",
+                "qty": 3
+              },
+              {
+                "name": "CHOCOMUSSA",
+                "qty": 3
+              },
+              {
+                "name": "CALACHEDDAR",
+                "qty": 3
+              },
+              {
+                "name": "BORDA DE QUEIJO COM PRESUNTO",
+                "qty": 3
+              },
+              {
+                "name": "TANTO FAZ",
+                "qty": 2
+              },
+              {
+                "name": "CALAMUSSA",
+                "qty": 2
+              },
+              {
+                "name": "BORDA DE CREAM CHEESE COM ALHO FRITO",
+                "qty": 2
+              },
+              {
+                "name": "SEI LÁ",
+                "qty": 2
+              },
+              {
+                "name": "SICILIANA",
+                "qty": 2
+              },
+              {
+                "name": "MARGUERITA",
+                "qty": 2
+              },
+              {
+                "name": "ELDORADO",
+                "qty": 1
+              },
+              {
+                "name": "NAPOLITANA",
+                "qty": 1
+              },
+              {
+                "name": "BIJUPIRA",
+                "qty": 1
+              },
+              {
+                "name": "Baiana",
+                "qty": 1
+              },
+              {
+                "name": "CHEDDAR",
+                "qty": 1
+              },
+              {
+                "name": "5 QUEIJOS",
+                "qty": 1
+              },
+              {
+                "name": "BORDA DE DOIS QUEIJOS",
+                "qty": 1
+              },
+              {
+                "name": "BORDA ROMEU E JULIETA(CREAM CHEESE COM CREME DE GOIABA)",
+                "qty": 1
+              },
+              {
+                "name": "PAÇOCA",
+                "qty": 1
+              },
+              {
+                "name": "PERU",
+                "qty": 1
+              },
+              {
+                "name": "SALAME",
+                "qty": 1
+              },
+              {
+                "name": "FRANGO C/ CATUPIRY",
+                "qty": 1
+              },
+              {
+                "name": "ITALIANA",
+                "qty": 1
+              }
+            ],
+            "principaisTotal": 737,
+            "saboresTotal": 773
+          }
+        }
+      }
+    ]
+  },
+    /* Latest month. jonas and gm split out from people since 2026-11-03. */
   stone: { period: "2026-10", source: "Stone extratos 01–31/10/2026 (issued 2026-11-03), reconciled line by line",
     bar: { open: 1460.21, inflow: 59051.31, outflow: 57271.11, close: 3240.41, sales: 57007.58, pixMaq: 26265.49, card: 30742.09,
            suppliers: 29416.67, jonas: 5919, utilities: 1082.50, rent: 1600, gm: 4320, people: 4460.39, personal: 8250, fees: 194.44, low: "R$ 6,28 (29/10)" },
