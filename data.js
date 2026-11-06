@@ -1,6 +1,6 @@
 /* Paulista OS seed data. Sources noted per block. All amounts in BRL. No passwords are stored here, ever. */
 window.PDATA = {
-  asOf: "2026-11-06",
+  asOf: "2026-11-05",
   rules: [
     "money", "lucas", "draw", "vila", "debt"
   ],
@@ -24,14 +24,1301 @@ window.PDATA = {
   ],
   phoneSource: "Instagram @pizzariadopaulistapa flyer (\"Hoje é dia de Pizza\")",
   fixedSource: "Lucas, WhatsApp 2026-11-02 and 2026-11-03; amounts paid from Stone extratos Sep/Oct 2026",
-  sales: { period: "2026-10", source: "Anota AI, October 2026 (Lucas screenshots)",
-    bar: { revenue: 71343.51, orders: 1074, ticket: 66.43, stone: 57007.58 },
+  sales: { period: "2026-10", source: "Anota AI Relatórios > Pedidos, October 2026 (excl. cancelled). Stone credited from the Oct extrato.",
+    bar: { revenue: 76333.64, orders: 1150, ticket: 66.38, stone: 57007.58 },
     vila: { revenue: 29466.37, orders: 441, ticket: 66.82, stone: 21979.77 } },
-  /* Daily Anota series, about 3 months. Empty until the morning job loads the CSV.
-     A later row with the same date replaces the earlier one.
-     { date: "YYYY-MM-DD", bar: { revenue, orders, ticket? }, vila: { revenue, orders, ticket? }, source: "Anota AI" }
-     Do not invent figures. */
-  dailySales: [],
+  /* Daily Anota series, Relatórios > Pedidos, cancelled excluded, 2026-08-06 through 2026-11-05.
+     A later row with the same date replaces the earlier one. A morning job can refresh this array. */
+  dailySales: [
+    {
+      "date": "2026-08-06",
+      "bar": {
+        "revenue": 2032.4,
+        "orders": 31,
+        "ticket": 65.56
+      },
+      "vila": {
+        "revenue": 921.83,
+        "orders": 16,
+        "ticket": 57.61
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-07",
+      "bar": {
+        "revenue": 1843.49,
+        "orders": 28,
+        "ticket": 65.84
+      },
+      "vila": {
+        "revenue": 1009.8,
+        "orders": 15,
+        "ticket": 67.32
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-08",
+      "bar": {
+        "revenue": 3833.98,
+        "orders": 52,
+        "ticket": 73.73
+      },
+      "vila": {
+        "revenue": 1714.7,
+        "orders": 24,
+        "ticket": 71.45
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-09",
+      "bar": {
+        "revenue": 5625.52,
+        "orders": 77,
+        "ticket": 73.06
+      },
+      "vila": {
+        "revenue": 1704.67,
+        "orders": 26,
+        "ticket": 65.56
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-10",
+      "bar": {
+        "revenue": 1903.41,
+        "orders": 30,
+        "ticket": 63.45
+      },
+      "vila": {
+        "revenue": 636.88,
+        "orders": 9,
+        "ticket": 70.76
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-11",
+      "bar": {
+        "revenue": 791.76,
+        "orders": 11,
+        "ticket": 71.98
+      },
+      "vila": {
+        "revenue": 246.95,
+        "orders": 4,
+        "ticket": 61.74
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-12",
+      "bar": {
+        "revenue": 761.76,
+        "orders": 13,
+        "ticket": 58.6
+      },
+      "vila": {
+        "revenue": 482.92,
+        "orders": 8,
+        "ticket": 60.37
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-13",
+      "bar": {
+        "revenue": 1283.63,
+        "orders": 21,
+        "ticket": 61.13
+      },
+      "vila": {
+        "revenue": 428.92,
+        "orders": 6,
+        "ticket": 71.49
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-14",
+      "bar": {
+        "revenue": 2160.38,
+        "orders": 33,
+        "ticket": 65.47
+      },
+      "vila": {
+        "revenue": 992.8,
+        "orders": 15,
+        "ticket": 66.19
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-15",
+      "bar": {
+        "revenue": 2209.32,
+        "orders": 37,
+        "ticket": 59.71
+      },
+      "vila": {
+        "revenue": 1325.76,
+        "orders": 20,
+        "ticket": 66.29
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-16",
+      "bar": {
+        "revenue": 4553.77,
+        "orders": 62,
+        "ticket": 73.45
+      },
+      "vila": {
+        "revenue": 2799.45,
+        "orders": 38,
+        "ticket": 73.67
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-17",
+      "bar": {
+        "revenue": 1484.59,
+        "orders": 22,
+        "ticket": 67.48
+      },
+      "vila": {
+        "revenue": 348.94,
+        "orders": 6,
+        "ticket": 58.16
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-18",
+      "bar": {
+        "revenue": 2073.44,
+        "orders": 25,
+        "ticket": 82.94
+      },
+      "vila": {
+        "revenue": 306.93,
+        "orders": 6,
+        "ticket": 51.16
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-19",
+      "bar": {
+        "revenue": 1134.65,
+        "orders": 16,
+        "ticket": 70.92
+      },
+      "vila": {
+        "revenue": 367.93,
+        "orders": 5,
+        "ticket": 73.59
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-20",
+      "bar": {
+        "revenue": 1070.7,
+        "orders": 16,
+        "ticket": 66.92
+      },
+      "vila": {
+        "revenue": 623.87,
+        "orders": 10,
+        "ticket": 62.39
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-21",
+      "bar": {
+        "revenue": 1130.66,
+        "orders": 18,
+        "ticket": 62.81
+      },
+      "vila": {
+        "revenue": 771.86,
+        "orders": 12,
+        "ticket": 64.32
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-22",
+      "bar": {
+        "revenue": 3701.98,
+        "orders": 52,
+        "ticket": 71.19
+      },
+      "vila": {
+        "revenue": 1838.68,
+        "orders": 26,
+        "ticket": 70.72
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-23",
+      "bar": {
+        "revenue": 3970.93,
+        "orders": 56,
+        "ticket": 70.91
+      },
+      "vila": {
+        "revenue": 2775.46,
+        "orders": 41,
+        "ticket": 67.69
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-24",
+      "bar": {
+        "revenue": 1551.59,
+        "orders": 21,
+        "ticket": 73.89
+      },
+      "vila": {
+        "revenue": 0,
+        "orders": 0,
+        "ticket": 0
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-25",
+      "bar": {
+        "revenue": 1399.66,
+        "orders": 20,
+        "ticket": 69.98
+      },
+      "vila": {
+        "revenue": 341.93,
+        "orders": 5,
+        "ticket": 68.39
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-26",
+      "bar": {
+        "revenue": 1014.69,
+        "orders": 17,
+        "ticket": 59.69
+      },
+      "vila": {
+        "revenue": 644.89,
+        "orders": 10,
+        "ticket": 64.49
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-27",
+      "bar": {
+        "revenue": 854.77,
+        "orders": 14,
+        "ticket": 61.06
+      },
+      "vila": {
+        "revenue": 663.88,
+        "orders": 8,
+        "ticket": 82.98
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-28",
+      "bar": {
+        "revenue": 2275.34,
+        "orders": 35,
+        "ticket": 65.01
+      },
+      "vila": {
+        "revenue": 695.87,
+        "orders": 9,
+        "ticket": 77.32
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-29",
+      "bar": {
+        "revenue": 3149.14,
+        "orders": 45,
+        "ticket": 69.98
+      },
+      "vila": {
+        "revenue": 1488.75,
+        "orders": 23,
+        "ticket": 64.73
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-30",
+      "bar": {
+        "revenue": 4963.58,
+        "orders": 79,
+        "ticket": 62.83
+      },
+      "vila": {
+        "revenue": 1096.78,
+        "orders": 16,
+        "ticket": 68.55
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-08-31",
+      "bar": {
+        "revenue": 1021.76,
+        "orders": 14,
+        "ticket": 72.98
+      },
+      "vila": {
+        "revenue": 0,
+        "orders": 0,
+        "ticket": 0
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-01",
+      "bar": {
+        "revenue": 1448.58,
+        "orders": 24,
+        "ticket": 60.36
+      },
+      "vila": {
+        "revenue": 505.9,
+        "orders": 7,
+        "ticket": 72.27
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-02",
+      "bar": {
+        "revenue": 657.83,
+        "orders": 11,
+        "ticket": 59.8
+      },
+      "vila": {
+        "revenue": 550.9,
+        "orders": 9,
+        "ticket": 61.21
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-03",
+      "bar": {
+        "revenue": 1706.51,
+        "orders": 26,
+        "ticket": 65.64
+      },
+      "vila": {
+        "revenue": 976.82,
+        "orders": 12,
+        "ticket": 81.4
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-04",
+      "bar": {
+        "revenue": 2973.05,
+        "orders": 46,
+        "ticket": 64.63
+      },
+      "vila": {
+        "revenue": 1363.76,
+        "orders": 19,
+        "ticket": 71.78
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-05",
+      "bar": {
+        "revenue": 3146.1,
+        "orders": 46,
+        "ticket": 68.39
+      },
+      "vila": {
+        "revenue": 1310.77,
+        "orders": 20,
+        "ticket": 65.54
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-06",
+      "bar": {
+        "revenue": 5841.37,
+        "orders": 84,
+        "ticket": 69.54
+      },
+      "vila": {
+        "revenue": 2374.54,
+        "orders": 33,
+        "ticket": 71.96
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-07",
+      "bar": {
+        "revenue": 5182.57,
+        "orders": 64,
+        "ticket": 80.98
+      },
+      "vila": {
+        "revenue": 857.83,
+        "orders": 13,
+        "ticket": 65.99
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-08",
+      "bar": {
+        "revenue": 2074.54,
+        "orders": 20,
+        "ticket": 103.73
+      },
+      "vila": {
+        "revenue": 545.89,
+        "orders": 7,
+        "ticket": 77.98
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-09",
+      "bar": {
+        "revenue": 1629.6,
+        "orders": 28,
+        "ticket": 58.2
+      },
+      "vila": {
+        "revenue": 697.87,
+        "orders": 11,
+        "ticket": 63.44
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-10",
+      "bar": {
+        "revenue": 1169.62,
+        "orders": 16,
+        "ticket": 73.1
+      },
+      "vila": {
+        "revenue": 256.95,
+        "orders": 4,
+        "ticket": 64.24
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-11",
+      "bar": {
+        "revenue": 2364.38,
+        "orders": 36,
+        "ticket": 65.68
+      },
+      "vila": {
+        "revenue": 728.85,
+        "orders": 11,
+        "ticket": 66.26
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-12",
+      "bar": {
+        "revenue": 2999.08,
+        "orders": 45,
+        "ticket": 66.65
+      },
+      "vila": {
+        "revenue": 1350.75,
+        "orders": 20,
+        "ticket": 67.54
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-13",
+      "bar": {
+        "revenue": 4696.79,
+        "orders": 72,
+        "ticket": 65.23
+      },
+      "vila": {
+        "revenue": 1810.65,
+        "orders": 23,
+        "ticket": 78.72
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-14",
+      "bar": {
+        "revenue": 989.73,
+        "orders": 14,
+        "ticket": 70.7
+      },
+      "vila": {
+        "revenue": 632.88,
+        "orders": 9,
+        "ticket": 70.32
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-15",
+      "bar": {
+        "revenue": 922.82,
+        "orders": 17,
+        "ticket": 54.28
+      },
+      "vila": {
+        "revenue": 665.88,
+        "orders": 11,
+        "ticket": 60.53
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-16",
+      "bar": {
+        "revenue": 1968.58,
+        "orders": 29,
+        "ticket": 67.88
+      },
+      "vila": {
+        "revenue": 483.9,
+        "orders": 9,
+        "ticket": 53.77
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-17",
+      "bar": {
+        "revenue": 1429.71,
+        "orders": 20,
+        "ticket": 71.49
+      },
+      "vila": {
+        "revenue": 498.91,
+        "orders": 7,
+        "ticket": 71.27
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-18",
+      "bar": {
+        "revenue": 2004.56,
+        "orders": 24,
+        "ticket": 83.52
+      },
+      "vila": {
+        "revenue": 638.89,
+        "orders": 9,
+        "ticket": 70.99
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-19",
+      "bar": {
+        "revenue": 2627.38,
+        "orders": 40,
+        "ticket": 65.68
+      },
+      "vila": {
+        "revenue": 1280.75,
+        "orders": 20,
+        "ticket": 64.04
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-20",
+      "bar": {
+        "revenue": 5009.62,
+        "orders": 74,
+        "ticket": 67.7
+      },
+      "vila": {
+        "revenue": 2301.58,
+        "orders": 34,
+        "ticket": 67.69
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-21",
+      "bar": {
+        "revenue": 1289.68,
+        "orders": 19,
+        "ticket": 67.88
+      },
+      "vila": {
+        "revenue": 364.93,
+        "orders": 6,
+        "ticket": 60.82
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-22",
+      "bar": {
+        "revenue": 1871.53,
+        "orders": 28,
+        "ticket": 66.84
+      },
+      "vila": {
+        "revenue": 345.94,
+        "orders": 6,
+        "ticket": 57.66
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-23",
+      "bar": {
+        "revenue": 1080.68,
+        "orders": 17,
+        "ticket": 63.57
+      },
+      "vila": {
+        "revenue": 817.85,
+        "orders": 11,
+        "ticket": 74.35
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-24",
+      "bar": {
+        "revenue": 1621.57,
+        "orders": 26,
+        "ticket": 62.37
+      },
+      "vila": {
+        "revenue": 396.93,
+        "orders": 7,
+        "ticket": 56.7
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-25",
+      "bar": {
+        "revenue": 3261.09,
+        "orders": 44,
+        "ticket": 74.12
+      },
+      "vila": {
+        "revenue": 843.86,
+        "orders": 9,
+        "ticket": 93.76
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-26",
+      "bar": {
+        "revenue": 3185.2,
+        "orders": 49,
+        "ticket": 65
+      },
+      "vila": {
+        "revenue": 1763.68,
+        "orders": 24,
+        "ticket": 73.49
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-27",
+      "bar": {
+        "revenue": 4295.87,
+        "orders": 71,
+        "ticket": 60.51
+      },
+      "vila": {
+        "revenue": 1543.71,
+        "orders": 23,
+        "ticket": 67.12
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-28",
+      "bar": {
+        "revenue": 1065.73,
+        "orders": 18,
+        "ticket": 59.21
+      },
+      "vila": {
+        "revenue": 88.98,
+        "orders": 1,
+        "ticket": 88.98
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-29",
+      "bar": {
+        "revenue": 1362.61,
+        "orders": 20,
+        "ticket": 68.13
+      },
+      "vila": {
+        "revenue": 508.91,
+        "orders": 9,
+        "ticket": 56.55
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-09-30",
+      "bar": {
+        "revenue": 1526.58,
+        "orders": 26,
+        "ticket": 58.71
+      },
+      "vila": {
+        "revenue": 1074.79,
+        "orders": 17,
+        "ticket": 63.22
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-01",
+      "bar": {
+        "revenue": 1481.59,
+        "orders": 24,
+        "ticket": 61.73
+      },
+      "vila": {
+        "revenue": 781.85,
+        "orders": 10,
+        "ticket": 78.19
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-02",
+      "bar": {
+        "revenue": 2572.28,
+        "orders": 32,
+        "ticket": 80.38
+      },
+      "vila": {
+        "revenue": 1145.79,
+        "orders": 17,
+        "ticket": 67.4
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-03",
+      "bar": {
+        "revenue": 4111.29,
+        "orders": 63,
+        "ticket": 65.26
+      },
+      "vila": {
+        "revenue": 2143.59,
+        "orders": 28,
+        "ticket": 76.56
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-04",
+      "bar": {
+        "revenue": 6696.22,
+        "orders": 81,
+        "ticket": 82.67
+      },
+      "vila": {
+        "revenue": 1951.65,
+        "orders": 30,
+        "ticket": 65.06
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-05",
+      "bar": {
+        "revenue": 1823.46,
+        "orders": 30,
+        "ticket": 60.78
+      },
+      "vila": {
+        "revenue": 1303.76,
+        "orders": 18,
+        "ticket": 72.43
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-06",
+      "bar": {
+        "revenue": 2376.38,
+        "orders": 37,
+        "ticket": 64.23
+      },
+      "vila": {
+        "revenue": 703.86,
+        "orders": 12,
+        "ticket": 58.66
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-07",
+      "bar": {
+        "revenue": 1421.6,
+        "orders": 24,
+        "ticket": 59.23
+      },
+      "vila": {
+        "revenue": 973.8,
+        "orders": 16,
+        "ticket": 60.86
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-08",
+      "bar": {
+        "revenue": 1539.56,
+        "orders": 24,
+        "ticket": 64.15
+      },
+      "vila": {
+        "revenue": 692.86,
+        "orders": 9,
+        "ticket": 76.98
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-09",
+      "bar": {
+        "revenue": 2444.37,
+        "orders": 36,
+        "ticket": 67.9
+      },
+      "vila": {
+        "revenue": 643.88,
+        "orders": 10,
+        "ticket": 64.39
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-10",
+      "bar": {
+        "revenue": 2654.27,
+        "orders": 44,
+        "ticket": 60.32
+      },
+      "vila": {
+        "revenue": 1319.75,
+        "orders": 20,
+        "ticket": 65.99
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-11",
+      "bar": {
+        "revenue": 4355.79,
+        "orders": 69,
+        "ticket": 63.13
+      },
+      "vila": {
+        "revenue": 2188.59,
+        "orders": 31,
+        "ticket": 70.6
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-12",
+      "bar": {
+        "revenue": 4553.81,
+        "orders": 66,
+        "ticket": 69
+      },
+      "vila": {
+        "revenue": 2096.61,
+        "orders": 32,
+        "ticket": 65.52
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-13",
+      "bar": {
+        "revenue": 1008.71,
+        "orders": 20,
+        "ticket": 50.44
+      },
+      "vila": {
+        "revenue": 0,
+        "orders": 0,
+        "ticket": 0
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-14",
+      "bar": {
+        "revenue": 1285.69,
+        "orders": 19,
+        "ticket": 67.67
+      },
+      "vila": {
+        "revenue": 356.91,
+        "orders": 6,
+        "ticket": 59.49
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-15",
+      "bar": {
+        "revenue": 1402.64,
+        "orders": 23,
+        "ticket": 60.98
+      },
+      "vila": {
+        "revenue": 493.9,
+        "orders": 8,
+        "ticket": 61.74
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-16",
+      "bar": {
+        "revenue": 1527.55,
+        "orders": 24,
+        "ticket": 63.65
+      },
+      "vila": {
+        "revenue": 884.84,
+        "orders": 14,
+        "ticket": 63.2
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-17",
+      "bar": {
+        "revenue": 4396.34,
+        "orders": 63,
+        "ticket": 69.78
+      },
+      "vila": {
+        "revenue": 1202.76,
+        "orders": 20,
+        "ticket": 60.14
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-18",
+      "bar": {
+        "revenue": 3300.1,
+        "orders": 51,
+        "ticket": 64.71
+      },
+      "vila": {
+        "revenue": 1911.66,
+        "orders": 29,
+        "ticket": 65.92
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-19",
+      "bar": {
+        "revenue": 1202.72,
+        "orders": 17,
+        "ticket": 70.75
+      },
+      "vila": {
+        "revenue": 600.88,
+        "orders": 9,
+        "ticket": 66.76
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-20",
+      "bar": {
+        "revenue": 1368.67,
+        "orders": 23,
+        "ticket": 59.51
+      },
+      "vila": {
+        "revenue": 259.95,
+        "orders": 5,
+        "ticket": 51.99
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-21",
+      "bar": {
+        "revenue": 2283.35,
+        "orders": 35,
+        "ticket": 65.24
+      },
+      "vila": {
+        "revenue": 649.87,
+        "orders": 10,
+        "ticket": 64.99
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-22",
+      "bar": {
+        "revenue": 1064.68,
+        "orders": 17,
+        "ticket": 62.63
+      },
+      "vila": {
+        "revenue": 339.94,
+        "orders": 5,
+        "ticket": 67.99
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-23",
+      "bar": {
+        "revenue": 1197.7,
+        "orders": 20,
+        "ticket": 59.89
+      },
+      "vila": {
+        "revenue": 752.86,
+        "orders": 11,
+        "ticket": 68.44
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-24",
+      "bar": {
+        "revenue": 3403.01,
+        "orders": 54,
+        "ticket": 63.02
+      },
+      "vila": {
+        "revenue": 738.85,
+        "orders": 12,
+        "ticket": 61.57
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-25",
+      "bar": {
+        "revenue": 5550.4,
+        "orders": 79,
+        "ticket": 70.26
+      },
+      "vila": {
+        "revenue": 1627.67,
+        "orders": 27,
+        "ticket": 60.28
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-26",
+      "bar": {
+        "revenue": 1477.61,
+        "orders": 26,
+        "ticket": 56.83
+      },
+      "vila": {
+        "revenue": 0,
+        "orders": 0,
+        "ticket": 0
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-27",
+      "bar": {
+        "revenue": 1444.63,
+        "orders": 21,
+        "ticket": 68.79
+      },
+      "vila": {
+        "revenue": 860.83,
+        "orders": 11,
+        "ticket": 78.26
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-28",
+      "bar": {
+        "revenue": 1811.51,
+        "orders": 30,
+        "ticket": 60.38
+      },
+      "vila": {
+        "revenue": 353.93,
+        "orders": 6,
+        "ticket": 58.99
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-29",
+      "bar": {
+        "revenue": 1587.58,
+        "orders": 22,
+        "ticket": 72.16
+      },
+      "vila": {
+        "revenue": 408.91,
+        "orders": 7,
+        "ticket": 58.42
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-30",
+      "bar": {
+        "revenue": 1280.65,
+        "orders": 19,
+        "ticket": 67.4
+      },
+      "vila": {
+        "revenue": 1083.8,
+        "orders": 13,
+        "ticket": 83.37
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-10-31",
+      "bar": {
+        "revenue": 3709.48,
+        "orders": 57,
+        "ticket": 65.08
+      },
+      "vila": {
+        "revenue": 992.82,
+        "orders": 15,
+        "ticket": 66.19
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-11-01",
+      "bar": {
+        "revenue": 4747.73,
+        "orders": 71,
+        "ticket": 66.87
+      },
+      "vila": {
+        "revenue": 1956.64,
+        "orders": 28,
+        "ticket": 69.88
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-11-02",
+      "bar": {
+        "revenue": 4630.71,
+        "orders": 72,
+        "ticket": 64.32
+      },
+      "vila": {
+        "revenue": 1416.7,
+        "orders": 19,
+        "ticket": 74.56
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-11-03",
+      "bar": {
+        "revenue": 1271.64,
+        "orders": 21,
+        "ticket": 60.55
+      },
+      "vila": {
+        "revenue": 318.95,
+        "orders": 4,
+        "ticket": 79.74
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-11-04",
+      "bar": {
+        "revenue": 1196.67,
+        "orders": 19,
+        "ticket": 62.98
+      },
+      "vila": {
+        "revenue": 356.93,
+        "orders": 6,
+        "ticket": 59.49
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    },
+    {
+      "date": "2026-11-05",
+      "bar": {
+        "revenue": 1301.68,
+        "orders": 19,
+        "ticket": 68.51
+      },
+      "vila": {
+        "revenue": 702.88,
+        "orders": 10,
+        "ticket": 70.29
+      },
+      "source": "Anota AI Relatórios > Pedidos (excl. cancelled)"
+    }
+  ],
   /* Latest month. jonas and gm split out from people since 2026-11-03. */
   stone: { period: "2026-10", source: "Stone extratos 01–31/10/2026 (issued 2026-11-03), reconciled line by line",
     bar: { open: 1460.21, inflow: 59051.31, outflow: 57271.11, close: 3240.41, sales: 57007.58, pixMaq: 26265.49, card: 30742.09,
@@ -69,7 +1356,7 @@ window.PDATA = {
     { k: "sys", store: "both", en: "System fee is due day 10 with rent and products. Amount not given. Stone shows Tuna Pagamentos R$ 279,99 per store around day 10. Probably this.", pt: "A mensalidade do sistema vence dia 10 junto com aluguel e produtos. Valor não informado. A Stone mostra Tuna Pagamentos R$ 279,99 por loja perto do dia 10. Provavelmente é isso." },
     { k: "rent", store: "vila", en: "Vila rent: Socorro is Seu Valter's wife. They changed the receiving account recently. Confirm the account before paying on 04/11.", pt: "Aluguel Vila: Socorro é esposa do Seu Valter. Trocaram a conta que recebe recentemente. Confirmar a conta antes de pagar em 04/11." },
     { k: "boutique", store: "both", en: "Boutique got R$ 19.550 in Oct (Bar 13.900 + Vila 5.650) and the debt is still R$ 32.724. The R$ 1.000/week must be on top of weekly purchases.", pt: "A Boutique recebeu R$ 19.550 em outubro (Bar 13.900 + Vila 5.650) e a dívida segue R$ 32.724. Os R$ 1.000/semana têm que ser além das compras da semana." },
-    { k: "anota", store: "both", en: "Anota Oct sales R$ 100.810 vs Stone credited R$ 78.987. Gap R$ 21.823 is card fees plus cash and Pix outside the machine. Lucas/Fabiana 03/11: little cash vs card/Pix; most 'cash'-tagged orders are really customer Pix; counter staff also log cash as Pix; real cash goes mostly to pay employees, plus purchases/refrigerante. Cash paid out is not tracked.", pt: "Vendas Anota out R$ 100.810 x Stone creditado R$ 78.987. Diferença de R$ 21.823 é taxa de cartão mais dinheiro e Pix fora da maquininha. Lucas/Fabiana 03/11: pouco dinheiro vivo comparado a cartão/Pix; a maioria dos pedidos marcados como dinheiro é Pix do cliente; balcão também lança dinheiro como Pix; o dinheiro vivo vai principalmente para pagar funcionários, além de compras/refrigerante. Saídas em dinheiro não são registradas." }
+    { k: "anota", store: "both", en: "Anota Oct sales on the order CSV are R$ 105.800,01 (cancelled excluded). The 03/11 screenshot total was R$ 100.810 because Barcarena was a partial pull (R$ 71.343,51). Stone credited R$ 78.987,35. Gap vs Stone on the order CSV is R$ 26.812,66, card fees plus cash and Pix outside the machine. Lucas/Fabiana 03/11: little cash vs card/Pix; most 'cash'-tagged orders are really customer Pix; counter staff also log cash as Pix; real cash goes mostly to pay employees, plus purchases/refrigerante. Cash paid out is not tracked.", pt: "Vendas Anota out no CSV de pedidos: R$ 105.800,01 (sem cancelados). O total do print de 03/11 era R$ 100.810 porque Barcarena estava parcial (R$ 71.343,51). Stone creditado R$ 78.987,35. Diferença contra a Stone no CSV: R$ 26.812,66, taxa de cartão mais dinheiro e Pix fora da maquininha. Lucas/Fabiana 03/11: pouco dinheiro vivo comparado a cartão/Pix; a maioria dos pedidos marcados como dinheiro é Pix do cliente; balcão também lança dinheiro como Pix; o dinheiro vivo vai principalmente para pagar funcionários, além de compras/refrigerante. Saídas em dinheiro não são registradas." }
   ],
   suppliers: [
     { name: "Boutique dos Frios Comércio Atacadista", role: "primary", bar: 13515.30, vila: 4700.00, barOct: 13900, vilaOct: 5650 },

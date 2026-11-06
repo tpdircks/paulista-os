@@ -25,7 +25,7 @@ To update the seeded numbers, edit `data.js` (amounts, dates, sources). Labels f
 
 ## Daily sales
 
-`dailySales` in `data.js` is one Anota row per day (`date`, Barcarena, Vila, `source`). It is seeded empty: do not type in guessed revenue. A morning job refreshes `data.js` from the Anota CSV (about 3 months of history, then the new day each morning). The Dashboard is the home for that series: yesterday or the latest day (revenue, orders, ticket) for Barcarena, Vila, and both, then the last 14 days. The Sales tab keeps the longer list and the October summary. With an empty list both places show a short note and no guessed numbers. The monthly `sales` object stays for the October KPI cards. A later row with the same date replaces the earlier one.
+`dailySales` in `data.js` is one Anota row per day (`date`, Barcarena, Vila, `source`). It currently holds 2026-08-06 through 2026-11-05 from Relatórios > Pedidos (cancelled orders excluded). Do not type in guessed revenue. A morning job refreshes `data.js` from the Anota CSV (about 3 months of history, then the new day each morning). The Dashboard is the home for that series: yesterday or the latest day (revenue, orders, ticket) for Barcarena, Vila, and both, then the last 14 days. The Sales tab keeps the longer list and the October summary. With an empty list both places show a short note and no guessed numbers. The monthly `sales` object stays for the October KPI cards. A later row with the same date replaces the earlier one.
 
 ## Deploy to GitHub Pages
 
