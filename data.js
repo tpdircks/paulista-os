@@ -1,12 +1,12 @@
 /* Paulista OS seed data. Sources noted per block. All amounts in BRL. No passwords are stored here, ever. */
 window.PDATA = {
-  asOf: "2026-11-05",
+  asOf: "2026-11-09",
   rules: [
     "money", "lucas", "draw", "vila", "debt"
   ],
   stores: [
     { id: "bar", name: "Barcarena (sede)", phone: "(91) 98600-1589", address: "Tv. São Francisco, 614 – Centro, Barcarena/PA, CEP 68.445-000",
-      anota: "Fabiana Valente Maia", stone: "Ana Paula Maia Dircks · Stone ag 0001 conta 43106076-3",
+      anota: "Fabiana Valente Maia", stone: "Ana Paula Maia Dircks · Stone (sede)",
       fixed: [ { k: "rent", who: "Jairo Soares Almeida", amt: "R$ 900 (day 10) + R$ 700 (day 20)", total: 1600 },
                { k: "energy", who: "Equatorial", amt: "R$ 900 – 1.000 (Oct paid R$ 947,97)", total: 950 },
                { k: "water", who: "Águas de São Francisco", amt: "R$ 150 – 200 (Sep R$ 835,94 leak; none paid Oct)", total: 175 },
@@ -14,7 +14,7 @@ window.PDATA = {
                { k: "sys", who: "Tuna Pagamentos (probable system fee, day 10)", amt: "R$ 279,99", total: 279.99 } ],
       ownerDraw: true },
     { id: "vila", name: "Vila", phone: "(91) 99603-5471", address: "Av. Cônego Batista Campos, 33 – Barcarena/PA, CEP 68.445-000",
-      anota: "Adan Maia", stone: "Thiago Efraim Lima Maia · Stone/Ton conta 64744532-9",
+      anota: "Adan Maia", stone: "Vila Ton (Thiago) and Vila Stone (Ana Paula). Ton took sales through 06/11; new Stone is primary from 07/11.",
       fixed: [ { k: "rent", who: "Seu Valter (Pix to wife Maria do Socorro de Brito)", amt: "R$ 750 (day 4) + R$ 750 (day 23)", total: 1500 },
                { k: "energy", who: "Equatorial", amt: "R$ 550 – 700 (Oct paid R$ 639,29)", total: 625 },
                { k: "water", who: "—", amt: "none / nenhuma", total: 0 },
@@ -9727,17 +9727,17 @@ window.PDATA = {
     }
   },
   /* Latest month. jonas and gm split out from people since 2026-11-03. */
-  stone: { period: "2026-10", source: "Stone extratos 01–31/10/2026 (issued 2026-11-03), reconciled line by line",
-    bar: { open: 1460.21, inflow: 59051.31, outflow: 57271.11, close: 3240.41, sales: 57007.58, pixMaq: 26265.49, card: 30742.09,
-           suppliers: 29416.67, jonas: 5919, utilities: 1082.50, rent: 1600, gm: 4320, people: 4460.39, personal: 8250, fees: 194.44, low: "R$ 6,28 (29/10)" },
-    vila: { open: 800.07, inflow: 23239.66, outflow: 23538.23, close: 501.50, sales: 21979.77, pixMaq: 9668.45, card: 12311.32,
-           suppliers: 8230.54, jonas: 1852, utilities: 882.27, rent: 1500, gm: 0, people: 6055.88, personal: 3633, fees: 94.92, low: "R$ 16,28 (16/10)" } },
+  stone: { period: "2026-10-01/2026-11-09", source: "Stone/Ton statements 01/10–09/11/2026, issued 09/11/2026 (Paula: Barcarena Stone and Vila Stone; Lucas: Vila Ton). Reconciled line by line. Vila book combines Ton plus the new Vila Stone account that started taking sales on 29/10 and became the sales account from 07/11. Window is 40 days; September under it is a 30-day month. Jonas and Lucas figures are net of same-day Pix returns.",
+    bar: { open: 1460.21, inflow: 80910.03, outflow: 76619.41, close: 5750.83, sales: 77455.33, pixMaq: 35860.22, card: 41595.11,
+           suppliers: 37680.60, jonas: 7221, utilities: 1184.73, rent: 1600, gm: 6480, people: 6325.45, personal: 12450, fees: 265.53, low: "R$ 6,28 (29/10)" },
+    vila: { open: 800.07, inflow: 32569.03, outflow: 31375.39, close: 1993.71, sales: 29549.20, pixMaq: 12838.05, card: 16711.15,
+           suppliers: 9595.36, jonas: 2302, utilities: 882.27, rent: 2250, gm: 50, people: 7617.88, personal: 5208, fees: 110.03, low: "R$ 16,28 (16/10)" } },
   stoneSep: { period: "2026-09", source: "Stone extratos 01–30/09/2026, reclassified 2026-11-03 with Oct rules",
     bar: { open: 2683.32, inflow: 56774.22, outflow: 57997.33, close: 1460.21, sales: 54409.37, pixMaq: 24058.01, card: 30351.36,
            suppliers: 25931.10, jonas: 6265, utilities: 1772.25, rent: 1600, gm: 4320, people: 7662.59, personal: 9380, fees: 178.05, low: "R$ 0,53 (26/09)" },
     vila: { open: 595.04, inflow: 22658.40, outflow: 22453.37, close: 800.07, sales: 21082.54, pixMaq: 10876.63, card: 10205.91,
            suppliers: 7503.52, jonas: 1143, utilities: 825.46, rent: 1500, gm: 700, people: 5415.54, personal: 3587, fees: 106.78, low: "R$ 9,30 (02/09)" } },
-  cashToday: { date: "2026-11-03", source: "Lucas, WhatsApp 2026-11-03 (app screenshots)", bar: 3557.41, vila: 1435.84 },
+  cashToday: { date: "2026-11-09", source: "Statement closing balances 09/11/2026. Barcarena Stone R$ 5.750,83. Vila is Ton R$ 133,60 (last movement 08/11) plus Vila Stone R$ 1.860,11 (09/11).", bar: 5750.83, vila: 1993.71 },
   /* bar + vila = Boutique dos Frios only (R$ 32.724). This is what the R$ 1.000/week plan pays down. */
   debt: { asOf: "2026-11-03", source: "Lucas, WhatsApp 2026-11-02/03", boutique: 32724, bar: 24325, vila: 8399, loans: 0,
     weekly: 1000, start: "2026-11-10",
@@ -9763,6 +9763,7 @@ window.PDATA = {
     { k: "sys", store: "both", en: "System fee is due day 10 with rent and products. Amount not given. Stone shows Tuna Pagamentos R$ 279,99 per store around day 10. Probably this.", pt: "A mensalidade do sistema vence dia 10 junto com aluguel e produtos. Valor não informado. A Stone mostra Tuna Pagamentos R$ 279,99 por loja perto do dia 10. Provavelmente é isso." },
     { k: "rent", store: "vila", en: "Vila rent: Socorro is Seu Valter's wife. They changed the receiving account recently. Confirm the account before paying on 04/11.", pt: "Aluguel Vila: Socorro é esposa do Seu Valter. Trocaram a conta que recebe recentemente. Confirmar a conta antes de pagar em 04/11." },
     { k: "boutique", store: "both", en: "Boutique got R$ 19.550 in Oct (Bar 13.900 + Vila 5.650) and the debt is still R$ 32.724. The R$ 1.000/week must be on top of weekly purchases.", pt: "A Boutique recebeu R$ 19.550 em outubro (Bar 13.900 + Vila 5.650) e a dívida segue R$ 32.724. Os R$ 1.000/semana têm que ser além das compras da semana." },
+    { k: "caixa", store: "both", en: "Vila now has two acquirer accounts. Ton (Thiago) took sales through 06/11 and closed at R$ 133,60 on 08/11. A new Vila Stone account (Ana Paula) started 29/10 and took all Vila machine sales from 07/11, closing at R$ 1.860,11 on 09/11. Combined Vila cash on 09/11: R$ 1.993,71. That new account also locked R$ 953,23 into Stone Reserva (Dinheiro Guardado), which is not in the available balance. Barcarena Stone closed 09/11 at R$ 5.750,83 after sending R$ 2.000 to Ana Paula Santander and R$ 1.080 to Lucas that day.", pt: "A Vila agora tem duas contas. A Ton (Thiago) recebeu as vendas até 06/11 e fechou com R$ 133,60 em 08/11. Uma Stone nova da Vila (Ana Paula) começou em 29/10 e ficou com todas as vendas da maquininha a partir de 07/11, fechando com R$ 1.860,11 em 09/11. Caixa combinado da Vila em 09/11: R$ 1.993,71. Essa conta nova também travou R$ 953,23 na Reserva Stone (Dinheiro Guardado), que não entra no saldo disponível. A Stone de Barcarena fechou 09/11 com R$ 5.750,83 depois de enviar R$ 2.000 para o Santander da Ana Paula e R$ 1.080 para o Lucas no mesmo dia." },
     { k: "anota", store: "both", en: "Anota Oct sales on the order CSV are R$ 105.800,01 (cancelled excluded). The 03/11 screenshot total was R$ 100.810 because Barcarena was a partial pull (R$ 71.343,51). Stone credited R$ 78.987,35. Gap vs Stone on the order CSV is R$ 26.812,66, card fees plus cash and Pix outside the machine. Lucas/Fabiana 03/11: little cash vs card/Pix; most 'cash'-tagged orders are really customer Pix; counter staff also log cash as Pix; real cash goes mostly to pay employees, plus purchases/refrigerante. Cash paid out is not tracked.", pt: "Vendas Anota out no CSV de pedidos: R$ 105.800,01 (sem cancelados). O total do print de 03/11 era R$ 100.810 porque Barcarena estava parcial (R$ 71.343,51). Stone creditado R$ 78.987,35. Diferença contra a Stone no CSV: R$ 26.812,66, taxa de cartão mais dinheiro e Pix fora da maquininha. Lucas/Fabiana 03/11: pouco dinheiro vivo comparado a cartão/Pix; a maioria dos pedidos marcados como dinheiro é Pix do cliente; balcão também lança dinheiro como Pix; o dinheiro vivo vai principalmente para pagar funcionários, além de compras/refrigerante. Saídas em dinheiro não são registradas." }
   ],
   suppliers: [
