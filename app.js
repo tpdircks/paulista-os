@@ -355,9 +355,18 @@
         <div class="bline"><span>${esc(t("c_low"))}</span>${moneyCell(s[id].low, p[id].low)}</div>
         <div class="bline"><span>${esc(t("c_cover"))}</span>${moneyCell((s[id].close / D.debt[id] * 100).toFixed(1) + "%")}</div></article>`;
     };
+    const catLabel = (c) => t({ suppliers: "c_sup", rent: "c_rent", utilities: "c_util", jonas: "c_jonas", fees: "c_fees", personal: "c_pers", people: "c_people", gm: "c_gm" }[c] || c);
+    const moves = Array.isArray(D.cashToday.moves) ? D.cashToday.moves : [];
+    const moveLines = (id) => moves.filter((m) => m.store === id).map((m) => {
+      const cat = catLabel(m.category);
+      return `<div class="bline"><span>${esc(fmtD(m.date))} · ${esc(m.label)} · ${esc(cat)}</span>${moneyCell(m.amount)}</div>`;
+    }).join("");
+    const moveBook = (id) => `<article class="book ${id}"><h3>${esc(t(id))}</h3>${moveLines(id) || `<p class="hint">${esc(t("cash_receipts_none"))}</p>`}</article>`;
+    const movesBlock = moves.length ? `<h3 class="sec out">${esc(t("cash_receipts"))}</h3><p class="hint">${esc(t("cash_receipts_hint"))}</p><div class="books expense">${["bar", "vila"].map(moveBook).join("")}</div>` : "";
     return card(t("cash_title"), t("cash_hint"),
       `<h3 class="sec bal">${esc(t("cash_balances"))}</h3>
       <div class="books balance">${["bar", "vila"].map(bal).join("")}</div>
+      ${movesBlock}
       <h3 class="sec in">${esc(t("cash_income"))}</h3><p class="hint">${esc(t("cash_sep_hint"))}</p>
       ${books("income", income)}
       <h3 class="sec out">${esc(t("cash_expenses"))}</h3>
