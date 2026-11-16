@@ -172,7 +172,12 @@ window.I18N = {
     dp_cal_last: "Last paid", dp_cal_conf: "Confidence", dp_cal_high: "High",
     dp_cal_close: "Close", dp_cal_missed: "{n} missed", dp_cal_none: "Nothing due.",
     dp_cal_paidextra: "Extra paid",
-    dp_wd: "Mon,Tue,Wed,Thu,Fri,Sat,Sun"
+    dp_wd: "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
+    dp_legacy_title: "Earlier R$ 1.000/week plan",
+    dp_legacy_hint: "One older plan for supplier debt. It is not a total of the two store balances above.",
+    dp_no_loans: "No loans.",
+    dp_paid_off: "Lucas on 3 Nov: only Boutique and Jonas remain. Mateus, Atacadão, and Mercurio are already paid.",
+    dp_browser_pays: "Payments logged in this browser"
   },
   pt: {
     sub: "Pizzaria do Paulista · Barcarena/PA", asof: "Dados de",
@@ -346,6 +351,11 @@ window.I18N = {
     dp_cal_last: "Último pagamento", dp_cal_conf: "Confiança", dp_cal_high: "Alta",
     dp_cal_close: "Fechar", dp_cal_missed: "{n} em atraso", dp_cal_none: "Nada a vencer.",
     dp_cal_paidextra: "Extra pago",
-    dp_wd: "Seg,Ter,Qua,Qui,Sex,Sáb,Dom"
+    dp_wd: "Seg,Ter,Qua,Qui,Sex,Sáb,Dom",
+    dp_legacy_title: "Plano antigo de R$ 1.000/semana",
+    dp_legacy_hint: "Um plano antigo da dívida com fornecedores. Não é a soma dos saldos das duas lojas acima.",
+    dp_no_loans: "Sem empréstimos.",
+    dp_paid_off: "Lucas em 3 nov: só Boutique e Jonas seguem. Mateus, Atacadão e Mercurio já foram pagos.",
+    dp_browser_pays: "Pagamentos registrados neste navegador"
   }
 };

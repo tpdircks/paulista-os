@@ -7,8 +7,7 @@ A simple bilingual (English / Português) operating system for Troy's two Brazil
 | Section | Purpose |
 |---|---|
 | Dashboard | Home for daily Anota sales: yesterday (or the latest day) with Barcarena and Vila side by side, then the last 14 days as paired bars. October item snapshot (sizes, top pizzas, top sodas) split by store. The shared R$ 1.000/week debt plan is labeled as one plan; Oct sales, Boutique debt, and Stone balance stay on the two store cards. |
-| Debt | Supplier debt tracker (R$ 32.724 starting, from Lucas 02/11/2026), log weekly payments, 33-week payoff schedule (10/11/2026 → last R$ 724 on 22/06/2027, week ending 28/06/2027) |
-| Debt & Profit | Per-store Boutique payoff, Wednesday extra, obligations, and owner profit. Barcarena and Vila are separate columns. There is no combined total. Numbers live in `data/debtProfit.json`. |
+| Debt & Profit | Per-store Boutique payoff, Wednesday extra, obligations, owner profit, Jonas, and the earlier R$ 1.000/week plan. Barcarena and Vila stay in separate columns. The old Debt tab opens here. |
 | Cash | October 2026 Stone summaries split into balances, income, and expenses. Each section is Barcarena and Vila only. September sits under each figure. Approval rule for money out. |
 | Sales | Fuller daily Anota history (about 3 months) and the October 2026 monthly summary, plus a rough +R$ 5 raise effect |
 | Items | Anota item counts for the selected period: sizes, pizzas, sodas, crusts, calzones, and sweets. Barcarena and Vila columns are the default. Filter to one store when you want only that book. |
