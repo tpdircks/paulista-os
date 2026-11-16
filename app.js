@@ -632,6 +632,8 @@
   /* DP_PURE_END */
 
   let dpState = { status: "loading", data: null };
+  const dpCalMonth = { bar: "", vila: "" };
+  let dpPop = null;
   function dpList(v) { return Array.isArray(v) ? v : []; }
   function dpPublic(v) {
     if (v && typeof v === "object") return dpPublic(v[lang] || v.en || v.pt || "");
@@ -779,12 +781,215 @@
     });
     return html.join("");
   }
+  function dpShownMonth(id, today) {
+    const v = dpCalMonth[id];
+    return v && /^\d{4}-\d{2}$/.test(v) ? v : today.slice(0, 7);
+  }
+  function dpShortName(ob) {
+    const raw = dpPublic(ob && ob.label) || "";
+    const f = fold(raw);
+    if (f.includes("boutique")) return "Boutique";
+    if (f.includes("gerente")) return lang === "pt" ? "Gerente" : "Manager";
+    if (f.includes("diaria")) return lang === "pt" ? "Diárias" : "Staff";
+    if (f.includes("retirada")) return lang === "pt" ? "Retirada" : "Draw";
+    if (f.includes("aluguel")) return lang === "pt" ? "Aluguel" : "Rent";
+    if (f.includes("energia")) return lang === "pt" ? "Energia" : "Energy";
+    if (f.includes("agua")) return lang === "pt" ? "Água" : "Water";
+    if (f.includes("internet")) return "Internet";
+    if (f.includes("celular") || f.includes("claro")) return lang === "pt" ? "Celular" : "Phone";
+    if (f.includes("gas")) return lang === "pt" ? "Gás" : "Gas";
+    if (f.includes("bebida")) return lang === "pt" ? "Bebidas" : "Drinks";
+    if (f.includes("mateus")) return "Mateus";
+    if (f.includes("atacad")) return "Atacadão";
+    if (f.includes("logui")) return "Logui";
+    if (f.includes("mercurio")) return "Mercurio";
+    if (f.includes("super central")) return "Super Central";
+    if (f.includes("ifood")) return "iFood";
+    if (f.includes("tarifa")) return lang === "pt" ? "Tarifas" : "Card fees";
+    if (f.includes("nao confirmado")) return lang === "pt" ? "Fornecedor" : "Supplier";
+    if (f.includes("nao classificado")) return lang === "pt" ? "Outros" : "Other";
+    if (f.includes("pequeno") || f.includes("outros")) return lang === "pt" ? "Pequenos" : "Small bills";
+    const cut = raw.split("(")[0].split("/")[0].replace(/^Fornecedor de\s+/i, "").replace(/^Fornecedor\s+/i, "").trim();
+    return (cut || t("dp_cat_" + ((ob && ob.category) || "other"))).slice(0, 18);
+  }
+  function dpDayCash(chips) {
+    let cents = 0;
+    (chips || []).forEach((c) => { cents += Math.round((Number(c.cash) || 0) * 100); });
+    return cents / 100;
+  }
+  const DP_ALERT_WORDS = [
+    ["boutique", "boutique"], ["aluguel", "rent"], ["energia", "energy"], ["equatorial", "equatorial"],
+    ["agua", "water"], ["internet", "internet"], ["gas", "gas"], ["folha", "staff"], ["gerente", "manager"],
+    ["diaria", "staff"], ["retirada", "owner"], ["bebida", "beverage"], ["mateus", "mateus"],
+    ["atacadao", "atacadao"], ["atacada", "atacadao"], ["logui", "logui"], ["mercurio", "mercurio"],
+    ["ifood", "ifood"], ["claro", "claro"], ["super central", "super central"], ["tarifa", "fee"]
+  ];
+  function dpAlertTied(alert, text, occ) {
+    const folded = fold(text);
+    if (!/\bdue\b|\binstallment\b/.test(folded)) return false;
+    if (!dpValid(alert.date)) return false;
+    return occ.some((row) => {
+      const label = fold(dpPublic(row.ob.label) || "");
+      const hit = DP_ALERT_WORDS.some(([pt, en]) => label.includes(pt) && (folded.includes(pt) || folded.includes(en)));
+      if (!hit) return false;
+      return row.dates.some((d) => Math.abs(dpSpan(alert.date, d)) <= 3);
+    });
+  }
+  function dpNotes(store, today) {
+    const obs = dpList(store.obligations).filter((ob) => ob && typeof ob === "object");
+    const horizon = dpAddDays(today, 120);
+    const occ = obs.map((ob) => ({ ob: ob, dates: dpOccurrences(ob, today, horizon) }));
+    return dpList(store.alerts).filter((a) => {
+      const text = dpPublic(a && a.text);
+      if (!text) return false;
+      return !dpAlertTied(a, text, occ);
+    }).map((a) => ({ date: a.date, severity: a.severity, text: dpPublic(a.text) }));
+  }
+  function dpPlaceChips(store, m) {
+    const today = m.today;
+    const obs = dpList(store.obligations).filter((ob) => ob && typeof ob === "object");
+    const payments = dpList(store.debt && store.debt.payments);
+    const byDate = {};
+    const add = (date, chip) => {
+      if (!dpValid(date)) return;
+      if (!byDate[date]) byDate[date] = [];
+      byDate[date].push(chip);
+    };
+    obs.forEach((ob) => {
+      const dates = dpOccurrences(ob, today, dpAddDays(today, 120));
+      const late = dates.filter((d) => d < today);
+      const upcoming = dates.filter((d) => d >= today);
+      const amt = dpPayAmount(ob);
+      const low = dpLowConfidence(ob);
+      const exclude = dpCashExcluded(ob);
+      const id = ob.id || ob.label || "ob";
+      if (dpValid(ob.lastPaidDate)) {
+        const paidAmt = dpNum(ob.lastPaidAmount);
+        const show = paidAmt != null ? paidAmt : amt;
+        add(ob.lastPaidDate, { key: "paid:" + id, tone: "green", low: low, exclude: exclude, label: dpShortName(ob), amount: show, cash: exclude ? 0 : (show || 0), ob: ob, kind: "paid" });
+      }
+      if (late.length) {
+        const each = exclude ? 0 : (amt || 0);
+        add(today, { key: "late:" + id, tone: "red", low: low, exclude: exclude, label: dpShortName(ob), amount: amt, count: late.length, cash: Math.round(each * 100) * late.length / 100, dates: late, ob: ob, kind: "overdue" });
+      }
+      upcoming.forEach((d) => {
+        const payHit = ob.category === "debt" ? payments.find((p) => p && p.date === d) : null;
+        const paid = !!payHit;
+        const show = payHit && dpNum(payHit.amount) != null ? dpNum(payHit.amount) : amt;
+        const tone = paid ? "green" : (ob.status === "unusual-amount" || ob.status === "due-soon" ? "amber" : "blue");
+        add(d, { key: "due:" + id + ":" + d, tone: tone, low: low, exclude: exclude, label: dpShortName(ob), amount: show, cash: exclude ? 0 : (show || 0), ob: ob, kind: paid ? "paid" : "bill", date: d });
+      });
+    });
+    payments.forEach((p) => {
+      if (!p || !dpValid(p.date)) return;
+      const hit = (byDate[p.date] || []).some((c) => c.kind === "paid" && c.ob && c.ob.category === "debt");
+      if (hit) return;
+      const amt = dpNum(p.amount);
+      add(p.date, { key: "pay:" + p.date, tone: "green", low: false, exclude: false, label: t("dp_cal_paidextra"), amount: amt, cash: amt || 0, kind: "paid", ob: null });
+    });
+    const rule = store.rule || {};
+    let cursor = today;
+    const limit = dpAddDays(today, 120);
+    while (cursor <= limit) {
+      if (dpParse(cursor).getDay() === 3) {
+        const sug = dpSuggest(m.bank, dpFloor(rule, cursor).floor, dpNum(rule.weeklyExtraTarget));
+        if (sug != null) add(cursor, { key: "extra:" + cursor, tone: "blue", low: false, exclude: false, label: t("dp_cal_extra"), amount: sug, cash: sug, kind: "extra", ob: null, date: cursor });
+      }
+      cursor = dpAddDays(cursor, 1);
+    }
+    return byDate;
+  }
+  function dpChipBtn(storeId, chip) {
+    const amt = chip.amount == null ? "" : " " + dpMoney(chip.amount);
+    const count = chip.count > 1 ? " x" + chip.count : "";
+    return `<button type="button" class="calchip ${chip.tone}${chip.low ? " low" : ""}" data-store="${esc(storeId)}" data-chip="${esc(chip.key)}">${esc(chip.label + amt + count)}</button>`;
+  }
+  function dpPopSection(chip) {
+    if (!chip) return "";
+    const ob = chip.ob;
+    const lines = [`<p><b>${esc(chip.label)}</b>${chip.count > 1 ? " · " + esc(fill(t("dp_cal_missed"), { n: int(chip.count) })) : ""}</p>`];
+    if (chip.kind === "extra") lines.push(`<p>${esc(t("dp_cal_extra_note"))}</p><p>${esc(t("dp_cal_expected"))}: ${dpMoney(chip.amount)}</p>`);
+    else if (ob) {
+      lines.push(`<p>${esc(t("dp_cal_expected"))}: ${dpAmountLabel(ob)}</p>`);
+      const range = Array.isArray(ob.amountRange) ? ob.amountRange : [];
+      if (dpNum(range[0]) != null && dpNum(range[1]) != null) lines.push(`<p>${esc(t("dp_cal_range"))}: ${dpMoney(range[0])} ${esc(t("dp_to"))} ${dpMoney(range[1])}</p>`);
+      if (dpValid(ob.lastPaidDate) || dpNum(ob.lastPaidAmount) != null) lines.push(`<p>${esc(t("dp_cal_last"))}: ${dpFmt(ob.lastPaidDate)} ${dpNum(ob.lastPaidAmount) != null ? dpMoney(ob.lastPaidAmount) : ""}</p>`);
+      lines.push(`<p>${esc(t("dp_cal_conf"))}: ${esc(dpLowConfidence(ob) ? t("dp_ob_low") : t("dp_cal_high"))}</p>`);
+      if (chip.exclude) lines.push(`<p>${esc(t("dp_ob_excluded"))}</p>`);
+      const note = dpPublic(ob.note);
+      if (note) lines.push(`<p>${esc(note)}</p>`);
+      if (chip.dates && chip.dates.length) lines.push(`<p>${esc(chip.dates.map(dpFmt).filter(Boolean).join(", "))}</p>`);
+    } else if (chip.amount != null) lines.push(`<p>${dpMoney(chip.amount)}</p>`);
+    return lines.join("");
+  }
+  function dpPopover(storeId, byDate) {
+    if (!dpPop || dpPop.store !== storeId) return "";
+    let chips = [];
+    if (dpPop.key) {
+      Object.keys(byDate).forEach((d) => (byDate[d] || []).forEach((c) => { if (c.key === dpPop.key) chips.push(c); }));
+    } else if (dpPop.date) chips = byDate[dpPop.date] || [];
+    const title = dpPop.date && !dpPop.key ? dpFmt(dpPop.date) : (chips[0] ? chips[0].label : "");
+    const body = chips.map(dpPopSection).join("<hr>") || `<p class="hint">${esc(t("dp_cal_none"))}</p>`;
+    return `<div class="calpop" role="dialog"><div class="calpophead"><b>${esc(title)}</b><button type="button" class="ghost sm" data-calclose="1">${esc(t("dp_cal_close"))}</button></div>${body}</div>`;
+  }
+  function dpCalendar(store, m) {
+    const id = store.id === "vila" ? "vila" : "bar";
+    const today = m.today;
+    const byDate = dpPlaceChips(store, m);
+    const ym = dpShownMonth(id, today);
+    const year = Number(ym.slice(0, 4)), month = Number(ym.slice(5, 7)) - 1;
+    const first = new Date(year, month, 1);
+    const lead = (first.getDay() + 6) % 7;
+    const dim = new Date(year, month + 1, 0).getDate();
+    const cells = [];
+    for (let i = 0; i < lead; i++) cells.push("");
+    for (let d = 1; d <= dim; d++) cells.push(dpIso(new Date(year, month, d)));
+    while (cells.length % 7) cells.push("");
+    const heads = t("dp_wd").split(",");
+    const weeks = [];
+    for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+    const weekHtml = weeks.map((week) => {
+      const days = week.map((date) => {
+        if (!date) return `<div class="calday pad"></div>`;
+        const chips = byDate[date] || [];
+        const cash = dpDayCash(chips);
+        return `<div class="calday${date === today ? " is-today" : ""}"><button type="button" class="calnum" data-store="${id}" data-calday="${date}">${Number(date.slice(8))}${date === today ? " · " + esc(t("dp_cal_today")) : ""}</button>${chips.map((c) => dpChipBtn(id, c)).join("")}${cash > 0 ? `<div class="caldtot">${esc(t("dp_cal_day"))} ${dpMoney(cash)}</div>` : ""}</div>`;
+      }).join("");
+      const dates = week.filter(Boolean);
+      const sum = dates.reduce((a, d) => a + dpDayCash(byDate[d] || []), 0);
+      const anchor = dates.find((d) => dpParse(d).getDay() === 3) || dates[0];
+      const floor = anchor ? dpFloor(store.rule || {}, anchor).floor : null;
+      const room = dpHeadroom(m.bank, floor);
+      const over = room != null && Math.round(sum * 100) > Math.round(room * 100);
+      const sumLine = dates.length ? `<div class="calwsum${over ? " over" : ""}">${esc(fill(t("dp_cal_week"), { amt: dpMoney(sum) }))}${room == null ? "" : " · " + esc(fill(t("dp_cal_room"), { room: dpMoney(room) }))}</div>` : "";
+      return `<div class="calweek">${days}${sumLine}</div>`;
+    }).join("");
+    const end30 = dpAddDays(today, 30);
+    let agenda = "";
+    let cursor = today;
+    while (cursor <= end30) {
+      const chips = byDate[cursor] || [];
+      if (chips.length) {
+        const cash = dpDayCash(chips);
+        agenda += `<article class="agendaday${cursor === today ? " is-today" : ""}"><div class="agendatop"><button type="button" class="calnum" data-store="${id}" data-calday="${cursor}">${esc(dpFmt(cursor))}${cursor === today ? " · " + esc(t("dp_cal_today")) : ""}</button>${cash > 0 ? `<b>${dpMoney(cash)}</b>` : ""}</div>${chips.map((c) => dpChipBtn(id, c)).join("")}</article>`;
+      }
+      cursor = dpAddDays(cursor, 1);
+    }
+    if (!agenda) agenda = `<p class="hint">${esc(t("dp_cal_none"))}</p>`;
+    const legend = `<p class="hint">${esc(t("dp_cal_legend"))}</p><div class="callegend"><span><i class="swatch red"></i>${esc(t("dp_cal_red"))}</span><span><i class="swatch amber"></i>${esc(t("dp_cal_amber"))}</span><span><i class="swatch blue"></i>${esc(t("dp_cal_blue"))}</span><span><i class="swatch green"></i>${esc(t("dp_cal_green"))}</span><span><i class="swatch low"></i>${esc(t("dp_cal_dash"))}</span></div>`;
+    const notes = dpNotes(store, today);
+    const noteHtml = notes.length ? `<details class="calnotes"><summary>${esc(t("dp_cal_notes"))} <span class="tabbadge">${notes.length}</span></summary>${notes.map((a) => {
+      const sev = a.severity === "red" ? "bad" : a.severity === "info" ? "info" : "";
+      return `<p class="flag ${sev}">${dpFmt(a.date)} ${esc(a.text)}</p>`;
+    }).join("")}</details>` : "";
+    return `<div class="cal" data-cal-store="${id}"><div class="calnav"><button type="button" data-cal="prev" data-store="${id}" aria-label="${esc(t("dp_cal_prev"))}">‹</button><h3>${esc(dpMonthLabel(ym, true))}</h3><button type="button" data-cal="next" data-store="${id}" aria-label="${esc(t("dp_cal_next"))}">›</button></div><div class="calheads">${heads.map((w) => `<span>${esc(w)}</span>`).join("")}</div>${weekHtml}<div class="calagenda"><h3>${esc(t("dp_cal_agenda"))}</h3>${agenda}</div>${legend}${noteHtml}${dpPopover(id, byDate)}</div>`;
+  }
   function dpObCard(store, m) {
     const obs = dpList(store.obligations).filter((ob) => ob && typeof ob === "object");
     const today = m.today, end7 = dpAddDays(today, 7), end30 = dpAddDays(today, 30);
     const due7 = dpSumDue(obs, today, end7), due30 = dpSumDue(obs, today, end30);
     const short = dpDueExceeds(due7, m.bank, m.floorToday);
-    const head = m.headroom == null ? "" : `<p class="${short ? "flag bad" : "hint"}">${esc(t("dp_ob_total"))}: ${dpMoney(due7)} · ${esc(t("dp_ob_headroom"))}: ${dpMoney(m.headroom)}</p>`;
+    const head = m.headroom == null ? "" : `<p class="${short ? "flag bad" : "hint"}" data-due7="${esc(dpAttr(due7))}" data-due30="${esc(dpAttr(due30))}">${esc(t("dp_ob_total"))}: ${dpMoney(due7)} · ${esc(t("dp_ob_headroom"))}: ${dpMoney(m.headroom)}</p>`;
     const later = `<p class="hint">${esc(t("dp_ob_30_total"))}: ${dpMoney(due30)}</p>`;
     const warn = short ? `<p class="flag bad">${esc(t("dp_ob_short"))}</p>` : "";
     const basis = obs.some((ob) => dpNum(ob.expectedAmount) == null && dpPayAmount(ob) != null) ? `<p class="hint">${esc(t("dp_ob_basis"))}</p>` : "";
@@ -792,16 +997,13 @@
     if (!obs.length) {
       return card(t("dp_ob"), t("dp_ob_hint"), `${head}${later}${warn}<p class="hint">${esc(t("dp_ob_empty"))}</p>`);
     }
-    const overdue = dpWindowRows(obs, today, end30, true);
-    const soon = dpWindowRows(obs, today, end7, false);
-    const month = dpWindowRows(obs, today, end30, false);
     const undated = obs.filter((ob) => {
       const c = dpCadence(ob);
       if ((c === "one-off" || c === "oneoff" || c === "once") && dpValid(ob.lastPaidDate)) return false;
       return !dpOccurrences(ob, today, end30).length;
-    }).map((ob) => dpObRow(ob, [], ob.status === "overdue")).join("");
-    const block = (title, body) => `<h3>${esc(title)}</h3>${body || `<p class="hint">${esc(t("dp_ob_none"))}</p>`}`;
-    return card(t("dp_ob"), t("dp_ob_hint"), `${head}${later}${warn}${basis}${feeNote}${block(t("dp_ob_overdue"), overdue)}${block(t("dp_ob_7"), soon)}${block(t("dp_ob_30"), month)}${undated ? block(t("dp_ob_nodate"), undated) : ""}`);
+    });
+    const undatedHtml = undated.length ? `<p class="hint">${esc(t("dp_ob_nodate"))}: ${undated.map((ob) => esc(dpShortName(ob))).join(", ")}</p>` : "";
+    return card(t("dp_ob"), t("dp_ob_hint"), `${head}${later}${warn}${basis}${feeNote}${undatedHtml}${dpCalendar(store, m)}`);
   }
   function dpMonthTable(rows) {
     if (!rows.length) return "";
@@ -979,21 +1181,6 @@
       ${src(meta.source || "Stone extratos", m.asOf)}
       ${dpDebtCard(store, m)}${dpRuleCard(store, m)}${dpObCard(store, m)}${dpProfitCard(store, m)}</section>`;
   }
-  function dpAlerts(list) {
-    const items = [];
-    ["bar", "vila"].forEach((id) => {
-      const store = list.find((s) => s && s.id === id);
-      dpList(store && store.alerts).forEach((a) => {
-        if (!a) return;
-        const text = dpPublic(a.text);
-        if (!text && !dpValid(a.date)) return;
-        const sev = a.severity === "red" || a.severity === "warn" ? a.severity : "info";
-        items.push(`<p class="flag dp-alert ${sev === "red" ? "bad" : sev === "info" ? "info" : ""}" data-store="${id}"><span class="tag">${esc(t(id))}</span> ${dpFmt(a.date)} ${esc(text)}</p>`);
-      });
-    });
-    if (!items.length) return `<p class="hint">${esc(t("dp_alerts_empty"))}</p>`;
-    return card(t("dp_alerts"), "", items.join(""));
-  }
   function dpView(data) {
     const meta = { source: data.source || "Stone extratos", asOf: data.asOf || "", gapWarnAbove: dpNum(data.gapWarnAbove) };
     const list = dpList(data.stores);
@@ -1002,7 +1189,7 @@
       if (!store) return `<section class="dp-col ${id}" data-store="${id}"><div class="dp-banner">${esc(t(id))}</div><p class="hint">${esc(t("dp_missing"))}</p></section>`;
       return dpColumn(store, meta);
     }).join("");
-    return `<p class="hint">${esc(t("dp_hint"))}</p>${dpAlerts(list)}<div class="dp-stores">${cols}</div>` +
+    return `<p class="hint">${esc(t("dp_hint"))}</p><div class="dp-stores">${cols}</div>` +
       card(t("dp_log"), "", `<p class="dp-log">${esc(t("dp_log_help"))}</p><p class="hint"><code>data/debtProfit.json</code> · <code>payments</code> · <code>{ date, amount, note }</code></p>`);
   }
   function loadDebtProfit() {
@@ -1047,7 +1234,28 @@
   function go(v) { view = v; localStorage.setItem(LS.view, v); location.hash = v; render(); window.scrollTo(0, 0); }
 
   document.addEventListener("click", (e) => {
-    const b = e.target.closest("button"); if (!b) return;
+    const b = e.target.closest("button");
+    if (b && b.dataset.cal && b.dataset.store) {
+      const id = b.dataset.store === "vila" ? "vila" : "bar";
+      const today = dpIso(new Date());
+      const cur = dpShownMonth(id, today);
+      const dt = dpParse(cur + "-01");
+      dt.setMonth(dt.getMonth() + (b.dataset.cal === "next" ? 1 : -1));
+      dpCalMonth[id] = dpIso(dt).slice(0, 7);
+      dpPop = null;
+      return render();
+    }
+    if (b && b.dataset.chip && b.dataset.store) {
+      dpPop = { store: b.dataset.store === "vila" ? "vila" : "bar", key: b.dataset.chip };
+      return render();
+    }
+    if (b && b.dataset.calday && b.dataset.store) {
+      dpPop = { store: b.dataset.store === "vila" ? "vila" : "bar", date: b.dataset.calday };
+      return render();
+    }
+    if (b && b.dataset.calclose != null) { dpPop = null; return render(); }
+    if (dpPop && !e.target.closest(".calpop")) { dpPop = null; render(); }
+    if (!b) return;
     if (b.dataset.view) return go(b.dataset.view);
     if (b.dataset.lang) { lang = b.dataset.lang; localStorage.setItem(LS.lang, lang); return render(); }
     if (b.dataset.delpay != null) { const p = payments(); p.splice(+b.dataset.delpay, 1); save(LS.pays, p); return render(); }
