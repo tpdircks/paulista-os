@@ -63,7 +63,7 @@
   const pending = () => approvals().filter((a) => a.status === "pending").length;
 
   /* ---------- Approvals model ---------- */
-  function approvals() { let a = load(LS.ap, null); const mk = (x) => ({ ...x, by: "Lucas", status: "pending", sample: true });
+  function approvals() { let a = load(LS.ap, null); const mk = (x) => ({ ...x, by: "manager", status: "pending", sample: true });
     if (!a) { a = D.approvalsSeed.map(mk).sort((x, y) => x.date.localeCompare(y.date)); save(LS.ap, a); return a; }
     const ret = D.retiredSeeds || [], have = new Set(a.map((x) => x.id)); let ch = false;
     const b = a.filter((x) => !(x.sample && x.status === "pending" && ret.includes(x.id))); if (b.length !== a.length) ch = true;
@@ -306,14 +306,14 @@
       ${bar(paidTotal() / debtStart() * 100)}<p class="hint">${esc(planNote)}</p>` ) +
       `<div class="two">${["bar", "vila"].map((id) => card(t(id), "",
         `<div class="kpis sm">${kpi(t("k_octsales"), brl(s[id].revenue), `${int(s[id].orders)} ${t("k_orders")} · ${t("k_ticket")} ${brl(s[id].ticket)}`)}
-        ${kpi(t("k_debt"), brl(D.debt[id], 0), t("source") + ": Lucas 02/11")}
+        ${kpi(t("k_debt"), brl(D.debt[id], 0), t("source") + ": 02/11")}
         ${kpi(t("k_cash"), brl(D.cashToday[id]), `${t("c_cover")}: ${(D.cashToday[id] / D.debt[id] * 100).toFixed(1)}% · ${t("c_close")} ${brl(st[id].close)}`)}</div>`)).join("")}</div>` +
-      card(t("notes_title"), "", `<ul class="notes">${D.notes.map((n) => `<li><span class="tag">${sname(n.store)}</span> ${esc(txt(n))}</li>`).join("")}</ul>${src("Lucas 03/11 + Stone Oct", D.asOf)}`) + rulesBox();
+      card(t("notes_title"), "", `<ul class="notes">${D.notes.map((n) => `<li><span class="tag">${sname(n.store)}</span> ${esc(txt(n))}</li>`).join("")}</ul>${src("03/11 + Stone Oct", D.asOf)}`) + rulesBox();
   };
   V.cash = () => {
     const s = D.stone, p = D.stoneSep;
     const income = [["c_in", "inflow", true], ["c_sales", "sales", false], ["c_pix", "pixMaq", false], ["c_card", "card", false]];
-    const expense = [["c_out", "outflow", true], ["c_sup", "suppliers", false], ["c_jonas", "jonas", false], ["c_util", "utilities", false], ["c_rent", "rent", false], ["c_gm", "gm", false], ["c_people", "people", false], ["c_pers", "personal", false], ["c_fees", "fees", false]];
+    const expense = [["c_out", "outflow", true], ["c_sup", "suppliers", false], ["c_drinks", "drinks", false], ["c_util", "utilities", false], ["c_rent", "rent", false], ["c_gm", "gm", false], ["c_people", "people", false], ["c_pers", "personal", false], ["c_fees", "fees", false]];
     const subKey = { c_pix: true, c_card: true };
     const moneyCell = (oct, sep) => {
       const main = typeof oct === "number" ? brl(oct) : esc(oct);
@@ -332,7 +332,7 @@
         <div class="bline"><span>${esc(t("c_low"))}</span>${moneyCell(s[id].low, p[id].low)}</div>
         <div class="bline"><span>${esc(t("c_cover"))}</span>${moneyCell((s[id].close / D.debt[id] * 100).toFixed(1) + "%")}</div></article>`;
     };
-    const catLabel = (c) => t({ suppliers: "c_sup", rent: "c_rent", utilities: "c_util", jonas: "c_jonas", fees: "c_fees", personal: "c_pers", people: "c_people", gm: "c_gm" }[c] || c);
+    const catLabel = (c) => t({ suppliers: "c_sup", rent: "c_rent", utilities: "c_util", drinks: "c_drinks", fees: "c_fees", personal: "c_pers", people: "c_people", gm: "c_gm" }[c] || c);
     const moves = Array.isArray(D.cashToday.moves) ? D.cashToday.moves : [];
     const moveLines = (id) => moves.filter((m) => m.store === id).map((m) => {
       const cat = catLabel(m.category);
@@ -427,13 +427,13 @@
       <p class="flag">${esc(t(s.id === "vila" ? "vila_note" : "bar_note"))}</p>${src(D.fixedSource)}`);
   }).join("") +
     card(t("staff_title"), "", table([t("st_name"), t("debt_store"), t("st_pay"), t("st_oct")], D.staff.map((x) => [`<b>${esc(x.name)}</b>`, sname(x.store), esc(x.pay), brl(x.seenOct)]), "") +
-      `<p class="flag">${esc(t("staff_flag"))}</p>${src("Lucas 03/11 + Stone Oct")}`) +
-    card(t("login_title"), t("login_hint"), table([t("lg_sys"), t("debt_store"), t("lg_user"), "Email"], D.logins.map((x) => [esc(x.sys), sname(x.store), esc(x.user), x.email ? esc(x.email) : "—"])) + src("Lucas 03/11"));
+      `<p class="flag">${esc(t("staff_flag"))}</p>${src("03/11 + Stone Oct")}`) +
+    card(t("login_title"), t("login_hint"), table([t("lg_sys"), t("debt_store"), t("lg_user"), "Email"], D.logins.map((x) => [esc(x.sys), sname(x.store), esc(x.user), x.email ? esc(x.email) : "—"])) + src("03/11"));
   V.suppliers = () => card(t("sup_title"), t("sup_hint"),
     table([t("sup_name"), t("sup_role"), t("sup_sep") + " · " + t("bar"), t("sup_sep") + " · " + t("vila"), t("sup_oct") + " · " + t("bar"), t("sup_oct") + " · " + t("vila")],
       D.suppliers.map((s) => [`<b>${esc(s.name)}</b>`, `<span class="pill ${s.role === "primary" ? "ok" : "plan"}">${t(s.role)}</span>`, brl(s.bar), brl(s.vila), brl(s.barOct), brl(s.vilaOct)]), "num") + src(D.stone.source)) +
     card(t("sup_debt"), "", `<div class="peers">${peerStat("bar", brl(D.debt.bar, 0), t("debt_start"))}${peerStat("vila", brl(D.debt.vila, 0), t("debt_start"))}</div>
-      <p class="hint">${esc(t("k_jonas"))}: ${esc(t("bar"))} ${brl(D.debt.jonas.bar, 0)} · ${esc(t("vila"))} ${brl(D.debt.jonas.vila, 0)}. ${esc(t("jonas_sub"))}</p>
+      <p class="hint">${esc(t("k_drinks"))}: ${esc(t("bar"))} ${brl(D.debt.drinks.bar, 0)} · ${esc(t("vila"))} ${brl(D.debt.drinks.vila, 0)}. ${esc(t("drinks_sub"))}</p>
       <p class="hint">${esc(t("shared_plan"))}. ${esc(t("plan_left"))}: ${brl(remaining(), 0)}.</p>
       <p class="flag">${esc(t("sup_gap"))}</p>${src(D.debt.source, D.debt.asOf)}`);
   V.approvals = () => {
@@ -1151,10 +1151,10 @@
       })
     };
   }
-  function dpJonas(id) {
-    const j = D.debt && D.debt.jonas;
+  function dpDrinks(id) {
+    const j = D.debt && D.debt.drinks;
     if (!j || j[id] == null) return "";
-    return card(t("k_jonas"), t("jonas_sub"), `<div class="kpi"><div class="kl">${esc(t(id))}</div><div class="kv">${brl(j[id], 0)}</div></div><p class="hint">${esc(t("dp_no_loans"))}</p>`);
+    return card(t("k_drinks"), t("drinks_sub"), `<div class="kpi"><div class="kl">${esc(t(id))}</div><div class="kv">${brl(j[id], 0)}</div></div><p class="hint">${esc(t("dp_no_loans"))}</p>`);
   }
   function dpBrowserPays(id) {
     const rows = payments().map((p, i) => ({ p: p, i: i })).filter((x) => x.p && x.p.store === id);
@@ -1190,7 +1190,7 @@
     const m = dpModel(store, meta);
     return `<section class="dp-col ${m.id}" aria-label="${esc(t(m.id))}"${m.attrs}><div class="dp-banner">${esc(t(m.id))}</div>
       ${src(meta.source || "Stone extratos", m.asOf)}
-      ${dpDebtCard(store, m)}${dpJonas(m.id)}${dpBrowserPays(m.id)}${dpRuleCard(store, m)}${dpObCard(store, m)}${dpProfitCard(store, m)}</section>`;
+      ${dpDebtCard(store, m)}${dpDrinks(m.id)}${dpBrowserPays(m.id)}${dpRuleCard(store, m)}${dpObCard(store, m)}${dpProfitCard(store, m)}</section>`;
   }
   function dpView(data) {
     const meta = { source: data.source || "Stone extratos", asOf: data.asOf || "", gapWarnAbove: dpNum(data.gapWarnAbove) };
@@ -1295,7 +1295,7 @@
     if (e.target.id === "payf") { const p = payments(); p.push({ date: f.date, amount: +f.amount, supplier: f.supplier, store: f.store }); p.sort((x, y) => x.date.localeCompare(y.date)); save(LS.pays, p); }
     if (e.target.id === "apf") {
       if (f.type === "draw" && f.store !== "bar") { const m = $("#apmsg"); m.hidden = false; m.textContent = t("ap_vila_block"); return; }
-      const a = approvals(); a.unshift({ id: "u" + Date.now(), date: f.date, store: f.store, type: f.type, desc: f.desc, amount: f.amount === "" ? null : +f.amount, by: "Lucas", status: "pending" }); save(LS.ap, a);
+      const a = approvals(); a.unshift({ id: "u" + Date.now(), date: f.date, store: f.store, type: f.type, desc: f.desc, amount: f.amount === "" ? null : +f.amount, by: "manager", status: "pending" }); save(LS.ap, a);
     }
     render();
   });
