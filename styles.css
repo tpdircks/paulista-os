@@ -166,6 +166,34 @@ h3.sec.out:before{background:var(--tomato)}
 }
 
 .notes{margin:0;padding-left:1.1em}.notes li{margin:.35em 0;line-height:1.4}
+.flag.bad{background:var(--redbg);border-left-color:var(--red);color:#7d1b12}
+.dp-stores{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;margin-top:4px}
+.dp-col{min-width:0}
+.dp-banner{color:#fff;background:var(--navy);border-radius:12px;padding:10px 14px;margin:0 0 12px;font-size:18px;font-weight:800}
+.dp-col.vila .dp-banner{background:var(--brick)}
+.dp-pace{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0;font-size:13px}
+.dp-metrics{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.dp-metric{display:grid;grid-template-columns:minmax(5.6rem,8rem) minmax(0,1fr) auto;gap:8px;align-items:center;font-size:13px;font-weight:700;color:var(--navy)}
+.dp-metric b{font-variant-numeric:tabular-nums;font-size:14px}
+.track > i.warnbar{background:var(--red)}
+.dp-cols{display:flex;align-items:flex-end;gap:8px;height:110px;margin:8px 0 4px}
+.dp-colbar{flex:1 1 0;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.dp-colbar i{display:block;width:70%;max-width:42px;background:linear-gradient(180deg,var(--blue),var(--navy));border-radius:6px 6px 0 0}
+.dp-colbar span{font-size:11px;font-weight:700;color:#667;margin-top:4px;text-align:center}
+details.plan{margin-top:12px}
+details.plan summary{cursor:pointer;font-weight:800;color:var(--navy)}
+.dp-log code{font-size:12px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 5px}
+.flag.info{background:var(--light);border-left-color:var(--blue);color:var(--navy)}
+.ob{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:8px;padding:8px 10px;margin:6px 0}
+.ob.overdue{border-left-color:var(--red);background:var(--redbg)}
+.ob.unusual{border-left-color:var(--amber);background:var(--amberbg)}
+.obtop{display:flex;justify-content:space-between;gap:8px;font-weight:800;color:var(--navy)}
+.obtop b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.obmeta{font-size:12px;color:#5c6b7a;margin-top:3px}
+.dp-alert{margin-top:8px}
+@media (max-width:820px){
+  .dp-stores{grid-template-columns:1fr}
+}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
 .chips button{background:#fff;color:var(--navy);border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
 .chips button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
