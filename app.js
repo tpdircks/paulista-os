@@ -35,6 +35,7 @@
   const NAV = [
     ["dashboard", "M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"],
     ["debt", "M3 17l6-6 4 4 8-8M14 7h7v7"],
+    ["profit", "M4 19V5M4 19h16M8 16l4-5 3 3 5-7"],
     ["cash", "M2 7h20v10H2zM12 9a3 3 0 100 6 3 3 0 000-6z"],
     ["approvals", "M9 11l3 3 8-8M20 12v7H4V5h11"],
     ["sales", "M4 20V10M10 20V4M16 20v-7M22 20H2"],
@@ -474,6 +475,541 @@
       <div class="btncell"><button class="primary" type="submit">${t("ap_add")}</button></div></form><p class="flag" id="apmsg" hidden></p>`) + rulesBox();
   };
 
+  /* ---------- Debt & profit (data/debtProfit.json). Stores stay separate. ---------- */
+  /* DP_PURE_START */
+  function dpNum(v) { if (v == null || v === "") return null; const n = Number(v); return Number.isFinite(n) ? n : null; }
+  function dpValid(s) { return /^\d{4}-\d{2}-\d{2}$/.test(String(s || "")); }
+  function dpParse(s) { const [y, m, d] = String(s).split("-").map(Number); return new Date(y, m - 1, d); }
+  function dpIso(dt) { return dt.getFullYear() + "-" + String(dt.getMonth() + 1).padStart(2, "0") + "-" + String(dt.getDate()).padStart(2, "0"); }
+  function dpAddDays(s, n) { const dt = dpParse(s); dt.setDate(dt.getDate() + n); return dpIso(dt); }
+  function dpSpan(a, b) { return Math.round((dpParse(b) - dpParse(a)) / 864e5); }
+  const DP_DOW = { sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 };
+  function dpWeekday(v) {
+    if (typeof v === "number" && v >= 0 && v <= 6) return v;
+    const raw = String(v == null ? "" : v).trim().toLowerCase();
+    if (/^[0-6]$/.test(raw)) return Number(raw);
+    return Object.prototype.hasOwnProperty.call(DP_DOW, raw) ? DP_DOW[raw] : null;
+  }
+  function dpUnique(dates) { return [...new Set(dates.filter(dpValid))].sort(); }
+  function dpNextDowOnOrAfter(date, dow) { return dpAddDays(date, (dow - dpParse(date).getDay() + 7) % 7); }
+  function dpNextDowAfter(date, dow) { const delta = (dow - dpParse(date).getDay() + 7) % 7; return dpAddDays(date, delta === 0 ? 7 : delta); }
+  function dpMonthDue(year, monthIndex, dueDay) {
+    const last = new Date(year, monthIndex + 1, 0).getDate();
+    return dpIso(new Date(year, monthIndex, Math.min(dueDay, last)));
+  }
+  function dpNextMonthAfter(date, dueDay) {
+    const dt = dpParse(date); let y = dt.getFullYear(), m = dt.getMonth();
+    let due = dpMonthDue(y, m, dueDay);
+    if (due <= date) { m += 1; if (m > 11) { m = 0; y += 1; } due = dpMonthDue(y, m, dueDay); }
+    return due;
+  }
+  function dpNextMonthOnOrAfter(date, dueDay) {
+    const dt = dpParse(date); let y = dt.getFullYear(), m = dt.getMonth();
+    let due = dpMonthDue(y, m, dueDay);
+    if (due < date) { m += 1; if (m > 11) { m = 0; y += 1; } due = dpMonthDue(y, m, dueDay); }
+    return due;
+  }
+  function dpNextTenth(date) {
+    const dt = dpParse(date);
+    if (dt.getDate() <= 10) return dpIso(new Date(dt.getFullYear(), dt.getMonth(), 10));
+    return dpIso(new Date(dt.getFullYear(), dt.getMonth() + 1, 10));
+  }
+  function dpFloor(rule, payDate) {
+    const base = dpNum(rule && rule.floor), high = dpNum(rule && rule.floorBefore10th);
+    const span = dpNum(rule && rule.floorWindowDays);
+    const days = span == null ? 7 : span;
+    if (base == null) return { floor: null, raised: false, days: days };
+    if (high == null || !dpValid(payDate)) return { floor: base, raised: false, days: days };
+    const until = dpSpan(payDate, dpNextTenth(payDate));
+    const raised = until >= 0 && until <= days;
+    return { floor: raised ? high : base, raised: raised, days: days };
+  }
+  function dpSuggest(bank, floor, target) {
+    if (bank == null || floor == null || target == null) return null;
+    const room = Math.round(bank * 100) - Math.round(floor * 100);
+    const cap = Math.round(target * 100);
+    return Math.max(0, Math.min(cap, room)) / 100;
+  }
+  function dpNextPay(name, from) {
+    const want = dpWeekday(name);
+    return dpNextDowOnOrAfter(from, want == null ? 3 : want);
+  }
+  function dpHeadroom(bank, floor) {
+    if (bank == null || floor == null) return null;
+    return (Math.round(bank * 100) - Math.round(floor * 100)) / 100;
+  }
+  function dpPayAmount(ob) {
+    const expected = dpNum(ob && ob.expectedAmount);
+    if (expected != null) return expected;
+    const range = ob && Array.isArray(ob.amountRange) ? ob.amountRange : [];
+    const hi = dpNum(range[1]), lo = dpNum(range[0]);
+    if (hi != null) return hi;
+    if (lo != null) return lo;
+    return null;
+  }
+  function dpCadence(ob) { return String(ob && ob.cadence || "").toLowerCase(); }
+  function dpOccurrences(ob, today, horizon) {
+    if (!ob || !dpValid(today) || !dpValid(horizon)) return [];
+    const cadence = dpCadence(ob);
+    const last = dpValid(ob.lastPaidDate) ? ob.lastPaidDate : "";
+    const cap = dpAddDays(today, -120);
+    if (cadence === "one-off" || cadence === "oneoff" || cadence === "once") {
+      if (last) return [];
+      return dpValid(ob.dueDate) ? dpUnique([ob.dueDate].filter((d) => d >= cap && d <= horizon)) : [];
+    }
+    if (cadence === "daily") {
+      let cursor = last ? dpAddDays(last, 1) : today;
+      if (cursor < cap) cursor = cap;
+      const dates = [];
+      let guard = 0;
+      while (cursor <= horizon && guard < 200) { dates.push(cursor); cursor = dpAddDays(cursor, 1); guard += 1; }
+      return dpUnique(dates);
+    }
+    if (cadence === "weekly") {
+      const dow = dpWeekday(ob.dueWeekday);
+      if (dow == null) return [];
+      let cursor = last ? dpNextDowAfter(last, dow) : dpNextDowOnOrAfter(today, dow);
+      if (cursor < cap) cursor = dpNextDowOnOrAfter(cap, dow);
+      const dates = [];
+      let guard = 0;
+      while (cursor <= horizon && guard < 40) { dates.push(cursor); cursor = dpAddDays(cursor, 7); guard += 1; }
+      return dpUnique(dates);
+    }
+    if (cadence === "monthly") {
+      const dueDay = Math.round(Number(ob.dueDay));
+      if (!(dueDay >= 1 && dueDay <= 31)) return [];
+      let cursor = last ? dpNextMonthAfter(last, dueDay) : dpNextMonthOnOrAfter(today, dueDay);
+      if (cursor < cap) cursor = dpNextMonthOnOrAfter(cap, dueDay);
+      const dates = [];
+      let guard = 0;
+      while (cursor <= horizon && guard < 8) { dates.push(cursor); cursor = dpNextMonthAfter(cursor, dueDay); guard += 1; }
+      return dpUnique(dates);
+    }
+    return [];
+  }
+  function dpSumDue(obs, today, end) {
+    let cents = 0;
+    (Array.isArray(obs) ? obs : []).forEach((ob) => {
+      const amt = dpPayAmount(ob);
+      if (amt == null) return;
+      const n = dpOccurrences(ob, today, end).filter((d) => d >= today && d <= end).length;
+      cents += Math.round(amt * 100) * n;
+    });
+    return cents / 100;
+  }
+  function dpDueExceeds(due, bank, floor) {
+    if (due == null || bank == null || floor == null) return false;
+    return Math.round(due * 100) > Math.round(bank * 100) - Math.round(floor * 100);
+  }
+  function dpSensitive(s) {
+    const text = String(s == null ? "" : s);
+    if (text.includes("@")) return true;
+    if (/\d{3}\.?\d{3}\.?\d{3}-?\d{2}/.test(text)) return true;
+    if (/\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}/.test(text)) return true;
+    if (/\b(ag[eê]ncia|agency)\s*[:.]?\s*\d/i.test(text)) return true;
+    if (/\b(conta|account)\s*[:.]?\s*\d/i.test(text)) return true;
+    return false;
+  }
+  function dpShare(amount, base, explicitPct) {
+    const p = dpNum(explicitPct);
+    if (p != null) return p;
+    const a = dpNum(amount), b = dpNum(base);
+    if (a == null || b == null || b === 0) return null;
+    return a / b;
+  }
+  /* DP_PURE_END */
+
+  let dpState = { status: "loading", data: null };
+  function dpList(v) { return Array.isArray(v) ? v : []; }
+  function dpPublic(v) {
+    if (v && typeof v === "object") return dpPublic(v[lang] || v.en || v.pt || "");
+    const text = String(v == null ? "" : v).trim();
+    return !text || dpSensitive(text) ? "" : text;
+  }
+  function dpMoney(n, approx) {
+    const x = dpNum(n);
+    if (x == null) return "";
+    const digits = Math.abs(x - Math.round(x)) < 0.001 ? 0 : 2;
+    return (approx ? "~" : "") + brl(x, digits);
+  }
+  function dpPct(n) {
+    const x = dpNum(n);
+    if (x == null) return "";
+    const v = Math.round(x * 1000) / 10;
+    const digits = Math.abs(v - Math.round(v)) < 0.001 ? 0 : 1;
+    return v.toLocaleString(lang === "pt" ? "pt-BR" : "en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits }) + "%";
+  }
+  function dpFmt(s) { return dpValid(s) ? fmtD(s) : ""; }
+  function dpFmtStart(s) { return dpValid(s) ? fmtStart(s) : ""; }
+  function dpAttr(n) { const x = dpNum(n); return x == null ? "" : String(Math.round(x * 100) / 100); }
+  function dpMonthLabel(ym, long) {
+    const m = /^(\d{4})-(\d{2})$/.exec(String(ym || ""));
+    if (!m) return "";
+    return new Date(Number(m[1]), Number(m[2]) - 1, 1).toLocaleDateString(lang === "pt" ? "pt-BR" : "en-US", { month: long ? "long" : "short", year: "numeric" });
+  }
+  function dpDataAttrs(map) {
+    return Object.keys(map).map((k) => {
+      const v = map[k];
+      if (v == null || v === "") return "";
+      return ` data-${k}="${esc(String(v))}"`;
+    }).join("");
+  }
+  function dpPaid(rows, key, pred) {
+    let cents = 0;
+    dpList(rows).forEach((r) => {
+      if (!r || (pred && !pred(r))) return;
+      const n = dpNum(r[key]);
+      if (n == null) return;
+      cents += Math.round(n * 100);
+    });
+    return cents / 100;
+  }
+
+  function dpDebtCard(store, m) {
+    const debt = store.debt && typeof store.debt === "object" ? store.debt : {};
+    const badge = `<span class="pill ${m.behind ? "out" : "ok"}">${esc(t(m.behind ? "dp_pace_behind" : "dp_pace_ok"))}</span>`;
+    let note = "";
+    const pn = store.payoffNote || {};
+    if (dpValid(pn.raiseHolds) && dpValid(pn.preRaise) && dpValid(pn.priceRaise)) {
+      note = `<p class="hint">${esc(fill(t("dp_payoff_note"), { raise: fmtStart(pn.raiseHolds), pre: fmtStart(pn.preRaise), price: fmtStart(pn.priceRaise) }))}</p>`;
+    }
+    const pays = dpList(debt.payments);
+    const payHtml = pays.length ? table([t("debt_date"), t("debt_amt"), t("dp_note")], pays.map((p) => {
+      const noteTxt = dpPublic(p && p.note);
+      return [dpFmt(p && p.date), dpMoney(p && p.amount), noteTxt ? esc(noteTxt) : ""];
+    })) : `<p class="hint">${esc(t("dp_no_pays"))}</p>`;
+    let hint = fill(t("dp_start_line"), { supplier: m.supplier, start: dpMoney(m.start) });
+    if (dpValid(m.startDate)) hint += " " + fill(t("dp_start_on"), { date: fmtStart(m.startDate) });
+    return card(t("dp_debt"), hint, `<div class="kpis">${kpi(t("dp_balance"), dpMoney(m.current), esc(m.supplier))}
+      ${kpi(t("dp_paid"), dpMoney(m.paidAll), "")}
+      ${kpi(t("dp_payoff"), m.payoff ? fmtStart(m.payoff) : esc(t("dp_open")), "")}</div>
+      ${bar(m.progress)}
+      <p class="hint">${esc(fill(t("dp_progress"), { paid: dpMoney(m.paidAll), start: dpMoney(m.start) }))}</p>
+      <div class="dp-pace">${badge}<span>${esc(t("dp_actual"))} ${dpMoney(m.paidToDate)} · ${esc(t("dp_planned"))} ${dpMoney(m.plannedToDate)}</span></div>
+      ${note}${payHtml}${dpPlan(store.plan)}`);
+  }
+  function dpPlan(plan) {
+    const rows = dpList(plan).filter((r) => r && dpValid(r.date));
+    if (!rows.length) return "";
+    const showBal = rows.some((r) => dpNum(r.balAfter) != null);
+    const showFloor = rows.some((r) => dpNum(r.floor) != null);
+    const head = [t("debt_date"), t("dp_extra"), t("dp_debt_after")];
+    if (showBal) head.push(t("dp_bal_after"));
+    if (showFloor) head.push(t("dp_floor"));
+    const body = rows.map((r) => {
+      const cells = [fmtD(r.date), dpMoney(r.extra), dpMoney(r.debtAfter)];
+      if (showBal) cells.push(dpNum(r.balAfter) == null ? "" : dpMoney(r.balAfter));
+      if (showFloor) cells.push(dpNum(r.floor) == null ? "" : dpMoney(r.floor));
+      return `<tr data-date="${esc(r.date)}" data-extra="${esc(dpAttr(r.extra))}" data-debt="${esc(dpAttr(r.debtAfter))}" data-bal="${esc(dpAttr(r.balAfter))}" data-floor="${esc(dpAttr(r.floor))}">${cells.map((c) => `<td>${c}</td>`).join("")}</tr>`;
+    }).join("");
+    return `<details class="plan"><summary>${esc(fill(t("dp_plan_n"), { n: int(rows.length) }))}</summary><div class="tw"><table class="num compact"><thead><tr>${head.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></div></details>`;
+  }
+  function dpRuleCard(store, m) {
+    const cls = m.warnShort || m.warnFloor ? "alert" : "good";
+    let warns = "";
+    if (m.warnShort) warns += `<p class="flag bad">${esc(t("dp_warn_short"))}</p>`;
+    if (m.warnFloor) warns += `<p class="flag bad">${esc(t("dp_warn_floor"))}</p>`;
+    const floorSub = m.floorRaised ? fill(t("dp_floor_why"), { days: String(m.windowDays) }) : t("dp_floor_base");
+    let diff = "";
+    if (m.planExtra != null && m.suggested != null && Math.abs(m.planExtra - m.suggested) > 0.009 && dpValid(m.payDate)) {
+      diff = `<p class="hint">${esc(fill(t("dp_plan_diff"), { date: fmtStart(m.payDate), extra: dpMoney(m.planExtra) }))}</p>`;
+    }
+    let reserva = "";
+    if (m.reserva != null) reserva = `<div class="bline"><span>${esc(t("dp_reserva"))}</span><b>${dpMoney(m.reserva)}</b></div><p class="hint">${esc(t("dp_reserva_hint"))}</p>`;
+    let order = "";
+    if (store.weeklyOrderSeparate === true) order = `<p class="hint">${esc(t("dp_order_plain"))}</p>`;
+    else if (dpNum(store.weeklyOrderSeparate) != null) order = `<p class="hint">${esc(fill(t("dp_order_amt"), { amt: dpMoney(store.weeklyOrderSeparate) }))}</p>`;
+    const when = dpValid(m.payDate) ? fmtStartLong(m.payDate) : "";
+    return card(t("dp_rule"), t("dp_formula"), `<div class="kpis">${kpi(t("dp_suggest"), m.suggested == null ? esc(t("dp_na")) : dpMoney(m.suggested), esc(when), cls)}
+      ${kpi(t("dp_floor"), m.floor == null ? esc(t("dp_na")) : dpMoney(m.floor), esc(floorSub))}
+      ${kpi(t("dp_bal"), m.bank == null ? esc(t("dp_na")) : dpMoney(m.bank), "")}</div>
+      <p class="hint">${esc(t("dp_target_wk"))}: ${dpMoney(m.targetWk)}</p>
+      ${diff}${reserva}${warns}${order}`);
+  }
+  function dpAmountLabel(ob) {
+    const exp = dpNum(ob.expectedAmount);
+    if (exp != null) return dpMoney(exp);
+    const range = Array.isArray(ob.amountRange) ? ob.amountRange : [];
+    const lo = dpNum(range[0]), hi = dpNum(range[1]);
+    if (lo != null && hi != null && Math.abs(hi - lo) > 0.009) return dpMoney(lo) + " " + t("dp_to") + " " + dpMoney(hi);
+    if (hi != null) return dpMoney(hi);
+    if (lo != null) return dpMoney(lo);
+    return t("dp_ob_amount_missing");
+  }
+  function dpCadenceLabel(ob) {
+    const c = dpCadence(ob);
+    if (c === "one-off" || c === "oneoff" || c === "once") return t("dp_cadence_once");
+    if (c === "weekly" || c === "monthly" || c === "daily") return t("dp_cadence_" + c);
+    return "";
+  }
+  function dpObRow(ob, dates, overdue) {
+    const unusual = ob.status === "unusual-amount";
+    const late = overdue || ob.status === "overdue";
+    const cls = late ? "overdue" : unusual ? "unusual" : "";
+    const cat = t("dp_cat_" + (ob.category || "other"));
+    const label = dpPublic(ob.label) || cat;
+    let when = "";
+    if (dates.length === 1) when = dpFmt(dates[0]);
+    else if (dates.length > 1 && dpCadence(ob) === "daily") when = fill(t("dp_ob_times"), { n: int(dates.length), first: dpFmt(dates[0]), last: dpFmt(dates[dates.length - 1]), amt: dpAmountLabel(ob) });
+    else if (dates.length > 1) when = dates.map(dpFmt).filter(Boolean).join(", ");
+    else when = t("dp_ob_nodate");
+    const pills = [dpCadenceLabel(ob), late ? t("dp_ob_overdue_tag") : "", unusual ? t("dp_ob_unusual") : "", ob.status === "due-soon" ? t("dp_ob_due_soon") : "", ob.confidence === "low" ? t("dp_ob_low") : ""].filter(Boolean);
+    const note = dpPublic(ob.note);
+    return `<article class="ob ${cls}"><div class="obtop"><span>${esc(label)}</span><b>${esc(dpAmountLabel(ob))}</b></div><div class="obmeta">${esc(when)}${pills.length ? " · " + pills.map(esc).join(" · ") : ""}${note ? " · " + esc(note) : ""}</div></article>`;
+  }
+  function dpWindowRows(obs, today, end, overdueOnly) {
+    const html = [];
+    obs.forEach((ob) => {
+      const dates = dpOccurrences(ob, today, end);
+      const picked = dates.filter((d) => overdueOnly ? d < today : (d >= today && d <= end));
+      if (!picked.length) return;
+      html.push(dpObRow(ob, picked, overdueOnly));
+    });
+    return html.join("");
+  }
+  function dpObCard(store, m) {
+    const obs = dpList(store.obligations).filter((ob) => ob && typeof ob === "object");
+    const today = m.today, end7 = dpAddDays(today, 7), end30 = dpAddDays(today, 30);
+    const due7 = dpSumDue(obs, today, end7), due30 = dpSumDue(obs, today, end30);
+    const short = dpDueExceeds(due7, m.bank, m.floorToday);
+    const head = m.headroom == null ? "" : `<p class="${short ? "flag bad" : "hint"}">${esc(t("dp_ob_total"))}: ${dpMoney(due7)} · ${esc(t("dp_ob_headroom"))}: ${dpMoney(m.headroom)}</p>`;
+    const later = `<p class="hint">${esc(t("dp_ob_30_total"))}: ${dpMoney(due30)}</p>`;
+    const warn = short ? `<p class="flag bad">${esc(t("dp_ob_short"))}</p>` : "";
+    const basis = obs.some((ob) => dpNum(ob.expectedAmount) == null && dpPayAmount(ob) != null) ? `<p class="hint">${esc(t("dp_ob_basis"))}</p>` : "";
+    if (!obs.length) {
+      return card(t("dp_ob"), t("dp_ob_hint"), `${head}${later}${warn}<p class="hint">${esc(t("dp_ob_empty"))}</p>`);
+    }
+    const overdue = dpWindowRows(obs, today, end30, true);
+    const soon = dpWindowRows(obs, today, end7, false);
+    const month = dpWindowRows(obs, today, end30, false);
+    const undated = obs.filter((ob) => !dpOccurrences(ob, today, end30).length).map((ob) => dpObRow(ob, [], ob.status === "overdue")).join("");
+    const block = (title, body) => `<h3>${esc(title)}</h3>${body || `<p class="hint">${esc(t("dp_ob_none"))}</p>`}`;
+    return card(t("dp_ob"), t("dp_ob_hint"), `${head}${later}${warn}${basis}${block(t("dp_ob_overdue"), overdue)}${block(t("dp_ob_7"), soon)}${block(t("dp_ob_30"), month)}${undated ? block(t("dp_ob_nodate"), undated) : ""}`);
+  }
+  function dpMonthTable(rows) {
+    if (!rows.length) return "";
+    const labor = (r) => dpShare(r.labor, r.deposits, r.laborPct);
+    const rent = (r) => dpShare(r.rent, r.deposits, r.rentPct);
+    const cols = [["label", t("dp_month"), (r) => esc(r.month ? dpMonthLabel(r.month, false) : t("dp_current")) + (r.approximate ? ` <span class="tag muted">${esc(t("dp_approx"))}</span>` : "")]];
+    if (rows.some((r) => dpNum(r.deposits) != null)) cols.push(["deposits", t("dp_deposits"), (r) => dpMoney(r.deposits)]);
+    if (rows.some((r) => dpNum(r.outflows) != null)) cols.push(["outflows", t("dp_out"), (r) => dpMoney(r.outflows)]);
+    if (rows.some((r) => dpNum(r.net) != null)) cols.push(["net", t("dp_net"), (r) => dpMoney(r.net, !!r.approximate)]);
+    if (rows.some((r) => dpNum(r.ownerDraws) != null || dpNum(r.ownerDrawsHigh) != null)) cols.push(["draws", t("dp_draws"), (r) => {
+      const lo = dpNum(r.ownerDraws), hi = dpNum(r.ownerDrawsHigh);
+      if (lo != null && hi != null && Math.abs(hi - lo) > 0.009) return dpMoney(lo) + " " + t("dp_to") + " " + dpMoney(hi);
+      return lo != null ? dpMoney(lo) : dpMoney(hi);
+    }]);
+    const shareCell = (pct, amt) => [pct != null ? dpPct(pct) : "", amt != null ? dpMoney(amt) : ""].filter(Boolean).join(" · ");
+    if (rows.some((r) => labor(r) != null || dpNum(r.labor) != null)) cols.push(["labor", t("dp_labor"), (r) => shareCell(labor(r), dpNum(r.labor))]);
+    if (rows.some((r) => rent(r) != null || dpNum(r.rent) != null)) cols.push(["rent", t("dp_rent"), (r) => shareCell(rent(r), dpNum(r.rent))]);
+    if (cols.length < 2) return "";
+    return table(cols.map((c) => c[1]), rows.map((r) => cols.map((c) => c[2](r))), "num");
+  }
+  function dpPctChart(m) {
+    const items = [];
+    if (m.laborPct != null) items.push([t("dp_labor"), m.laborPct, false]);
+    if (m.rentPct != null) items.push([t("dp_rent"), m.rentPct, false]);
+    if (m.gapPct != null) items.push([t("dp_gap"), m.gapPct, m.gapWarn]);
+    if (!items.length) return "";
+    return `<div class="dp-metrics" role="img" aria-label="${esc(t("dp_chart"))}">${items.map(([label, pct, warn]) => {
+      const w = Math.max(pct > 0 ? 2 : 0, Math.min(100, pct * 100));
+      return `<div class="dp-metric"><span>${esc(label)}</span><span class="track"><i class="${warn ? "warnbar" : ""}" style="width:${w.toFixed(1)}%"></i></span><b>${dpPct(pct)}</b></div>`;
+    }).join("")}</div><p class="hint">${esc(t("dp_chart_key"))}</p>`;
+  }
+  function dpNetChart(rows) {
+    const series = rows.filter((r) => r && r.month && /^\d{4}-\d{2}$/.test(r.month) && dpNum(r.net) != null);
+    if (series.length < 2) return "";
+    const max = Math.max.apply(null, series.map((r) => Math.abs(dpNum(r.net))));
+    if (!max) return "";
+    return `<div class="dp-cols" role="img" aria-label="${esc(t("dp_chart"))}">${series.map((r) => {
+      const h = Math.max(4, (Math.abs(dpNum(r.net)) / max) * 100);
+      return `<div class="dp-colbar"><i style="height:${h.toFixed(1)}%"></i><span>${esc(dpMonthLabel(r.month, false))}</span></div>`;
+    }).join("")}</div>`;
+  }
+  function dpGapHtml(m) {
+    if (m.gapPct == null && m.gapAmt == null && m.anota == null) return "";
+    let detail = "";
+    if (m.gapAmt != null && m.gapPct != null) detail = dpMoney(m.gapAmt, m.gapApprox) + " (" + dpPct(m.gapPct) + ")";
+    else if (m.gapPct != null) detail = (m.gapApprox ? "~" : "") + dpPct(m.gapPct);
+    else detail = dpMoney(m.gapAmt, m.gapApprox);
+    const when = dpMonthLabel(m.gapMonth, true);
+    if (when) detail = when + ": " + detail;
+    let raw = "";
+    if (m.anota != null && m.bankDep != null) raw = `<p class="hint">${esc(t("dp_anota"))} ${dpMoney(m.anota)} · ${esc(t("dp_deposits"))} ${dpMoney(m.bankDep)}</p>`;
+    const warn = m.gapWarn ? `<p class="flag bad">${esc(fill(t("dp_gap_warn"), { pct: dpPct(m.gapWarnAbove) }))}</p>` : "";
+    return `<h3>${esc(t("dp_gap"))}</h3><p class="hint">${esc(fill(t("dp_gap_line"), { detail: detail }))}</p>${raw}${warn}`;
+  }
+  function dpTargetHtml(store, m) {
+    const target = dpNum(store.target);
+    if (target == null && m.decisionDays == null) return "";
+    let html = "";
+    if (target != null) {
+      const now = m.net == null ? "" : (m.netApprox ? "~" : "") + dpMoney(m.net) + t("dp_permo");
+      html += `<div class="kpis">${kpi(t("dp_target"), dpMoney(target) + t("dp_permo"), esc(now))}</div>`;
+      if (m.net != null && target > 0) html += bar(Math.max(m.net > 0 ? 2 : 0, Math.min(100, (m.net / target) * 100)));
+    }
+    if (m.decisionDays != null && dpValid(store.decisionDate)) {
+      const date = fmtStart(store.decisionDate);
+      let msg = t("dp_count_0");
+      if (m.decisionDays > 1) msg = fill(t("dp_count"), { n: int(m.decisionDays), date: date });
+      else if (m.decisionDays === 1) msg = fill(t("dp_count_1"), { date: date });
+      else if (m.decisionDays < 0) msg = fill(t("dp_count_past"), { date: date });
+      html += `<p class="hint">${esc(msg)}</p><p class="flag">${esc(fill(t("dp_decision_copy"), { date: date }))}</p>`;
+    }
+    return html;
+  }
+  function dpLevers(store) {
+    const levers = dpList(store.levers).filter((l) => l && l.id);
+    if (!levers.length) return "";
+    const items = levers.map((l) => {
+      const sign = l.direction === "down" ? "-" : l.direction === "up" ? "+" : "";
+      const approx = l.approximate ? "~" : "";
+      const one = dpNum(l.monthly), lo = dpNum(l.monthlyLow), hi = dpNum(l.monthlyHigh);
+      let amt = "";
+      if (one != null) amt = approx + sign + dpMoney(one) + t("dp_permo");
+      else if (lo != null && hi != null) amt = approx + sign + dpMoney(lo) + " " + t("dp_to") + " " + dpMoney(hi) + t("dp_permo");
+      else if (lo != null) amt = approx + sign + dpMoney(lo) + t("dp_permo");
+      return `<li><b>${esc(t("dp_lever_" + l.id))}</b>${amt ? " " + esc(amt) : ""}</li>`;
+    }).join("");
+    return `<h3>${esc(t("dp_levers"))}</h3><ul class="notes">${items}</ul>`;
+  }
+  function dpSavings(store) {
+    const sv = store.savings;
+    if (!sv) return "";
+    const buy = dpNum(sv.supermarketMonthly), lo = dpNum(sv.saveLow), hi = dpNum(sv.saveHigh);
+    if (buy == null || lo == null || hi == null) return "";
+    return `<p class="hint">${esc(fill(t("dp_savings"), { buy: dpMoney(buy), low: dpMoney(lo), high: dpMoney(hi) }))}</p>`;
+  }
+  function dpProfitCard(store, m) {
+    const rows = dpList(store.monthly).filter((r) => r && typeof r === "object");
+    const hint = rows.some((r) => r.month) ? t("dp_profit_hist") : t("dp_profit_now");
+    return card(t("dp_profit"), hint, dpTargetHtml(store, m) + dpNetChart(rows) + dpMonthTable(rows) + dpPctChart(m) + dpGapHtml(m) +
+      (store.drawsTakeAlmostAll ? `<p class="hint">${esc(t("dp_draws_note"))}</p>` : "") + dpSavings(store) + dpLevers(store));
+  }
+  function dpModel(store, meta) {
+    const id = store.id === "vila" ? "vila" : "bar";
+    const today = dpIso(new Date());
+    const debt = store.debt && typeof store.debt === "object" ? store.debt : {};
+    const payments = dpList(debt.payments);
+    const plan = dpList(store.plan);
+    const start = dpNum(debt.startBalance) || 0;
+    const paidAll = dpPaid(payments, "amount");
+    const current = Math.max(0, (Math.round(start * 100) - Math.round(paidAll * 100)) / 100);
+    const paidToDate = dpPaid(payments, "amount", (p) => dpValid(p.date) && p.date <= today);
+    const plannedToDate = dpPaid(plan, "extra", (p) => dpValid(p.date) && p.date <= today);
+    let payoff = "";
+    plan.forEach((r) => { if (!payoff && r && dpNum(r.debtAfter) != null && dpNum(r.debtAfter) <= 0.009 && dpValid(r.date)) payoff = r.date; });
+    const rule = store.rule && typeof store.rule === "object" ? store.rule : {};
+    const payDate = dpNextPay(rule.payDay, today);
+    const fl = dpFloor(rule, payDate);
+    const floorToday = dpFloor(rule, today);
+    const bank = dpNum(store.bankBalance);
+    const targetWk = dpNum(rule.weeklyExtraTarget);
+    const suggested = dpSuggest(bank, fl.floor, targetWk);
+    const planHit = plan.find((r) => r && r.date === payDate);
+    const rows = dpList(store.monthly).filter((r) => r && typeof r === "object");
+    let laborPct = null, rentPct = null, net = null, netApprox = false;
+    rows.forEach((r) => {
+      const lp = dpShare(r.labor, r.deposits, r.laborPct);
+      const rp = dpShare(r.rent, r.deposits, r.rentPct);
+      if (lp != null) laborPct = lp;
+      if (rp != null) rentPct = rp;
+      if (dpNum(r.net) != null) { net = dpNum(r.net); netApprox = !!r.approximate; }
+    });
+    const gap = store.salesGap && typeof store.salesGap === "object" ? store.salesGap : {};
+    const anota = dpNum(gap.anotaSales), bankDep = dpNum(gap.bankDeposits);
+    let gapAmt = null, gapPct = null;
+    if (anota != null && bankDep != null) {
+      gapAmt = (Math.round(anota * 100) - Math.round(bankDep * 100)) / 100;
+      gapPct = anota === 0 ? null : (anota - bankDep) / anota;
+    } else {
+      gapAmt = dpNum(gap.gap);
+      gapPct = dpNum(gap.gapPct);
+      if (gapPct == null && gapAmt != null && anota) gapPct = gapAmt / anota;
+    }
+    const warnAbove = dpNum(meta.gapWarnAbove);
+    const gapWarnAbove = warnAbove == null ? 0.05 : warnAbove;
+    const obs = dpList(store.obligations);
+    const due7 = dpSumDue(obs, today, dpAddDays(today, 7));
+    return {
+      id: id, today: today, supplier: dpPublic(debt.supplier) || "Boutique", start: start, startDate: debt.startDate,
+      current: current, paidAll: paidAll, paidToDate: paidToDate, plannedToDate: plannedToDate,
+      behind: paidToDate + 0.009 < plannedToDate, payoff: payoff, progress: start > 0 ? Math.min(100, (paidAll / start) * 100) : 0,
+      payDate: payDate, floor: fl.floor, floorRaised: fl.raised, windowDays: fl.days, floorToday: floorToday.floor,
+      bank: bank, reserva: dpNum(store.reserva), targetWk: targetWk, suggested: suggested,
+      warnShort: suggested != null && targetWk != null && suggested + 0.009 < targetWk,
+      warnFloor: bank != null && fl.floor != null && bank + 0.009 < fl.floor,
+      planExtra: planHit ? dpNum(planHit.extra) : null,
+      laborPct: laborPct, rentPct: rentPct, net: net, netApprox: netApprox,
+      gapPct: gapPct, gapAmt: gapAmt, gapMonth: gap.month || "", gapApprox: !!gap.approximate,
+      gapWarn: gapPct != null && gapPct > gapWarnAbove + 1e-9, gapWarnAbove: gapWarnAbove, anota: anota, bankDep: bankDep,
+      headroom: dpHeadroom(bank, floorToday.floor), due7: due7,
+      decisionDays: dpValid(store.decisionDate) ? dpSpan(today, store.decisionDate) : null,
+      asOf: dpValid(store.asOf) ? store.asOf : (dpValid(meta.asOf) ? meta.asOf : ""),
+      attrs: dpDataAttrs({
+        store: id, balance: dpAttr(current), bank: dpAttr(bank), reserva: dpAttr(store.reserva),
+        suggested: dpAttr(suggested), floor: dpAttr(fl.floor), payoff: payoff, pace: paidToDate + 0.009 < plannedToDate ? "behind" : "on",
+        due7: dpAttr(due7), headroom: dpAttr(dpHeadroom(bank, floorToday.floor)), obcount: String(obs.length),
+        gap: gapPct == null ? "" : String(Math.round(gapPct * 10000) / 10000),
+        days: dpValid(store.decisionDate) ? String(dpSpan(today, store.decisionDate)) : ""
+      })
+    };
+  }
+  function dpColumn(store, meta) {
+    const m = dpModel(store, meta);
+    return `<section class="dp-col ${m.id}" aria-label="${esc(t(m.id))}"${m.attrs}><div class="dp-banner">${esc(t(m.id))}</div>
+      ${src(meta.source || "Stone extratos", m.asOf)}
+      ${dpDebtCard(store, m)}${dpRuleCard(store, m)}${dpObCard(store, m)}${dpProfitCard(store, m)}</section>`;
+  }
+  function dpAlerts(list) {
+    const items = [];
+    ["bar", "vila"].forEach((id) => {
+      const store = list.find((s) => s && s.id === id);
+      dpList(store && store.alerts).forEach((a) => {
+        if (!a) return;
+        const text = dpPublic(a.text);
+        if (!text && !dpValid(a.date)) return;
+        const sev = a.severity === "red" || a.severity === "warn" ? a.severity : "info";
+        items.push(`<p class="flag dp-alert ${sev === "red" ? "bad" : sev === "info" ? "info" : ""}" data-store="${id}"><span class="tag">${esc(t(id))}</span> ${dpFmt(a.date)} ${esc(text)}</p>`);
+      });
+    });
+    if (!items.length) return `<p class="hint">${esc(t("dp_alerts_empty"))}</p>`;
+    return card(t("dp_alerts"), "", items.join(""));
+  }
+  function dpView(data) {
+    const meta = { source: data.source || "Stone extratos", asOf: data.asOf || "", gapWarnAbove: dpNum(data.gapWarnAbove) };
+    const list = dpList(data.stores);
+    const cols = ["bar", "vila"].map((id) => {
+      const store = list.find((s) => s && s.id === id);
+      if (!store) return `<section class="dp-col ${id}" data-store="${id}"><div class="dp-banner">${esc(t(id))}</div><p class="hint">${esc(t("dp_missing"))}</p></section>`;
+      return dpColumn(store, meta);
+    }).join("");
+    return `<p class="hint">${esc(t("dp_hint"))}</p>${dpAlerts(list)}<div class="dp-stores">${cols}</div>` +
+      card(t("dp_log"), "", `<p class="dp-log">${esc(t("dp_log_help"))}</p><p class="hint"><code>data/debtProfit.json</code> · <code>payments</code> · <code>{ date, amount, note }</code></p>`);
+  }
+  function loadDebtProfit() {
+    fetch("data/debtProfit.json", { cache: "no-cache" }).then((r) => {
+      if (!r.ok) throw new Error(String(r.status));
+      return r.json();
+    }).then((data) => {
+      dpState = { status: "ready", data: data };
+      if (view === "profit") render();
+    }).catch(() => {
+      dpState = { status: "error", data: null };
+      if (view === "profit") render();
+    });
+  }
+  V.profit = function () {
+    try {
+      if (dpState.status === "loading") return card(t("nav_profit"), t("dp_hint"), `<p class="hint">${esc(t("dp_loading"))}</p>`);
+      if (dpState.status !== "ready" || !dpState.data) return card(t("nav_profit"), t("dp_hint"), `<p class="flag bad">${esc(t("dp_error"))}</p>`);
+      return dpView(dpState.data);
+    } catch (err) {
+      console.error(err);
+      return card(t("nav_profit"), "", `<p class="flag bad">${esc(t("dp_error"))}</p>`);
+    }
+  };
+
   /* ---------- Shell ---------- */
   let view = localStorage.getItem(LS.view) || "dashboard";
   function renderTabs() {
@@ -526,6 +1062,7 @@
   });
   window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (h && h !== view && V[h]) go(h); });
   const h = location.hash.slice(1); if (V[h]) view = h;
+  loadDebtProfit();
   render();
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("service-worker.js").catch(() => {});
 })();

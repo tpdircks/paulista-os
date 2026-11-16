@@ -1,0 +1,100 @@
+{
+  "source": "Stone extratos",
+  "asOf": "2026-11-16",
+  "gapWarnAbove": 0.05,
+  "stores": [
+    {
+      "id": "bar",
+      "asOf": "2026-11-16",
+      "bankBalance": 4530.89,
+      "debt": {
+        "supplier": "Boutique",
+        "startBalance": 23064,
+        "startDate": "2026-11-11",
+        "payments": []
+      },
+      "rule": {
+        "floor": 2000,
+        "floorBefore10th": 3500,
+        "weeklyExtraTarget": 2000,
+        "payDay": "Wednesday",
+        "floorWindowDays": 7
+      },
+      "weeklyOrderSeparate": 2500,
+      "plan": [
+        { "date": "2026-11-18", "extra": 1400, "debtAfter": 21664, "balAfter": 2053, "floor": 2000 },
+        { "date": "2026-11-25", "extra": 2000, "debtAfter": 19664, "balAfter": 2504, "floor": 2000 },
+        { "date": "2026-12-02", "extra": 2000, "debtAfter": 17664, "balAfter": 3655, "floor": 2000 },
+        { "date": "2026-12-09", "extra": 2000, "debtAfter": 15664, "balAfter": 4806, "floor": 3500 },
+        { "date": "2026-12-16", "extra": 2000, "debtAfter": 13664, "balAfter": 3497, "floor": 2000 },
+        { "date": "2026-12-23", "extra": 2000, "debtAfter": 11664, "balAfter": 3949, "floor": 2000 },
+        { "date": "2026-12-30", "extra": 2000, "debtAfter": 9664, "balAfter": 5100, "floor": 2000 },
+        { "date": "2027-01-06", "extra": 2000, "debtAfter": 7664, "balAfter": 6251, "floor": 3500 },
+        { "date": "2027-01-13", "extra": 2000, "debtAfter": 5664, "balAfter": 4942, "floor": 2000 },
+        { "date": "2027-01-20", "extra": 2000, "debtAfter": 3664, "balAfter": 6093, "floor": 2000 },
+        { "date": "2027-01-27", "extra": 2000, "debtAfter": 1664, "balAfter": 6544, "floor": 2000 },
+        { "date": "2027-02-03", "extra": 1664, "debtAfter": 0, "balAfter": 8031, "floor": 3500 }
+      ],
+      "monthly": [
+        { "ownerDraws": 8250, "ownerDrawsHigh": 9380, "laborPct": 0.14 }
+      ],
+      "salesGap": { "month": "2026-10", "gap": 13600, "gapPct": 0.19, "approximate": true },
+      "drawsTakeAlmostAll": true,
+      "payoffNote": { "raiseHolds": "2027-02-03", "preRaise": "2027-04-28", "priceRaise": "2026-11-07" },
+      "savings": { "supermarketMonthly": 15500, "saveLow": 800, "saveHigh": 1500 },
+      "obligations": [],
+      "alerts": []
+    },
+    {
+      "id": "vila",
+      "asOf": "2026-11-16",
+      "bankBalance": 1056.30,
+      "reserva": 1767.81,
+      "debt": {
+        "supplier": "Boutique",
+        "startBalance": 7594,
+        "startDate": "2026-11-11",
+        "payments": []
+      },
+      "rule": {
+        "floor": 1000,
+        "floorBefore10th": 1500,
+        "weeklyExtraTarget": 500,
+        "payDay": "Wednesday",
+        "floorWindowDays": 7
+      },
+      "weeklyOrderSeparate": true,
+      "plan": [
+        { "date": "2026-11-18", "extra": 500, "debtAfter": 7094, "floor": 1000 },
+        { "date": "2026-11-25", "extra": 500, "debtAfter": 6594, "floor": 1000 },
+        { "date": "2026-12-02", "extra": 500, "debtAfter": 6094, "floor": 1000 },
+        { "date": "2026-12-09", "extra": 500, "debtAfter": 5594, "floor": 1500 },
+        { "date": "2026-12-16", "extra": 500, "debtAfter": 5094, "floor": 1000 },
+        { "date": "2026-12-23", "extra": 500, "debtAfter": 4594, "floor": 1000 },
+        { "date": "2026-12-30", "extra": 500, "debtAfter": 4094, "floor": 1000 },
+        { "date": "2027-01-06", "extra": 500, "debtAfter": 3594, "floor": 1500 },
+        { "date": "2027-01-13", "extra": 500, "debtAfter": 3094, "floor": 1000 },
+        { "date": "2027-01-20", "extra": 500, "debtAfter": 2594, "floor": 1000 },
+        { "date": "2027-01-27", "extra": 500, "debtAfter": 2094, "floor": 1000 },
+        { "date": "2027-02-03", "extra": 500, "debtAfter": 1594, "floor": 1500 },
+        { "date": "2027-02-10", "extra": 500, "debtAfter": 1094, "floor": 1500 },
+        { "date": "2027-02-17", "extra": 500, "debtAfter": 594, "floor": 1000 },
+        { "date": "2027-02-24", "extra": 500, "debtAfter": 94, "floor": 1000 },
+        { "date": "2027-03-03", "extra": 94, "debtAfter": 0, "floor": 1500 }
+      ],
+      "monthly": [
+        { "net": 350, "laborPct": 0.35, "rentPct": 0.063, "approximate": true }
+      ],
+      "salesGap": { "gapPct": 0.19, "approximate": true },
+      "target": 4000,
+      "decisionDate": "2027-03-01",
+      "levers": [
+        { "id": "price", "direction": "up", "monthly": 2300, "approximate": true },
+        { "id": "labor", "direction": "down", "monthlyLow": 1000, "monthlyHigh": 1500 },
+        { "id": "cash" }
+      ],
+      "obligations": [],
+      "alerts": []
+    }
+  ]
+}
