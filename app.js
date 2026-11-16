@@ -34,7 +34,6 @@
   // Flat top-tab order; same section ids as before.
   const NAV = [
     ["dashboard", "M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"],
-    ["debt", "M3 17l6-6 4 4 8-8M14 7h7v7"],
     ["profit", "M4 19V5M4 19h16M8 16l4-5 3 3 5-7"],
     ["cash", "M2 7h20v10H2zM12 9a3 3 0 100 6 3 3 0 000-6z"],
     ["approvals", "M9 11l3 3 8-8M20 12v7H4V5h11"],
@@ -310,29 +309,6 @@
         ${kpi(t("k_debt"), brl(D.debt[id], 0), t("source") + ": Lucas 02/11")}
         ${kpi(t("k_cash"), brl(D.cashToday[id]), `${t("c_cover")}: ${(D.cashToday[id] / D.debt[id] * 100).toFixed(1)}% · ${t("c_close")} ${brl(st[id].close)}`)}</div>`)).join("")}</div>` +
       card(t("notes_title"), "", `<ul class="notes">${D.notes.map((n) => `<li><span class="tag">${sname(n.store)}</span> ${esc(txt(n))}</li>`).join("")}</ul>${src("Lucas 03/11 + Stone Oct", D.asOf)}`) + rulesBox();
-  };
-  V.debt = () => {
-    const pays = payments(), rows = schedule(), paid = paidTotal(), next = nextPayDate();
-    let cum = 0;
-    const sched = rows.map((r) => { cum += r.pay; const st = cum <= paid + 0.005 ? `<span class="pill ok">${t("st_done")}</span>` : r.date === next ? `<span class="pill low">${t("st_next")}</span>` : `<span class="pill plan">${t("st_plan")}</span>`;
-      return [r.w, `${fmtD(r.date)} – ${fmtD(r.end)}`, brl(r.pay, 0), brl(r.bal, 0), st]; });
-    const opts = (arr) => arr.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
-    return card(t("debt_title"), t("debt_hint"),
-      `<div class="peers">${peerStat("bar", brl(D.debt.bar, 0), t("debt_start"))}${peerStat("vila", brl(D.debt.vila, 0), t("debt_start"))}</div>
-      <div class="kpis">${kpi(t("k_paid"), brl(paid, 0), t("shared_plan"), "good")}${kpi(t("plan_left"), brl(remaining(), 0), t("shared_plan"), "alert")}
-      ${kpi(t("k_weeks"), weeksLeft(), t("k_weeks_sub"))}</div>${bar(paid / debtStart() * 100)}
-      <p class="hint">${esc(t("k_jonas"))}: ${esc(t("bar"))} ${brl(D.debt.jonas.bar, 0)} · ${esc(t("vila"))} ${brl(D.debt.jonas.vila, 0)}. ${esc(t("jonas_sub"))}</p>
-      <p class="flag">${esc(t("debt_flag"))}</p>
-      <h3>${t("debt_log")}</h3><form id="payf" class="row">
-      <div><label>${t("debt_date")}</label><input type="date" name="date" value="${next}" required></div>
-      <div><label>${t("debt_amt")}</label><input type="number" name="amount" step="0.01" min="0.01" value="${Math.min(D.debt.weekly, remaining())}" required></div>
-      <div><label>${t("debt_sup")}</label><select name="supplier">${opts(D.suppliers.map((s) => [s.name, s.name]))}</select></div>
-      <div><label>${t("debt_store")}</label><select name="store">${opts([["bar", t("bar")], ["vila", t("vila")]])}</select></div>
-      <div class="btncell"><button class="primary" type="submit">${t("debt_add")}</button></div></form>
-      <h3>${t("debt_paid")}</h3>${pays.length ? table([t("debt_date"), t("debt_sup"), t("debt_store"), t("debt_amt"), ""],
-        pays.map((p, i) => [fmtD(p.date), esc(p.supplier), sname(p.store), brl(p.amount), `<button class="ghost sm" data-delpay="${i}">${t("del")}</button>`])) : `<p class="hint">${t("debt_none")}</p>`}
-      ${src(D.debt.source, D.debt.asOf)}`) +
-      card(t("debt_sched"), t("debt_sched_hint"), table([t("wk"), t("wk_of"), t("pay"), t("bal"), t("status")], sched, "compact"));
   };
   V.cash = () => {
     const s = D.stone, p = D.stoneSep;
@@ -1175,11 +1151,46 @@
       })
     };
   }
+  function dpJonas(id) {
+    const j = D.debt && D.debt.jonas;
+    if (!j || j[id] == null) return "";
+    return card(t("k_jonas"), t("jonas_sub"), `<div class="kpi"><div class="kl">${esc(t(id))}</div><div class="kv">${brl(j[id], 0)}</div></div><p class="hint">${esc(t("dp_no_loans"))}</p>`);
+  }
+  function dpBrowserPays(id) {
+    const rows = payments().map((p, i) => ({ p: p, i: i })).filter((x) => x.p && x.p.store === id);
+    if (!rows.length) return "";
+    return `<h3>${esc(t("dp_browser_pays"))}</h3>` + table([t("debt_date"), t("debt_sup"), t("debt_amt"), ""], rows.map((x) => [fmtD(x.p.date), esc(x.p.supplier || ""), brl(x.p.amount), `<button type="button" class="ghost sm" data-delpay="${x.i}">${esc(t("del"))}</button>`]));
+  }
+  function dpLegacyPlan() {
+    const pays = payments(), rows = schedule(), paid = paidTotal(), next = nextPayDate();
+    let cum = 0;
+    const sched = rows.map((r) => {
+      cum += r.pay;
+      const st = cum <= paid + 0.005 ? `<span class="pill ok">${t("st_done")}</span>` : r.date === next ? `<span class="pill low">${t("st_next")}</span>` : `<span class="pill plan">${t("st_plan")}</span>`;
+      return [r.w, `${fmtD(r.date)} · ${fmtD(r.end)}`, brl(r.pay, 0), brl(r.bal, 0), st];
+    });
+    const opts = (arr) => arr.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
+    return `<details class="plan legacy"><summary>${esc(t("dp_legacy_title"))}</summary>
+      <p class="hint">${esc(t("dp_legacy_hint"))} ${esc(t("debt_sched_hint"))}</p>
+      <div class="kpis">${kpi(t("k_paid"), brl(paid, 0), t("shared_plan"), "good")}${kpi(t("plan_left"), brl(remaining(), 0), t("shared_plan"))}${kpi(t("k_weeks"), weeksLeft(), t("k_weeks_sub"))}</div>
+      ${bar(debtStart() ? paid / debtStart() * 100 : 0)}
+      <p class="flag">${esc(t("debt_flag"))}</p>
+      <p class="hint">${esc(t("dp_paid_off"))}</p>
+      <h3>${esc(t("debt_log"))}</h3><form id="payf" class="row">
+      <div><label>${esc(t("debt_date"))}</label><input type="date" name="date" value="${next}" required></div>
+      <div><label>${esc(t("debt_amt"))}</label><input type="number" name="amount" step="0.01" min="0.01" value="${Math.min(D.debt.weekly, Math.max(remaining(), 0.01))}" required></div>
+      <div><label>${esc(t("debt_sup"))}</label><select name="supplier">${opts((D.suppliers || []).map((s) => [s.name, s.name]))}</select></div>
+      <div><label>${esc(t("debt_store"))}</label><select name="store"><option value="bar">${esc(t("bar"))}</option><option value="vila">${esc(t("vila"))}</option></select></div>
+      <div class="btncell"><button class="primary" type="submit">${esc(t("debt_add"))}</button></div></form>
+      ${pays.length ? "" : `<p class="hint">${esc(t("debt_none"))}</p>`}
+      ${table([t("wk"), t("wk_of"), t("pay"), t("bal"), t("status")], sched, "compact")}
+      ${src(D.debt.source, D.debt.asOf)}</details>`;
+  }
   function dpColumn(store, meta) {
     const m = dpModel(store, meta);
     return `<section class="dp-col ${m.id}" aria-label="${esc(t(m.id))}"${m.attrs}><div class="dp-banner">${esc(t(m.id))}</div>
       ${src(meta.source || "Stone extratos", m.asOf)}
-      ${dpDebtCard(store, m)}${dpRuleCard(store, m)}${dpObCard(store, m)}${dpProfitCard(store, m)}</section>`;
+      ${dpDebtCard(store, m)}${dpJonas(m.id)}${dpBrowserPays(m.id)}${dpRuleCard(store, m)}${dpObCard(store, m)}${dpProfitCard(store, m)}</section>`;
   }
   function dpView(data) {
     const meta = { source: data.source || "Stone extratos", asOf: data.asOf || "", gapWarnAbove: dpNum(data.gapWarnAbove) };
@@ -1190,6 +1201,7 @@
       return dpColumn(store, meta);
     }).join("");
     return `<p class="hint">${esc(t("dp_hint"))}</p><div class="dp-stores">${cols}</div>` +
+      dpLegacyPlan() +
       card(t("dp_log"), "", `<p class="dp-log">${esc(t("dp_log_help"))}</p><p class="hint"><code>data/debtProfit.json</code> · <code>payments</code> · <code>{ date, amount, note }</code></p>`);
   }
   function loadDebtProfit() {
@@ -1217,6 +1229,7 @@
 
   /* ---------- Shell ---------- */
   let view = localStorage.getItem(LS.view) || "dashboard";
+  if (view === "debt") view = "profit";
   function renderTabs() {
     const el = $("#tabs");
     el.innerHTML = NAV.map(([id, d]) =>
@@ -1231,7 +1244,7 @@
     document.querySelectorAll(".lang button").forEach((b) => b.classList.toggle("active", b.dataset.lang === lang));
     renderTabs(); $("#view").innerHTML = V[view](); document.title = `Paulista OS · ${t("nav_" + view)}`;
   }
-  function go(v) { view = v; localStorage.setItem(LS.view, v); location.hash = v; render(); window.scrollTo(0, 0); }
+  function go(v) { if (v === "debt") v = "profit"; view = v; localStorage.setItem(LS.view, v); location.hash = v; render(); window.scrollTo(0, 0); }
 
   document.addEventListener("click", (e) => {
     const b = e.target.closest("button");
@@ -1286,8 +1299,14 @@
     }
     render();
   });
-  window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (h && h !== view && V[h]) go(h); });
-  const h = location.hash.slice(1); if (V[h]) view = h;
+  window.addEventListener("hashchange", () => {
+    const h = location.hash.slice(1);
+    if (h === "debt") { if (location.hash !== "#profit") location.hash = "profit"; return; }
+    if (h && h !== view && V[h]) go(h);
+  });
+  const h = location.hash.slice(1);
+  if (h === "debt") { view = "profit"; location.hash = "profit"; }
+  else if (V[h]) view = h;
   loadDebtProfit();
   render();
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("service-worker.js").catch(() => {});
