@@ -22,33 +22,532 @@
       },
       "weeklyOrderSeparate": 2500,
       "plan": [
-        { "date": "2026-11-18", "extra": 1400, "debtAfter": 21664, "balAfter": 2053, "floor": 2000 },
-        { "date": "2026-11-25", "extra": 2000, "debtAfter": 19664, "balAfter": 2504, "floor": 2000 },
-        { "date": "2026-12-02", "extra": 2000, "debtAfter": 17664, "balAfter": 3655, "floor": 2000 },
-        { "date": "2026-12-09", "extra": 2000, "debtAfter": 15664, "balAfter": 4806, "floor": 3500 },
-        { "date": "2026-12-16", "extra": 2000, "debtAfter": 13664, "balAfter": 3497, "floor": 2000 },
-        { "date": "2026-12-23", "extra": 2000, "debtAfter": 11664, "balAfter": 3949, "floor": 2000 },
-        { "date": "2026-12-30", "extra": 2000, "debtAfter": 9664, "balAfter": 5100, "floor": 2000 },
-        { "date": "2027-01-06", "extra": 2000, "debtAfter": 7664, "balAfter": 6251, "floor": 3500 },
-        { "date": "2027-01-13", "extra": 2000, "debtAfter": 5664, "balAfter": 4942, "floor": 2000 },
-        { "date": "2027-01-20", "extra": 2000, "debtAfter": 3664, "balAfter": 6093, "floor": 2000 },
-        { "date": "2027-01-27", "extra": 2000, "debtAfter": 1664, "balAfter": 6544, "floor": 2000 },
-        { "date": "2027-02-03", "extra": 1664, "debtAfter": 0, "balAfter": 8031, "floor": 3500 }
+        {
+          "date": "2026-11-18",
+          "extra": 1400,
+          "debtAfter": 21664,
+          "balAfter": 2053,
+          "floor": 2000
+        },
+        {
+          "date": "2026-11-25",
+          "extra": 2000,
+          "debtAfter": 19664,
+          "balAfter": 2504,
+          "floor": 2000
+        },
+        {
+          "date": "2026-12-02",
+          "extra": 2000,
+          "debtAfter": 17664,
+          "balAfter": 3655,
+          "floor": 2000
+        },
+        {
+          "date": "2026-12-09",
+          "extra": 2000,
+          "debtAfter": 15664,
+          "balAfter": 4806,
+          "floor": 3500
+        },
+        {
+          "date": "2026-12-16",
+          "extra": 2000,
+          "debtAfter": 13664,
+          "balAfter": 3497,
+          "floor": 2000
+        },
+        {
+          "date": "2026-12-23",
+          "extra": 2000,
+          "debtAfter": 11664,
+          "balAfter": 3949,
+          "floor": 2000
+        },
+        {
+          "date": "2026-12-30",
+          "extra": 2000,
+          "debtAfter": 9664,
+          "balAfter": 5100,
+          "floor": 2000
+        },
+        {
+          "date": "2027-01-06",
+          "extra": 2000,
+          "debtAfter": 7664,
+          "balAfter": 6251,
+          "floor": 3500
+        },
+        {
+          "date": "2027-01-13",
+          "extra": 2000,
+          "debtAfter": 5664,
+          "balAfter": 4942,
+          "floor": 2000
+        },
+        {
+          "date": "2027-01-20",
+          "extra": 2000,
+          "debtAfter": 3664,
+          "balAfter": 6093,
+          "floor": 2000
+        },
+        {
+          "date": "2027-01-27",
+          "extra": 2000,
+          "debtAfter": 1664,
+          "balAfter": 6544,
+          "floor": 2000
+        },
+        {
+          "date": "2027-02-03",
+          "extra": 1664,
+          "debtAfter": 0,
+          "balAfter": 8031,
+          "floor": 3500
+        }
       ],
       "monthly": [
-        { "ownerDraws": 8250, "ownerDrawsHigh": 9380, "laborPct": 0.14 }
+        {
+          "ownerDraws": 8250,
+          "ownerDrawsHigh": 9380,
+          "laborPct": 0.14
+        }
       ],
-      "salesGap": { "month": "2026-10", "gap": 13600, "gapPct": 0.19, "approximate": true },
+      "salesGap": {
+        "month": "2026-10",
+        "gap": 13600,
+        "gapPct": 0.19,
+        "approximate": true
+      },
       "drawsTakeAlmostAll": true,
-      "payoffNote": { "raiseHolds": "2027-02-03", "preRaise": "2027-04-28", "priceRaise": "2026-11-07" },
-      "savings": { "supermarketMonthly": 15500, "saveLow": 800, "saveHigh": 1500 },
-      "obligations": [],
-      "alerts": []
+      "payoffNote": {
+        "raiseHolds": "2027-02-03",
+        "preRaise": "2027-04-28",
+        "priceRaise": "2026-11-07"
+      },
+      "savings": {
+        "supermarketMonthly": 15500,
+        "saveLow": 800,
+        "saveHigh": 1500
+      },
+      "obligations": [
+        {
+          "id": "bar-boutique-debt",
+          "label": "Fornecedor Boutique",
+          "category": "debt",
+          "cadence": "weekly",
+          "dueWeekday": "Wednesday",
+          "expectedAmount": 2800,
+          "amountRange": [
+            1300,
+            5000
+          ],
+          "lastPaidDate": "2026-11-11",
+          "lastPaidAmount": 3100,
+          "status": "due-soon",
+          "confidence": "high",
+          "note": "Outstanding supplier debt R$ 23.064,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown."
+        },
+        {
+          "id": "bar-rent-1",
+          "label": "Aluguel (parcela 1)",
+          "category": "rent",
+          "cadence": "monthly",
+          "dueDay": 10,
+          "expectedAmount": 900,
+          "amountRange": [
+            900,
+            900
+          ],
+          "lastPaidDate": "2026-11-10",
+          "lastPaidAmount": 900,
+          "status": "ok",
+          "confidence": "high",
+          "note": "First monthly rent installment, typically around day 10. Amount has been R$ 900,00 on all 3 occurrences in the window (Sep-Nov)."
+        },
+        {
+          "id": "bar-rent-2",
+          "label": "Aluguel (parcela 2)",
+          "category": "rent",
+          "cadence": "monthly",
+          "dueDay": 21,
+          "expectedAmount": 700,
+          "amountRange": [
+            700,
+            700
+          ],
+          "lastPaidDate": "2026-10-21",
+          "lastPaidAmount": 700,
+          "status": "due-soon",
+          "confidence": "low",
+          "note": "Second monthly rent installment, typically on day 21. Amount has been R$ 700,00 on both occurrences (Sep and Oct). November installment not yet paid as of 2026-11-16."
+        },
+        {
+          "id": "bar-energy",
+          "label": "Energia (Equatorial)",
+          "category": "utility",
+          "cadence": "monthly",
+          "dueDay": 12,
+          "expectedAmount": 947.97,
+          "amountRange": [
+            829.14,
+            1055.18
+          ],
+          "lastPaidDate": "2026-11-12",
+          "lastPaidAmount": 1055.18,
+          "status": "ok",
+          "confidence": "high",
+          "note": "Monthly energy bill. Amounts have been rising: R$ 829,14 (Sep 8), R$ 947,97 (Oct 15), R$ 1.055,18 (Nov 12). Nov 12 energy + water together equal R$ 1.205,80."
+        },
+        {
+          "id": "bar-water",
+          "label": "Água (Águas de São Francisco)",
+          "category": "utility",
+          "cadence": "monthly",
+          "dueDay": 12,
+          "expectedAmount": 269.89,
+          "amountRange": [
+            150.62,
+            557.76
+          ],
+          "lastPaidDate": "2026-11-12",
+          "lastPaidAmount": 150.62,
+          "status": "unusual-amount",
+          "confidence": "low",
+          "note": "Water is billed by Águas de São Francisco, not Cosanpa, in this account. Amounts are irregular (range R$ 136,25 to R$ 557,76). Two payments on 2026-09-29 suggest two accounts. No October payment was found after those Sep 29 payments. Only one payment (R$ 150,62) appears on Nov 12. Confidence medium because of the irregular pattern. Last amount R$ 150,62 is more than 25% off the median R$ 269,89."
+        },
+        {
+          "id": "bar-internet",
+          "label": "Internet",
+          "category": "utility",
+          "cadence": "monthly",
+          "dueDay": 6,
+          "expectedAmount": 105.69,
+          "amountRange": [
+            102.23,
+            107.17
+          ],
+          "lastPaidDate": "2026-11-06",
+          "lastPaidAmount": 102.23,
+          "status": "ok",
+          "confidence": "high",
+          "note": "Monthly internet ~R$ 102-107. Paid to IBL Banda Larga in Aug-Oct (last Oct 10), then to RA Telecom on Nov 6 for a similar amount. Treated as one obligation after a likely provider change. IBL itself is not treated as overdue."
+        },
+        {
+          "id": "bar-gas",
+          "label": "Gás",
+          "category": "utility",
+          "cadence": "monthly",
+          "dueDay": 24,
+          "expectedAmount": 162,
+          "amountRange": [
+            108,
+            216
+          ],
+          "lastPaidDate": "2026-10-31",
+          "lastPaidAmount": 108,
+          "status": "ok",
+          "confidence": "low",
+          "note": "Two gas vendor payments in the window (R$ 216,00 on Oct 7 and R$ 108,00 on Oct 31), multiples of R$ 108 (one or two cylinders). Earlier September payments to another gas vendor were smaller and did not continue. Cadence is as-needed, roughly every 3 weeks. Next estimated around Nov 24. dueDay 24 is an estimate from the last interval, not a contracted date."
+        },
+        {
+          "id": "bar-manager",
+          "label": "Folha / gerente",
+          "category": "payroll",
+          "cadence": "weekly",
+          "dueWeekday": "Monday",
+          "expectedAmount": 1080,
+          "amountRange": [
+            1080,
+            1080
+          ],
+          "lastPaidDate": "2026-11-15",
+          "lastPaidAmount": 1080,
+          "status": "due-soon",
+          "confidence": "high",
+          "note": "Weekly manager pay of R$ 1.080,00, almost always Monday (sometimes paid Sunday). A same-day reversal on Oct 27 was excluded, leaving one payment that week (Oct 26)."
+        },
+        {
+          "id": "bar-staff",
+          "label": "Folha / diárias",
+          "category": "payroll",
+          "cadence": "weekly",
+          "expectedAmount": 995,
+          "amountRange": [
+            610,
+            1453
+          ],
+          "lastPaidDate": "2026-11-15",
+          "lastPaidAmount": 1271,
+          "status": "unusual-amount",
+          "confidence": "high",
+          "note": "Aggregate of daily/shift staff Pix, not a single payee. Paid throughout the week, heaviest on Monday, Saturday and Sunday. Weekly totals in the window (excluding the partial first week starting Aug 16) range R$ 610,00 to R$ 1.453,00, median R$ 995,00. Last complete week (Nov 9-15) totaled R$ 1.271,00. Last week is more than 25% off the median."
+        },
+        {
+          "id": "bar-owner",
+          "label": "Retirada dos sócios",
+          "category": "other",
+          "cadence": "weekly",
+          "dueWeekday": "Monday",
+          "expectedAmount": 2000,
+          "amountRange": [
+            1800,
+            2800
+          ],
+          "lastPaidDate": "2026-11-16",
+          "lastPaidAmount": 1800,
+          "status": "due-soon",
+          "confidence": "high",
+          "note": "Recurring Monday owner draw, typically R$ 2.000,00 (last was R$ 1.800,00 on Nov 16, already paid). Some weeks have smaller extra mid-week draws. Weekly totals including extras range R$ 1.800,00 to R$ 2.800,00, median R$ 2.040,00. Discretionary, but regular enough that excluding it would understate cash needs."
+        },
+        {
+          "id": "bar-beverages",
+          "label": "Fornecedor de bebidas",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Friday",
+          "expectedAmount": 1272.5,
+          "amountRange": [
+            338,
+            2200
+          ],
+          "lastPaidDate": "2026-11-14",
+          "lastPaidAmount": 1500,
+          "status": "due-soon",
+          "confidence": "high",
+          "note": "Roughly weekly beverage supplier, most often Friday (sometimes Saturday). A Nov 6 payment sent via the wrong institution was refunded the same minute and resent; only the net R$ 1.302,00 is counted."
+        },
+        {
+          "id": "bar-mateus",
+          "label": "Fornecedor supermercado (Mateus)",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Saturday",
+          "expectedAmount": 1923.81,
+          "amountRange": [
+            266.49,
+            3030.7
+          ],
+          "lastPaidDate": "2026-11-10",
+          "lastPaidAmount": 1056.48,
+          "status": "due-soon",
+          "confidence": "low",
+          "note": "awaiting confirmation. Frequent supermarket purchases, often Saturday, amounts highly variable. Expected amount is the weekly total median, not a single ticket. Last ticket was R$ 1.056,48 on 2026-11-10. Last week's total R$ 1.056,48 is more than 25% off the weekly median R$ 1.923,81 (weeks vary widely)."
+        },
+        {
+          "id": "bar-atacadao",
+          "label": "Fornecedor Atacadão",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Tuesday",
+          "expectedAmount": 775.5,
+          "amountRange": [
+            333.25,
+            2201.94
+          ],
+          "lastPaidDate": "2026-11-10",
+          "lastPaidAmount": 2201.94,
+          "status": "due-soon",
+          "confidence": "low",
+          "note": "Wholesale supermarket, multiple tickets some weeks. Expected amount is the weekly total median R$ 775,50 (weekly range R$ 333,25 to R$ 2.201,94). Last ticket R$ 2.201,94 on 2026-11-10, more than 25% above both the weekly median and the per-ticket median."
+        },
+        {
+          "id": "bar-supplier-unconfirmed",
+          "label": "Fornecedor (não confirmado)",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Saturday",
+          "expectedAmount": 315.3,
+          "amountRange": [
+            190.8,
+            468
+          ],
+          "lastPaidDate": "2026-11-14",
+          "lastPaidAmount": 220,
+          "status": "due-soon",
+          "confidence": "low",
+          "note": "awaiting confirmation. Roughly weekly supplier payments, often Saturday or Wednesday. Last amount R$ 220,00 is more than 25% off the median R$ 315,30."
+        },
+        {
+          "id": "bar-logui",
+          "label": "Fornecedor Logui",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Tuesday",
+          "expectedAmount": 284.5,
+          "amountRange": [
+            209.3,
+            526.8
+          ],
+          "lastPaidDate": "2026-10-20",
+          "lastPaidAmount": 284.5,
+          "status": "overdue",
+          "confidence": "low",
+          "note": "Historically often Tuesday. Last payment was Oct 20. Gaps were irregular (including a 5-week gap in September-October), so this may have paused rather than being a missed bill. If still active it is past the usual interval."
+        },
+        {
+          "id": "bar-supercentral",
+          "label": "Fornecedor Super Central",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Saturday",
+          "expectedAmount": 214.7,
+          "amountRange": [
+            85.09,
+            332.66
+          ],
+          "lastPaidDate": "2026-11-14",
+          "lastPaidAmount": 328.83,
+          "status": "due-soon",
+          "confidence": "low",
+          "note": "Food distributor, roughly weekly to biweekly, weekday varies. Last amount R$ 328,83 is more than 25% off the median R$ 214,70."
+        },
+        {
+          "id": "bar-mercurio",
+          "label": "Fornecedor Mercurio",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Tuesday",
+          "expectedAmount": 505.88,
+          "amountRange": [
+            331,
+            698.64
+          ],
+          "lastPaidDate": "2026-10-27",
+          "lastPaidAmount": 350,
+          "status": "overdue",
+          "confidence": "low",
+          "note": "Irregular food supplier. Four payments in the window, last on Oct 27. October gaps were about two weeks; nothing in November as of the 16th. May be due or paused. Last amount R$ 350,00 is more than 25% off the median R$ 505,88."
+        },
+        {
+          "id": "bar-ifood",
+          "label": "iFood / plataforma",
+          "category": "other",
+          "cadence": "monthly",
+          "dueDay": 10,
+          "expectedAmount": 279.99,
+          "amountRange": [
+            279.99,
+            279.99
+          ],
+          "lastPaidDate": "2026-11-13",
+          "lastPaidAmount": 279.99,
+          "status": "ok",
+          "confidence": "high",
+          "note": "R$ 279,99 monthly. Paid as Tuna Pagamentos on Sep 10 and Oct 10, then as iFood on Nov 13. Treated as one subscription with a payee-name change."
+        },
+        {
+          "id": "bar-unclassified",
+          "label": "Pagamento não classificado",
+          "category": "other",
+          "cadence": "one-off",
+          "expectedAmount": 165.9,
+          "amountRange": [
+            100,
+            430
+          ],
+          "lastPaidDate": "2026-10-19",
+          "lastPaidAmount": 363,
+          "status": "ok",
+          "confidence": "low",
+          "note": "awaiting confirmation. Irregular payments in September and October. A R$ 1.200,00 payment on Sep 17 was refunded the same day and is excluded. Last net payment was Oct 19. No November payment in this window. Not scheduled in the cash forecast. Last amount R$ 363,00 is more than 25% off the median R$ 165,90."
+        },
+        {
+          "id": "bar-card-fees",
+          "label": "Tarifas de cartão (Stone)",
+          "category": "other",
+          "cadence": "daily",
+          "expectedAmount": 12.26,
+          "amountRange": [
+            0.07,
+            0.51
+          ],
+          "lastPaidDate": "2026-11-16",
+          "status": "ok",
+          "confidence": "high",
+          "note": "Automatic Stone card fees taken from card sales, not a separate Pix. R$ 576,08 in the Tarifa column of the Oct 1-Nov 16 extrato (47 days), about R$ 86 per week. Already netted in card receivables, so not added to the Pix cash forecast. lastPaidAmount is omitted because fees are not a single daily debit.",
+          "excludeFromCash": true
+        },
+        {
+          "id": "bar-other-suppliers",
+          "label": "Outros fornecedores (pequenos)",
+          "category": "supplier",
+          "cadence": "weekly",
+          "expectedAmount": 227.59,
+          "amountRange": [
+            39.88,
+            480.72
+          ],
+          "lastPaidDate": "2026-11-15",
+          "lastPaidAmount": 105.85,
+          "status": "ok",
+          "confidence": "low",
+          "note": "Residual supermarket and shop purchases not already listed. Expected amount is the weekly total median. Individual tickets are usually small."
+        }
+      ],
+      "alerts": [
+        {
+          "date": "2026-11-18",
+          "severity": "red",
+          "text": "Boutique weekly Pix is due Wednesday Nov 18 (median R$ 2.800,00; last payment was R$ 3.100,00). Outstanding supplier debt remains R$ 23.064,00 as of Nov 11."
+        },
+        {
+          "date": "2026-11-21",
+          "severity": "warn",
+          "text": "Second rent installment of R$ 700,00 is due around Nov 21. First installment of R$ 900,00 was paid Nov 10."
+        },
+        {
+          "date": "2026-11-23",
+          "severity": "warn",
+          "text": "Monday package around Nov 23: owner draw typically R$ 2.000,00 plus manager pay R$ 1.080,00, on top of weekly staff and suppliers."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "red",
+          "text": "Expected Pix outflows are R$ 13.094,78 over the next 7 days (Nov 17-23) and R$ 55.371,61 over the next 30 days (Nov 17-Dec 16), versus a cash balance of R$ 4.530,89 as of Nov 16, 2:41 PM Belém (10:41 AM MT). These are outflows only. Incoming sales have a recent 4-week median of R$ 13.506,86 per week (complete weeks through Nov 15; all-week median R$ 12.776,33). Without those inflows the 7-day bills already exceed cash on hand."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "warn",
+          "text": "Equatorial energy bills are rising: R$ 829,14 in September, R$ 947,97 in October, R$ 1.055,18 on Nov 12. Still within 25% of the median, but the trend is up."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "warn",
+          "text": "Water (Águas de São Francisco, not Cosanpa) is irregular: a large R$ 557,76 payment on Sep 14, two payments on Sep 29, no October payment found, and only one R$ 150,62 payment on Nov 12. Possible second account not paid in November."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "warn",
+          "text": "Fornecedor Logui last paid Oct 20 (typically Tuesday). It may be overdue or paused. Fornecedor Mercurio last paid Oct 27 and has not appeared in November."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "warn",
+          "text": "Last complete staff week (Nov 9-15) totaled more than 25% above the weekly median. Last Atacadão ticket on Nov 10 (R$ 2.201,94) was also well above the typical ticket."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "info",
+          "text": "No DAS MEI, tax, or loan payments appear in the Aug 16-Nov 16 window. If they are paid from another account or in cash, they will not show here. Do not assume they are zero."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "info",
+          "text": "No one-off payee over R$ 500,00 was found in the last 30 days after grouping known recurring suppliers. Internet appears to have moved from IBL Banda Larga (last Oct 10) to RA Telecom (Nov 6, similar amount)."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "info",
+          "text": "Gás last paid Oct 31 (R$ 108,00). Next fill estimated around late November. Folha / diárias last paid Nov 15. Owner draw of R$ 1.800,00 already paid today, Nov 16."
+        }
+      ]
     },
     {
       "id": "vila",
       "asOf": "2026-11-16",
-      "bankBalance": 1056.30,
+      "bankBalance": 1056.3,
       "reserva": 1767.81,
       "debt": {
         "supplier": "Boutique",
@@ -65,36 +564,483 @@
       },
       "weeklyOrderSeparate": true,
       "plan": [
-        { "date": "2026-11-18", "extra": 500, "debtAfter": 7094, "floor": 1000 },
-        { "date": "2026-11-25", "extra": 500, "debtAfter": 6594, "floor": 1000 },
-        { "date": "2026-12-02", "extra": 500, "debtAfter": 6094, "floor": 1000 },
-        { "date": "2026-12-09", "extra": 500, "debtAfter": 5594, "floor": 1500 },
-        { "date": "2026-12-16", "extra": 500, "debtAfter": 5094, "floor": 1000 },
-        { "date": "2026-12-23", "extra": 500, "debtAfter": 4594, "floor": 1000 },
-        { "date": "2026-12-30", "extra": 500, "debtAfter": 4094, "floor": 1000 },
-        { "date": "2027-01-06", "extra": 500, "debtAfter": 3594, "floor": 1500 },
-        { "date": "2027-01-13", "extra": 500, "debtAfter": 3094, "floor": 1000 },
-        { "date": "2027-01-20", "extra": 500, "debtAfter": 2594, "floor": 1000 },
-        { "date": "2027-01-27", "extra": 500, "debtAfter": 2094, "floor": 1000 },
-        { "date": "2027-02-03", "extra": 500, "debtAfter": 1594, "floor": 1500 },
-        { "date": "2027-02-10", "extra": 500, "debtAfter": 1094, "floor": 1500 },
-        { "date": "2027-02-17", "extra": 500, "debtAfter": 594, "floor": 1000 },
-        { "date": "2027-02-24", "extra": 500, "debtAfter": 94, "floor": 1000 },
-        { "date": "2027-03-03", "extra": 94, "debtAfter": 0, "floor": 1500 }
+        {
+          "date": "2026-11-18",
+          "extra": 500,
+          "debtAfter": 7094,
+          "floor": 1000
+        },
+        {
+          "date": "2026-11-25",
+          "extra": 500,
+          "debtAfter": 6594,
+          "floor": 1000
+        },
+        {
+          "date": "2026-12-02",
+          "extra": 500,
+          "debtAfter": 6094,
+          "floor": 1000
+        },
+        {
+          "date": "2026-12-09",
+          "extra": 500,
+          "debtAfter": 5594,
+          "floor": 1500
+        },
+        {
+          "date": "2026-12-16",
+          "extra": 500,
+          "debtAfter": 5094,
+          "floor": 1000
+        },
+        {
+          "date": "2026-12-23",
+          "extra": 500,
+          "debtAfter": 4594,
+          "floor": 1000
+        },
+        {
+          "date": "2026-12-30",
+          "extra": 500,
+          "debtAfter": 4094,
+          "floor": 1000
+        },
+        {
+          "date": "2027-01-06",
+          "extra": 500,
+          "debtAfter": 3594,
+          "floor": 1500
+        },
+        {
+          "date": "2027-01-13",
+          "extra": 500,
+          "debtAfter": 3094,
+          "floor": 1000
+        },
+        {
+          "date": "2027-01-20",
+          "extra": 500,
+          "debtAfter": 2594,
+          "floor": 1000
+        },
+        {
+          "date": "2027-01-27",
+          "extra": 500,
+          "debtAfter": 2094,
+          "floor": 1000
+        },
+        {
+          "date": "2027-02-03",
+          "extra": 500,
+          "debtAfter": 1594,
+          "floor": 1500
+        },
+        {
+          "date": "2027-02-10",
+          "extra": 500,
+          "debtAfter": 1094,
+          "floor": 1500
+        },
+        {
+          "date": "2027-02-17",
+          "extra": 500,
+          "debtAfter": 594,
+          "floor": 1000
+        },
+        {
+          "date": "2027-02-24",
+          "extra": 500,
+          "debtAfter": 94,
+          "floor": 1000
+        },
+        {
+          "date": "2027-03-03",
+          "extra": 94,
+          "debtAfter": 0,
+          "floor": 1500
+        }
       ],
       "monthly": [
-        { "net": 350, "laborPct": 0.35, "rentPct": 0.063, "approximate": true }
+        {
+          "net": 350,
+          "laborPct": 0.35,
+          "rentPct": 0.063,
+          "approximate": true
+        }
       ],
-      "salesGap": { "gapPct": 0.19, "approximate": true },
+      "salesGap": {
+        "gapPct": 0.19,
+        "approximate": true
+      },
       "target": 4000,
       "decisionDate": "2027-03-01",
       "levers": [
-        { "id": "price", "direction": "up", "monthly": 2300, "approximate": true },
-        { "id": "labor", "direction": "down", "monthlyLow": 1000, "monthlyHigh": 1500 },
-        { "id": "cash" }
+        {
+          "id": "price",
+          "direction": "up",
+          "monthly": 2300,
+          "approximate": true
+        },
+        {
+          "id": "labor",
+          "direction": "down",
+          "monthlyLow": 1000,
+          "monthlyHigh": 1500
+        },
+        {
+          "id": "cash"
+        }
       ],
-      "obligations": [],
-      "alerts": []
+      "obligations": [
+        {
+          "id": "vila-boutique-debt",
+          "label": "Fornecedor Boutique",
+          "category": "debt",
+          "cadence": "weekly",
+          "dueWeekday": "Wednesday",
+          "expectedAmount": 1100,
+          "amountRange": [
+            500,
+            2000
+          ],
+          "lastPaidDate": "2026-11-11",
+          "lastPaidAmount": 1167,
+          "status": "due-soon",
+          "confidence": "high",
+          "note": "Outstanding supplier debt R$ 7.594,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. Wednesday series is complete from Sep 2 through Nov 11."
+        },
+        {
+          "id": "vila-rent-1",
+          "label": "Aluguel (parcela 1)",
+          "category": "rent",
+          "cadence": "monthly",
+          "dueDay": 5,
+          "expectedAmount": 750,
+          "amountRange": [
+            750,
+            750
+          ],
+          "lastPaidDate": "2026-11-05",
+          "lastPaidAmount": 750,
+          "status": "ok",
+          "confidence": "high",
+          "note": "First monthly rent installment, always R$ 750,00, paid on day 4 or 5 (Sep 5, Oct 4, Nov 5)."
+        },
+        {
+          "id": "vila-rent-2",
+          "label": "Aluguel (parcela 2)",
+          "category": "rent",
+          "cadence": "monthly",
+          "dueDay": 24,
+          "expectedAmount": 750,
+          "amountRange": [
+            750,
+            750
+          ],
+          "lastPaidDate": "2026-10-24",
+          "lastPaidAmount": 750,
+          "status": "ok",
+          "confidence": "low",
+          "note": "Second monthly rent installment, always R$ 750,00, paid on day 24 (Sep 24, Oct 24). Next is around Nov 24."
+        },
+        {
+          "id": "vila-energy",
+          "label": "Energia (Equatorial)",
+          "category": "utility",
+          "cadence": "monthly",
+          "dueDay": 12,
+          "expectedAmount": 639.29,
+          "amountRange": [
+            547.37,
+            650.37
+          ],
+          "lastPaidDate": "2026-11-12",
+          "lastPaidAmount": 650.37,
+          "status": "ok",
+          "confidence": "high",
+          "note": "Monthly energy bill. Amounts: R$ 547,37 (Sep 21), R$ 639,29 (Oct 19), R$ 650,37 (Nov 12). Slight upward trend. Payment day has varied from the 12th to the 21st; dueDay 12 uses the most recent cycle so mid-December is not missed. The Nov 12 payment matches the known Vila utility payment of R$ 650,37."
+        },
+        {
+          "id": "vila-internet",
+          "label": "Internet (IBL Banda Larga)",
+          "category": "utility",
+          "cadence": "monthly",
+          "dueDay": 26,
+          "expectedAmount": 107.17,
+          "amountRange": [
+            106.84,
+            107.5
+          ],
+          "lastPaidDate": "2026-10-27",
+          "lastPaidAmount": 107.5,
+          "status": "ok",
+          "confidence": "low",
+          "note": "Monthly internet about R$ 107. Paid Sep 25 and Oct 27. Next is around Nov 26. Only two occurrences, so confidence is medium."
+        },
+        {
+          "id": "vila-claro",
+          "label": "Celular (Claro)",
+          "category": "utility",
+          "cadence": "monthly",
+          "dueDay": 9,
+          "expectedAmount": 123.37,
+          "amountRange": [
+            75.48,
+            171.25
+          ],
+          "lastPaidDate": "2026-10-09",
+          "lastPaidAmount": 75.48,
+          "status": "overdue",
+          "confidence": "low",
+          "note": "Two payments only: R$ 171,25 on Sep 4 and R$ 75,48 on Oct 9. Amounts differ by more than 25%. No November payment was found as of 2026-11-16, so this looks overdue if it is still a monthly bill. Confidence medium. Last amount R$ 75,48 is more than 25% off the median R$ 123,37."
+        },
+        {
+          "id": "vila-gas",
+          "label": "Gás",
+          "category": "utility",
+          "cadence": "weekly",
+          "expectedAmount": 216,
+          "amountRange": [
+            108,
+            216
+          ],
+          "lastPaidDate": "2026-11-07",
+          "lastPaidAmount": 216,
+          "status": "due-soon",
+          "confidence": "high",
+          "note": "gas vendor, amounts of R$ 108 or R$ 216 (cylinder units). Eight payments from Sep 5 to Nov 7. Intervals range from 2 to 18 days, median 8 days. Cadence is as-needed, not a fixed weekday. Last fill was R$ 216,00 on Nov 7; next estimated around Nov 21 (about two weeks after a two-cylinder fill)."
+        },
+        {
+          "id": "vila-manager",
+          "label": "Folha / gerente",
+          "category": "payroll",
+          "cadence": "weekly",
+          "dueWeekday": "Monday",
+          "expectedAmount": 840,
+          "amountRange": [
+            11,
+            2475
+          ],
+          "lastPaidDate": "2026-11-15",
+          "lastPaidAmount": 600,
+          "status": "due-soon",
+          "confidence": "low",
+          "note": "awaiting confirmation. The R$ 125/day rate is not visible as a daily Pix; withdrawals are lumpy. Weekly totals (excluding the partial first week) range R$ 11,00 to R$ 2.475,00, median R$ 840,00. Monthly totals were about R$ 3.587 in September and R$ 3.633 in October, close to 30 × R$ 125 = R$ 3.750, but payments are bunched. Last tickets were R$ 850,00 on Nov 9 and R$ 600,00 on Nov 15. Expected amount is the weekly total median, not a daily rate. Last week's total R$ 1.450,00 is more than 25% off the weekly median."
+        },
+        {
+          "id": "vila-staff",
+          "label": "Folha / diárias",
+          "category": "payroll",
+          "cadence": "weekly",
+          "expectedAmount": 1103,
+          "amountRange": [
+            707,
+            1997
+          ],
+          "lastPaidDate": "2026-11-15",
+          "lastPaidAmount": 1124,
+          "status": "ok",
+          "confidence": "high",
+          "note": "Aggregate of daily/shift staff Pix, not a single payee. Paid throughout the week, heaviest on Sunday and Monday. Weekly totals (excluding the partial first week) range R$ 707,00 to R$ 1.997,00, median R$ 1.103,00. Last complete week (Nov 9-15) totaled R$ 1.124,00."
+        },
+        {
+          "id": "vila-beverages",
+          "label": "Fornecedor de bebidas",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Saturday",
+          "expectedAmount": 450,
+          "amountRange": [
+            90,
+            730
+          ],
+          "lastPaidDate": "2026-11-14",
+          "lastPaidAmount": 512,
+          "status": "due-soon",
+          "confidence": "low",
+          "note": "Roughly weekly beverage supplier, often Friday or Saturday. On Nov 6 three payments of R$ 450,00 were sent and two were refunded the same day; only the net R$ 450,00 is counted."
+        },
+        {
+          "id": "vila-mateus",
+          "label": "Fornecedor supermercado (Mateus)",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Saturday",
+          "expectedAmount": 317.02,
+          "amountRange": [
+            118.42,
+            586.88
+          ],
+          "lastPaidDate": "2026-11-03",
+          "lastPaidAmount": 586.88,
+          "status": "overdue",
+          "confidence": "low",
+          "note": "awaiting confirmation. Seven supermarket purchases from Sep 5 to Nov 3, often weekend. Intervals are irregular (about 6-17 days). Last ticket R$ 586,88 on 2026-11-03, which is more than 25% above the per-ticket median if that holds. Last amount R$ 586,88 is more than 25% off the median R$ 317,02."
+        },
+        {
+          "id": "vila-supplier-unconfirmed",
+          "label": "Fornecedor (não confirmado)",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Thursday",
+          "expectedAmount": 265.75,
+          "amountRange": [
+            117.6,
+            395
+          ],
+          "lastPaidDate": "2026-10-18",
+          "lastPaidAmount": 141.5,
+          "status": "overdue",
+          "confidence": "low",
+          "note": "awaiting confirmation. Four payments from Sep 10 to Oct 18, roughly every 1-2 weeks. Nothing since Oct 18 (29 days). May be overdue or paused. Last amount R$ 141,50 is more than 25% off the median R$ 265,75."
+        },
+        {
+          "id": "vila-supercentral",
+          "label": "Fornecedor Super Central",
+          "category": "supplier",
+          "cadence": "weekly",
+          "dueWeekday": "Sunday",
+          "expectedAmount": 112.04,
+          "amountRange": [
+            69.89,
+            162.85
+          ],
+          "lastPaidDate": "2026-10-19",
+          "lastPaidAmount": 69.89,
+          "status": "overdue",
+          "confidence": "low",
+          "note": "Four payments from Sep 6 to Oct 19. Nothing since Oct 19 (28 days). May be overdue or paused. Last amount R$ 69,89 is more than 25% off the median R$ 112,04."
+        },
+        {
+          "id": "vila-atacadao",
+          "label": "Fornecedor Atacadão",
+          "category": "supplier",
+          "cadence": "one-off",
+          "expectedAmount": 471.82,
+          "amountRange": [
+            333,
+            610.64
+          ],
+          "lastPaidDate": "2026-10-03",
+          "lastPaidAmount": 610.64,
+          "status": "ok",
+          "confidence": "low",
+          "note": "Only two payments in the window (Sep 20 and Oct 3). Not a clear recurring cadence at this store, so it is not scheduled in the cash forecast. Last was R$ 610,64 on Oct 3. Last amount R$ 610,64 is more than 25% off the median R$ 471,82."
+        },
+        {
+          "id": "vila-other-suppliers",
+          "label": "Outros fornecedores (pequenos)",
+          "category": "supplier",
+          "cadence": "weekly",
+          "expectedAmount": 181.11,
+          "amountRange": [
+            85.77,
+            225.84
+          ],
+          "lastPaidDate": "2026-11-07",
+          "lastPaidAmount": 148.9,
+          "status": "ok",
+          "confidence": "low",
+          "note": "Smaller recurring shops. Expected amount is the weekly total in weeks when a purchase occurred, median of those weeks. Not every week has a purchase."
+        },
+        {
+          "id": "vila-ifood",
+          "label": "iFood / plataforma",
+          "category": "other",
+          "cadence": "monthly",
+          "dueDay": 11,
+          "expectedAmount": 279.99,
+          "amountRange": [
+            279.99,
+            279.99
+          ],
+          "lastPaidDate": "2026-11-11",
+          "lastPaidAmount": 279.99,
+          "status": "ok",
+          "confidence": "high",
+          "note": "R$ 279,99 monthly. Paid as Tuna Pagamentos on Sep 11 and Oct 12, then as iFood on Nov 11. Treated as one subscription with a payee-name change."
+        },
+        {
+          "id": "vila-unclassified",
+          "label": "Pagamento não classificado",
+          "category": "other",
+          "cadence": "one-off",
+          "expectedAmount": 86,
+          "amountRange": [
+            35,
+            202
+          ],
+          "lastPaidDate": "2026-11-10",
+          "lastPaidAmount": 86,
+          "status": "ok",
+          "confidence": "low",
+          "note": "awaiting confirmation. Three irregular payments (Sep 2, Sep 26, Nov 10), all under R$ 250. Not scheduled in the cash forecast."
+        },
+        {
+          "id": "vila-card-fees",
+          "label": "Tarifas de cartão (Stone)",
+          "category": "other",
+          "cadence": "daily",
+          "expectedAmount": 3.16,
+          "amountRange": [
+            10.38,
+            31.88
+          ],
+          "lastPaidDate": "2026-11-06",
+          "status": "ok",
+          "confidence": "low",
+          "note": "Automatic Stone fees appeared as separate Tarifa rows on the prior Ton account through Nov 8, about R$ 22,14 per week. The current Stone MEI account (from Oct 29) has no separate fee rows in this window; fees are likely already netted in card receivables, as at Barcarena. Not added to the Pix cash forecast.",
+          "excludeFromCash": true
+        }
+      ],
+      "alerts": [
+        {
+          "date": "2026-11-18",
+          "severity": "red",
+          "text": "Boutique weekly Pix is due Wednesday Nov 18 (median R$ 1.100,00; last payment was R$ 1.167,00). Outstanding supplier debt remains R$ 7.594,00 as of Nov 11. Cash on hand is R$ 1.056,30, so this payment alone needs the night and morning sales first."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "red",
+          "text": "Expected Pix outflows are R$ 4.708,29 over the next 7 days (Nov 17-23) and R$ 21.287,26 over the next 30 days (Nov 17-Dec 16), versus a cash balance of R$ 1.056,30 as of Nov 15, 11:57 PM Belém (7:57 PM MT) (no Nov 16 activity yet in the extrato). These are outflows only. Incoming sales have a recent 4-week median of R$ 4.210,32 per week (complete weeks through Nov 15; earlier weeks were higher, all-week median R$ 5.217,78). Recent weekly sales barely cover typical weekly costs."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "red",
+          "text": "Celular (Claro) looks overdue: last paid Oct 9, and no November payment was found as of Nov 16. The two historical amounts (R$ 171,25 and R$ 75,48) differ by more than 25%, so the expected amount is uncertain."
+        },
+        {
+          "date": "2026-11-24",
+          "severity": "warn",
+          "text": "Second rent installment of R$ 750,00 is due around Nov 24. First installment of R$ 750,00 was paid Nov 5. Internet (IBL) is due around Nov 26 (~R$ 107)."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "warn",
+          "text": "No water or Cosanpa payment appears in the Sep 1-Nov 15 Vila history (prior Ton accounts plus current Stone MEI). It may be paid in cash, from another account, or included elsewhere. Do not assume it is zero."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "warn",
+          "text": "Fornecedor (não confirmado) last paid Oct 18 and Super Central last paid Oct 19. Both may be overdue or paused. Mateus last paid Nov 3; if it stays roughly weekly it is due soon, and the last ticket was high."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "info",
+          "text": "No DAS MEI, tax, or loan payments appear in the Vila window. Manager pay is lumpy, not a daily R$ 125 Pix; the daily rate is still awaiting confirmation. Folha / gerente last paid Nov 15 (R$ 600,00) and Nov 9 (R$ 850,00)."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "info",
+          "text": "No one-off payee over R$ 500,00 was found in the last 30 days after grouping known recurring suppliers. Vila history before Oct 29 comes from the prior Ton accounts, then the current Stone MEI account; the two accounts overlap Oct 29-Nov 8 with different payments and were not double-counted."
+        },
+        {
+          "date": "2026-11-16",
+          "severity": "info",
+          "text": "Gás last paid Nov 7 (R$ 216,00); next fill is likely in the coming week. iFood / plataforma R$ 279,99 was paid Nov 11, next around Dec 11. Energy R$ 650,37 was paid Nov 12, next around mid-December."
+        }
+      ]
     }
   ]
 }
