@@ -1,22 +1,22 @@
 # Paulista OS
 
-A simple bilingual (English / Português) operating system for the two Brazil pizza stores, **Pizzaria do Paulista Barcarena (sede)** and **Pizzaria do Paulista Vila**. It looks like Smackin' OS (Barlow font, navy header, top tabs) but is much smaller: one page of static files, no build step, no server, no database.
+A simple bilingual (English / Português) operating system for the owner Troy's two Brazil pizza stores, **Pizzaria do Paulista Barcarena (sede)** and **Pizzaria do Paulista Vila**. It looks like Smackin' OS (Barlow font, navy header, top tabs) but is much smaller: one page of static files, no build step, no server, no database.
 
 ## What it does
 
 | Section | Purpose |
 |---|---|
 | Dashboard | Home for daily Anota sales: yesterday (or the latest day) with Barcarena and Vila side by side, then the last 14 days as paired bars. October item snapshot (sizes, top pizzas, top sodas) split by store. The shared R$ 1.000/week debt plan is labeled as one plan; Oct sales, Boutique debt, and Stone balance stay on the two store cards. |
-| Debt & Profit | Per-store Boutique payoff, Wednesday extra, obligations, owner profit, the beverage supplier, and the earlier R$ 1.000/week plan. Barcarena and Vila stay in separate columns. The old Debt tab opens here. |
+| Debt & Profit | Per-store Boutique payoff, Wednesday extra, obligations, owner profit, beverage supplier Jonas Miranda, and the earlier R$ 1.000/week plan. Barcarena and Vila stay in separate columns. The old Debt tab opens here. |
 | Cash | October 2026 Stone summaries split into balances, income, and expenses. Each section is Barcarena and Vila only. September sits under each figure. Approval rule for money out. |
 | Sales | Fuller daily Anota history (about 3 months) and the October 2026 monthly summary, plus a rough +R$ 5 raise effect |
 | Items | Anota item counts for the selected period: sizes, pizzas, sodas, crusts, calzones, and sweets. Barcarena and Vila columns are the default. Filter to one store when you want only that book. |
 | Menu | Nov 7, 2026 raise package (printed cardápio Fri Nov 6 at both stores; new prices and weekend frete grátis Sat Nov 7; no public announcement) and before/after price bands |
-| Stores | Addresses, Anota users, Stone accounts, owner-draw rule, fixed costs |
+| Stores | Addresses, Anota users, Stone accounts, owner-draw rule, fixed costs from the manager Lucas |
 | Suppliers | Boutique dos Frios (primary, paid first) and others, Sep payments, debt by store |
-| Approvals | The manager proposes, the owner approves or rejects. Saved in the browser |
+| Approvals | The manager Lucas proposes, the owner Troy approves or rejects. Saved in the browser |
 
-House rules built in: all company money goes through the owner; the manager proposes buys; living draw from Barcarena only with the owner's OK; no owner draw from Vila (the form blocks it); R$ 1.000/week to supplier debt, Boutique dos Frios first.
+House rules built in: all company money goes through the owner Troy; the manager Lucas proposes buys; living draw from Barcarena only with the owner Troy's OK; no owner draw from Vila (the form blocks it); R$ 1.000/week to supplier debt, Boutique dos Frios first.
 
 ## Open it
 
