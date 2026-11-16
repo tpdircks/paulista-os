@@ -63,7 +63,7 @@
   const pending = () => approvals().filter((a) => a.status === "pending").length;
 
   /* ---------- Approvals model ---------- */
-  function approvals() { let a = load(LS.ap, null); const mk = (x) => ({ ...x, by: "manager", status: "pending", sample: true });
+  function approvals() { let a = load(LS.ap, null); const mk = (x) => ({ ...x, by: "Lucas", status: "pending", sample: true });
     if (!a) { a = D.approvalsSeed.map(mk).sort((x, y) => x.date.localeCompare(y.date)); save(LS.ap, a); return a; }
     const ret = D.retiredSeeds || [], have = new Set(a.map((x) => x.id)); let ch = false;
     const b = a.filter((x) => !(x.sample && x.status === "pending" && ret.includes(x.id))); if (b.length !== a.length) ch = true;
@@ -306,9 +306,9 @@
       ${bar(paidTotal() / debtStart() * 100)}<p class="hint">${esc(planNote)}</p>` ) +
       `<div class="two">${["bar", "vila"].map((id) => card(t(id), "",
         `<div class="kpis sm">${kpi(t("k_octsales"), brl(s[id].revenue), `${int(s[id].orders)} ${t("k_orders")} · ${t("k_ticket")} ${brl(s[id].ticket)}`)}
-        ${kpi(t("k_debt"), brl(D.debt[id], 0), t("source") + ": 02/11")}
+        ${kpi(t("k_debt"), brl(D.debt[id], 0), t("source") + ": Lucas 02/11")}
         ${kpi(t("k_cash"), brl(D.cashToday[id]), `${t("c_cover")}: ${(D.cashToday[id] / D.debt[id] * 100).toFixed(1)}% · ${t("c_close")} ${brl(st[id].close)}`)}</div>`)).join("")}</div>` +
-      card(t("notes_title"), "", `<ul class="notes">${D.notes.map((n) => `<li><span class="tag">${sname(n.store)}</span> ${esc(txt(n))}</li>`).join("")}</ul>${src("03/11 + Stone Oct", D.asOf)}`) + rulesBox();
+      card(t("notes_title"), "", `<ul class="notes">${D.notes.map((n) => `<li><span class="tag">${sname(n.store)}</span> ${esc(txt(n))}</li>`).join("")}</ul>${src("Lucas 03/11 + Stone Oct", D.asOf)}`) + rulesBox();
   };
   V.cash = () => {
     const s = D.stone, p = D.stoneSep;
@@ -427,8 +427,8 @@
       <p class="flag">${esc(t(s.id === "vila" ? "vila_note" : "bar_note"))}</p>${src(D.fixedSource)}`);
   }).join("") +
     card(t("staff_title"), "", table([t("st_name"), t("debt_store"), t("st_pay"), t("st_oct")], D.staff.map((x) => [`<b>${esc(x.name)}</b>`, sname(x.store), esc(x.pay), brl(x.seenOct)]), "") +
-      `<p class="flag">${esc(t("staff_flag"))}</p>${src("03/11 + Stone Oct")}`) +
-    card(t("login_title"), t("login_hint"), table([t("lg_sys"), t("debt_store"), t("lg_user"), "Email"], D.logins.map((x) => [esc(x.sys), sname(x.store), esc(x.user), x.email ? esc(x.email) : "—"])) + src("03/11"));
+      `<p class="flag">${esc(t("staff_flag"))}</p>${src("Lucas 03/11 + Stone Oct")}`) +
+    card(t("login_title"), t("login_hint"), table([t("lg_sys"), t("debt_store"), t("lg_user"), "Email"], D.logins.map((x) => [esc(x.sys), sname(x.store), esc(x.user), x.email ? esc(x.email) : "—"])) + src("Lucas 03/11"));
   V.suppliers = () => card(t("sup_title"), t("sup_hint"),
     table([t("sup_name"), t("sup_role"), t("sup_sep") + " · " + t("bar"), t("sup_sep") + " · " + t("vila"), t("sup_oct") + " · " + t("bar"), t("sup_oct") + " · " + t("vila")],
       D.suppliers.map((s) => [`<b>${esc(s.name)}</b>`, `<span class="pill ${s.role === "primary" ? "ok" : "plan"}">${t(s.role)}</span>`, brl(s.bar), brl(s.vila), brl(s.barOct), brl(s.vilaOct)]), "num") + src(D.stone.source)) +
@@ -1295,7 +1295,7 @@
     if (e.target.id === "payf") { const p = payments(); p.push({ date: f.date, amount: +f.amount, supplier: f.supplier, store: f.store }); p.sort((x, y) => x.date.localeCompare(y.date)); save(LS.pays, p); }
     if (e.target.id === "apf") {
       if (f.type === "draw" && f.store !== "bar") { const m = $("#apmsg"); m.hidden = false; m.textContent = t("ap_vila_block"); return; }
-      const a = approvals(); a.unshift({ id: "u" + Date.now(), date: f.date, store: f.store, type: f.type, desc: f.desc, amount: f.amount === "" ? null : +f.amount, by: "manager", status: "pending" }); save(LS.ap, a);
+      const a = approvals(); a.unshift({ id: "u" + Date.now(), date: f.date, store: f.store, type: f.type, desc: f.desc, amount: f.amount === "" ? null : +f.amount, by: "Lucas", status: "pending" }); save(LS.ap, a);
     }
     render();
   });
