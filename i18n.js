@@ -160,7 +160,19 @@ window.I18N = {
     dp_cadence_weekly: "Weekly", dp_cadence_monthly: "Monthly", dp_cadence_daily: "Daily", dp_cadence_once: "One-off",
     dp_cat_debt: "Debt", dp_cat_rent: "Rent", dp_cat_utility: "Utility", dp_cat_payroll: "Payroll",
     dp_cat_supplier: "Supplier", dp_cat_tax: "Tax", dp_cat_other: "Other",
-    dp_alerts: "Alerts", dp_alerts_empty: "No alerts in the file."
+    dp_alerts: "Alerts", dp_alerts_empty: "No alerts in the file.",
+    dp_cal_prev: "Previous month", dp_cal_next: "Next month", dp_cal_today: "Today",
+    dp_cal_agenda: "Next 30 days", dp_cal_day: "Day", dp_cal_week: "Week {amt}",
+    dp_cal_room: "vs room {room}", dp_cal_extra: "Extra Boutique",
+    dp_cal_extra_note: "Suggested extra Boutique payment for this Wednesday. The weekly order is separate and is not part of this chip.",
+    dp_cal_legend: "Legend", dp_cal_red: "Overdue", dp_cal_amber: "Due soon or unusual amount",
+    dp_cal_blue: "Scheduled", dp_cal_green: "Paid",
+    dp_cal_dash: "Dashed outline: low confidence",
+    dp_cal_notes: "Notes", dp_cal_expected: "Expected", dp_cal_range: "Range",
+    dp_cal_last: "Last paid", dp_cal_conf: "Confidence", dp_cal_high: "High",
+    dp_cal_close: "Close", dp_cal_missed: "{n} missed", dp_cal_none: "Nothing due.",
+    dp_cal_paidextra: "Extra paid",
+    dp_wd: "Mon,Tue,Wed,Thu,Fri,Sat,Sun"
   },
   pt: {
     sub: "Pizzaria do Paulista · Barcarena/PA", asof: "Dados de",
@@ -322,6 +334,18 @@ window.I18N = {
     dp_cadence_weekly: "Semanal", dp_cadence_monthly: "Mensal", dp_cadence_daily: "Diária", dp_cadence_once: "Única",
     dp_cat_debt: "Dívida", dp_cat_rent: "Aluguel", dp_cat_utility: "Conta de consumo", dp_cat_payroll: "Folha",
     dp_cat_supplier: "Fornecedor", dp_cat_tax: "Imposto", dp_cat_other: "Outro",
-    dp_alerts: "Alertas", dp_alerts_empty: "Nenhum alerta no arquivo."
+    dp_alerts: "Alertas", dp_alerts_empty: "Nenhum alerta no arquivo.",
+    dp_cal_prev: "Mês anterior", dp_cal_next: "Próximo mês", dp_cal_today: "Hoje",
+    dp_cal_agenda: "Próximos 30 dias", dp_cal_day: "Dia", dp_cal_week: "Semana {amt}",
+    dp_cal_room: "contra folga {room}", dp_cal_extra: "Extra Boutique",
+    dp_cal_extra_note: "Extra sugerido da Boutique nesta quarta. O pedido semanal é à parte e não entra neste item.",
+    dp_cal_legend: "Legenda", dp_cal_red: "Em atraso", dp_cal_amber: "Vence logo ou valor fora do comum",
+    dp_cal_blue: "Previsto", dp_cal_green: "Pago",
+    dp_cal_dash: "Contorno tracejado: confiança baixa",
+    dp_cal_notes: "Observações", dp_cal_expected: "Previsto", dp_cal_range: "Faixa",
+    dp_cal_last: "Último pagamento", dp_cal_conf: "Confiança", dp_cal_high: "Alta",
+    dp_cal_close: "Fechar", dp_cal_missed: "{n} em atraso", dp_cal_none: "Nada a vencer.",
+    dp_cal_paidextra: "Extra pago",
+    dp_wd: "Seg,Ter,Qua,Qui,Sex,Sáb,Dom"
   }
 };
