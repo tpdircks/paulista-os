@@ -566,7 +566,8 @@
       return dpUnique(dates);
     }
     if (cadence === "weekly") {
-      const dow = dpWeekday(ob.dueWeekday);
+      let dow = dpWeekday(ob.dueWeekday);
+      if (dow == null && last) dow = dpParse(last).getDay();
       if (dow == null) return [];
       let cursor = last ? dpNextDowAfter(last, dow) : dpNextDowOnOrAfter(today, dow);
       if (cursor < cap) cursor = dpNextDowOnOrAfter(cap, dow);
@@ -587,9 +588,20 @@
     }
     return [];
   }
+  function dpCashExcluded(ob) {
+    if (!ob) return false;
+    if (ob.excludeFromCash === true || ob.includeInCashTotal === false) return true;
+    const note = String(ob.note || "").toLowerCase();
+    return /not added to the pix cash forecast|not added to the cash forecast|already netted in card receivables|excluded from cash|fora do total de caixa/.test(note);
+  }
+  function dpLowConfidence(ob) {
+    const c = String(ob && ob.confidence || "").toLowerCase();
+    return c === "low" || c === "medium";
+  }
   function dpSumDue(obs, today, end) {
     let cents = 0;
     (Array.isArray(obs) ? obs : []).forEach((ob) => {
+      if (dpCashExcluded(ob)) return;
       const amt = dpPayAmount(ob);
       if (amt == null) return;
       const n = dpOccurrences(ob, today, end).filter((d) => d >= today && d <= end).length;
@@ -753,7 +765,7 @@
     else if (dates.length > 1 && dpCadence(ob) === "daily") when = fill(t("dp_ob_times"), { n: int(dates.length), first: dpFmt(dates[0]), last: dpFmt(dates[dates.length - 1]), amt: dpAmountLabel(ob) });
     else if (dates.length > 1) when = dates.map(dpFmt).filter(Boolean).join(", ");
     else when = t("dp_ob_nodate");
-    const pills = [dpCadenceLabel(ob), late ? t("dp_ob_overdue_tag") : "", unusual ? t("dp_ob_unusual") : "", ob.status === "due-soon" ? t("dp_ob_due_soon") : "", ob.confidence === "low" ? t("dp_ob_low") : ""].filter(Boolean);
+    const pills = [dpCadenceLabel(ob), late ? t("dp_ob_overdue_tag") : "", unusual ? t("dp_ob_unusual") : "", ob.status === "due-soon" ? t("dp_ob_due_soon") : "", dpLowConfidence(ob) ? t("dp_ob_low") : "", dpCashExcluded(ob) ? t("dp_ob_excluded") : ""].filter(Boolean);
     const note = dpPublic(ob.note);
     return `<article class="ob ${cls}"><div class="obtop"><span>${esc(label)}</span><b>${esc(dpAmountLabel(ob))}</b></div><div class="obmeta">${esc(when)}${pills.length ? " · " + pills.map(esc).join(" · ") : ""}${note ? " · " + esc(note) : ""}</div></article>`;
   }
@@ -776,15 +788,20 @@
     const later = `<p class="hint">${esc(t("dp_ob_30_total"))}: ${dpMoney(due30)}</p>`;
     const warn = short ? `<p class="flag bad">${esc(t("dp_ob_short"))}</p>` : "";
     const basis = obs.some((ob) => dpNum(ob.expectedAmount) == null && dpPayAmount(ob) != null) ? `<p class="hint">${esc(t("dp_ob_basis"))}</p>` : "";
+    const feeNote = obs.some(dpCashExcluded) ? `<p class="hint">${esc(t("dp_ob_fees"))}</p>` : "";
     if (!obs.length) {
       return card(t("dp_ob"), t("dp_ob_hint"), `${head}${later}${warn}<p class="hint">${esc(t("dp_ob_empty"))}</p>`);
     }
     const overdue = dpWindowRows(obs, today, end30, true);
     const soon = dpWindowRows(obs, today, end7, false);
     const month = dpWindowRows(obs, today, end30, false);
-    const undated = obs.filter((ob) => !dpOccurrences(ob, today, end30).length).map((ob) => dpObRow(ob, [], ob.status === "overdue")).join("");
+    const undated = obs.filter((ob) => {
+      const c = dpCadence(ob);
+      if ((c === "one-off" || c === "oneoff" || c === "once") && dpValid(ob.lastPaidDate)) return false;
+      return !dpOccurrences(ob, today, end30).length;
+    }).map((ob) => dpObRow(ob, [], ob.status === "overdue")).join("");
     const block = (title, body) => `<h3>${esc(title)}</h3>${body || `<p class="hint">${esc(t("dp_ob_none"))}</p>`}`;
-    return card(t("dp_ob"), t("dp_ob_hint"), `${head}${later}${warn}${basis}${block(t("dp_ob_overdue"), overdue)}${block(t("dp_ob_7"), soon)}${block(t("dp_ob_30"), month)}${undated ? block(t("dp_ob_nodate"), undated) : ""}`);
+    return card(t("dp_ob"), t("dp_ob_hint"), `${head}${later}${warn}${basis}${feeNote}${block(t("dp_ob_overdue"), overdue)}${block(t("dp_ob_7"), soon)}${block(t("dp_ob_30"), month)}${undated ? block(t("dp_ob_nodate"), undated) : ""}`);
   }
   function dpMonthTable(rows) {
     if (!rows.length) return "";
@@ -931,6 +948,7 @@
     const gapWarnAbove = warnAbove == null ? 0.05 : warnAbove;
     const obs = dpList(store.obligations);
     const due7 = dpSumDue(obs, today, dpAddDays(today, 7));
+    const due30 = dpSumDue(obs, today, dpAddDays(today, 30));
     return {
       id: id, today: today, supplier: dpPublic(debt.supplier) || "Boutique", start: start, startDate: debt.startDate,
       current: current, paidAll: paidAll, paidToDate: paidToDate, plannedToDate: plannedToDate,
@@ -943,13 +961,13 @@
       laborPct: laborPct, rentPct: rentPct, net: net, netApprox: netApprox,
       gapPct: gapPct, gapAmt: gapAmt, gapMonth: gap.month || "", gapApprox: !!gap.approximate,
       gapWarn: gapPct != null && gapPct > gapWarnAbove + 1e-9, gapWarnAbove: gapWarnAbove, anota: anota, bankDep: bankDep,
-      headroom: dpHeadroom(bank, floorToday.floor), due7: due7,
+      headroom: dpHeadroom(bank, floorToday.floor), due7: due7, due30: due30,
       decisionDays: dpValid(store.decisionDate) ? dpSpan(today, store.decisionDate) : null,
       asOf: dpValid(store.asOf) ? store.asOf : (dpValid(meta.asOf) ? meta.asOf : ""),
       attrs: dpDataAttrs({
         store: id, balance: dpAttr(current), bank: dpAttr(bank), reserva: dpAttr(store.reserva),
         suggested: dpAttr(suggested), floor: dpAttr(fl.floor), payoff: payoff, pace: paidToDate + 0.009 < plannedToDate ? "behind" : "on",
-        due7: dpAttr(due7), headroom: dpAttr(dpHeadroom(bank, floorToday.floor)), obcount: String(obs.length),
+        due7: dpAttr(due7), due30: dpAttr(due30), headroom: dpAttr(dpHeadroom(bank, floorToday.floor)), obcount: String(obs.length),
         gap: gapPct == null ? "" : String(Math.round(gapPct * 10000) / 10000),
         days: dpValid(store.decisionDate) ? String(dpSpan(today, store.decisionDate)) : ""
       })
