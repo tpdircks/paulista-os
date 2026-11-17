@@ -1,12 +1,13 @@
 {
-  "source": "Stone extratos",
-  "asOf": "2026-11-16",
+  "source": "Stone extratos, 2026-11-17 05:10 Belém",
+  "asOf": "2026-11-17",
   "gapWarnAbove": 0.05,
   "stores": [
     {
       "id": "bar",
-      "asOf": "2026-11-16",
-      "bankBalance": 4530.89,
+      "asOf": "2026-11-17",
+      "bankBalance": 5739.05,
+      "reserva": null,
       "debt": {
         "supplier": "Boutique",
         "startBalance": 23064,
@@ -299,7 +300,7 @@
           "lastPaidAmount": 1800,
           "status": "due-soon",
           "confidence": "high",
-          "note": "Recurring Monday owner draw, typically R$ 2.000,00 (last was R$ 1.800,00 on Nov 16, already paid). Some weeks have smaller extra mid-week draws. Weekly totals including extras range R$ 1.800,00 to R$ 2.800,00, median R$ 2.040,00. Discretionary, but regular enough that excluding it would understate cash needs."
+          "note": "Recurring Monday owner draw, typically R$ 2.000,00 (last was an owner transfer of R$ 1.800,00 on Nov 16 to Proprietária / Owner: Ana Paula Maia Dircks, already paid. That Pix is a transfer, not a separate bill). Some weeks have smaller extra mid-week draws. Weekly totals including extras range R$ 1.800,00 to R$ 2.800,00, median R$ 2.040,00. Discretionary, but regular enough that excluding it would understate cash needs."
         },
         {
           "id": "bar-beverages",
@@ -488,6 +489,14 @@
       ],
       "alerts": [
         {
+          "date": "2026-11-16",
+          "severity": "info",
+          "text": {
+            "en": "Owner transfer: Paula R$ 1.800 (Pix)",
+            "pt": "Transferência para a dona: Paula R$ 1.800 (Pix)"
+          }
+        },
+        {
           "date": "2026-11-18",
           "severity": "red",
           "text": "Boutique weekly Pix is due Wednesday Nov 18 (median R$ 2.800,00; last payment was R$ 3.100,00). Outstanding supplier debt remains R$ 23.064,00 as of Nov 11."
@@ -546,8 +555,8 @@
     },
     {
       "id": "vila",
-      "asOf": "2026-11-16",
-      "bankBalance": 1056.3,
+      "asOf": "2026-11-17",
+      "bankBalance": 656.3,
       "reserva": 1767.81,
       "debt": {
         "supplier": "Boutique",
@@ -826,7 +835,7 @@
           "lastPaidAmount": 600,
           "status": "due-soon",
           "confidence": "low",
-          "note": "awaiting confirmation. The R$ 125/day rate is not visible as a daily Pix; withdrawals are lumpy. Weekly totals (excluding the partial first week) range R$ 11,00 to R$ 2.475,00, median R$ 840,00. Monthly totals were about R$ 3.587 in September and R$ 3.633 in October, close to 30 × R$ 125 = R$ 3.750, but payments are bunched. Last tickets were R$ 850,00 on Nov 9 and R$ 600,00 on Nov 15. Expected amount is the weekly total median, not a daily rate. Last week's total R$ 1.450,00 is more than 25% off the weekly median."
+          "note": "awaiting confirmation. The R$ 125/day rate is not visible as a daily Pix; withdrawals are lumpy. Weekly totals (excluding the partial first week) range R$ 11,00 to R$ 2.475,00, median R$ 840,00. Monthly totals were about R$ 3.587 in September and R$ 3.633 in October, close to 30 × R$ 125 = R$ 3.750, but payments are bunched. Last tickets were R$ 850,00 on Nov 9 and R$ 600,00 on Nov 15. Expected amount is the weekly total median, not a daily rate. Last week's total R$ 1.450,00 is more than 25% off the weekly median. On Nov 16 a Pix of R$ 400,00 went to Equipe da Vila / Vila staff: Thiago Efraim Lima Maia. Likely staff or manager pay, pending confirmation from Proprietário / Owner: Troy. Not booked as a confirmed payment."
         },
         {
           "id": "vila-staff",
@@ -995,6 +1004,14 @@
         }
       ],
       "alerts": [
+        {
+          "date": "2026-11-17",
+          "severity": "warn",
+          "text": {
+            "en": "Vila balance R$ 656 is below the R$ 1.000 floor. No extra Boutique payment Wednesday.",
+            "pt": "Saldo da Vila R$ 656 abaixo do piso de R$ 1.000. Sem pagamento extra à Boutique na quarta."
+          }
+        },
         {
           "date": "2026-11-18",
           "severity": "red",
