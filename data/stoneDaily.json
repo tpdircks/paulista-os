@@ -1,0 +1,43 @@
+{
+  "source": "Stone extrato",
+  "stores": [
+    {
+      "id": "bar",
+      "date": "2026-11-17",
+      "asOf": "2026-11-17T05:10:00-03:00",
+      "bankBalance": 5739.05,
+      "reserva": null,
+      "sales7d": 14230.45,
+      "yesterdayIn": 1302.95,
+      "yesterdayOut": 1800.0,
+      "yesterdayOutflows": [
+        {
+          "label": {
+            "en": "Owner transfer: Ana Paula Maia Dircks",
+            "pt": "Transferência para a dona: Ana Paula Maia Dircks"
+          },
+          "amount": 1800.0
+        }
+      ]
+    },
+    {
+      "id": "vila",
+      "date": "2026-11-17",
+      "asOf": "2026-11-17T05:10:00-03:00",
+      "bankBalance": 656.3,
+      "reserva": 1767.81,
+      "sales7d": 3314.62,
+      "yesterdayIn": 0,
+      "yesterdayOut": 400.0,
+      "yesterdayOutflows": [
+        {
+          "label": {
+            "en": "Vila staff: Thiago Efraim Lima Maia",
+            "pt": "Equipe da Vila: Thiago Efraim Lima Maia"
+          },
+          "amount": 400.0
+        }
+      ]
+    }
+  ]
+}
