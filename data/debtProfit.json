@@ -21,88 +21,88 @@
         "payDay": "Wednesday",
         "floorWindowDays": 7
       },
-      "weeklyOrderSeparate": 2500,
+      "weeklyOrderSeparate": 2800,
       "plan": [
         {
           "date": "2026-11-18",
-          "extra": 1400,
-          "debtAfter": 21664,
+          "extra": 1000,
+          "debtAfter": 22064,
           "balAfter": 2053,
           "floor": 2000
         },
         {
           "date": "2026-11-25",
           "extra": 2000,
-          "debtAfter": 19664,
+          "debtAfter": 20064,
           "balAfter": 2504,
           "floor": 2000
         },
         {
           "date": "2026-12-02",
           "extra": 2000,
-          "debtAfter": 17664,
+          "debtAfter": 18064,
           "balAfter": 3655,
           "floor": 2000
         },
         {
           "date": "2026-12-09",
           "extra": 2000,
-          "debtAfter": 15664,
+          "debtAfter": 16064,
           "balAfter": 4806,
           "floor": 3500
         },
         {
           "date": "2026-12-16",
           "extra": 2000,
-          "debtAfter": 13664,
+          "debtAfter": 14064,
           "balAfter": 3497,
           "floor": 2000
         },
         {
           "date": "2026-12-23",
           "extra": 2000,
-          "debtAfter": 11664,
+          "debtAfter": 12064,
           "balAfter": 3949,
           "floor": 2000
         },
         {
           "date": "2026-12-30",
           "extra": 2000,
-          "debtAfter": 9664,
+          "debtAfter": 10064,
           "balAfter": 5100,
           "floor": 2000
         },
         {
           "date": "2027-01-06",
           "extra": 2000,
-          "debtAfter": 7664,
+          "debtAfter": 8064,
           "balAfter": 6251,
           "floor": 3500
         },
         {
           "date": "2027-01-13",
           "extra": 2000,
-          "debtAfter": 5664,
+          "debtAfter": 6064,
           "balAfter": 4942,
           "floor": 2000
         },
         {
           "date": "2027-01-20",
           "extra": 2000,
-          "debtAfter": 3664,
+          "debtAfter": 4064,
           "balAfter": 6093,
           "floor": 2000
         },
         {
           "date": "2027-01-27",
           "extra": 2000,
-          "debtAfter": 1664,
+          "debtAfter": 2064,
           "balAfter": 6544,
           "floor": 2000
         },
         {
           "date": "2027-02-03",
-          "extra": 1664,
+          "extra": 2064,
           "debtAfter": 0,
           "balAfter": 8031,
           "floor": 3500
@@ -383,7 +383,7 @@
           ],
           "lastPaidDate": "2026-10-20",
           "lastPaidAmount": 284.5,
-          "status": "overdue",
+          "status": "unclear: no payment since Oct 20 / Oct 27, pending Manager: Lucas",
           "confidence": "low",
           "note": "Historically often Tuesday. Last payment was Oct 20. Gaps were irregular (including a 5-week gap in September-October), so this may have paused rather than being a missed bill. If still active it is past the usual interval."
         },
@@ -417,7 +417,7 @@
           ],
           "lastPaidDate": "2026-10-27",
           "lastPaidAmount": 350,
-          "status": "overdue",
+          "status": "unclear: no payment since Oct 20 / Oct 27, pending Manager: Lucas",
           "confidence": "low",
           "note": "Irregular food supplier. Four payments in the window, last on Oct 27. October gaps were about two weeks; nothing in November as of the 16th. May be due or paused. Last amount R$ 350,00 is more than 25% off the median R$ 505,88."
         },
@@ -514,7 +514,7 @@
         {
           "date": "2026-11-16",
           "severity": "red",
-          "text": "Expected Pix outflows are R$ 13.094,78 over the next 7 days (Nov 17-23) and R$ 55.371,61 over the next 30 days (Nov 17-Dec 16), versus a cash balance of R$ 4.530,89 as of Nov 16, 2:41 PM Belém (10:41 AM MT). These are outflows only. Incoming sales have a recent 4-week median of R$ 13.506,86 per week (complete weeks through Nov 15; all-week median R$ 12.776,33). Without those inflows the 7-day bills already exceed cash on hand."
+          "text": "Expected Pix outflows are R$ 13.094,78 over the next 7 days (Nov 17-23) and R$ 55.371,61 over the next 30 days (Nov 17-Dec 16), versus a cash balance of R$ 5.739,05 as of the Nov 17 05:10 Belém reading. These are outflows only. Incoming sales have a recent 4-week median of R$ 13.506,86 per week (complete weeks through Nov 15; all-week median R$ 12.776,33). Without those inflows the 7-day bills already exceed cash on hand."
         },
         {
           "date": "2026-11-16",
@@ -551,7 +551,8 @@
           "severity": "info",
           "text": "Gás last paid Oct 31 (R$ 108,00). Next fill estimated around late November. Folha / diárias last paid Nov 15. Owner draw of R$ 1.800,00 already paid today, Nov 16."
         }
-      ]
+      ],
+      "restockBasis": "median"
     },
     {
       "id": "vila",
@@ -571,101 +572,101 @@
         "payDay": "Wednesday",
         "floorWindowDays": 7
       },
-      "weeklyOrderSeparate": true,
+      "weeklyOrderSeparate": 700,
       "plan": [
         {
           "date": "2026-11-18",
-          "extra": 500,
-          "debtAfter": 7094,
+          "extra": 0,
+          "debtAfter": 7594,
           "floor": 1000
         },
         {
           "date": "2026-11-25",
           "extra": 500,
-          "debtAfter": 6594,
+          "debtAfter": 7094,
           "floor": 1000
         },
         {
           "date": "2026-12-02",
           "extra": 500,
-          "debtAfter": 6094,
+          "debtAfter": 6594,
           "floor": 1000
         },
         {
           "date": "2026-12-09",
           "extra": 500,
-          "debtAfter": 5594,
+          "debtAfter": 6094,
           "floor": 1500
         },
         {
           "date": "2026-12-16",
           "extra": 500,
-          "debtAfter": 5094,
+          "debtAfter": 5594,
           "floor": 1000
         },
         {
           "date": "2026-12-23",
           "extra": 500,
-          "debtAfter": 4594,
+          "debtAfter": 5094,
           "floor": 1000
         },
         {
           "date": "2026-12-30",
           "extra": 500,
-          "debtAfter": 4094,
+          "debtAfter": 4594,
           "floor": 1000
         },
         {
           "date": "2027-01-06",
           "extra": 500,
-          "debtAfter": 3594,
+          "debtAfter": 4094,
           "floor": 1500
         },
         {
           "date": "2027-01-13",
           "extra": 500,
-          "debtAfter": 3094,
+          "debtAfter": 3594,
           "floor": 1000
         },
         {
           "date": "2027-01-20",
           "extra": 500,
-          "debtAfter": 2594,
+          "debtAfter": 3094,
           "floor": 1000
         },
         {
           "date": "2027-01-27",
           "extra": 500,
-          "debtAfter": 2094,
+          "debtAfter": 2594,
           "floor": 1000
         },
         {
           "date": "2027-02-03",
           "extra": 500,
-          "debtAfter": 1594,
+          "debtAfter": 2094,
           "floor": 1500
         },
         {
           "date": "2027-02-10",
           "extra": 500,
-          "debtAfter": 1094,
+          "debtAfter": 1594,
           "floor": 1500
         },
         {
           "date": "2027-02-17",
           "extra": 500,
-          "debtAfter": 594,
+          "debtAfter": 1094,
           "floor": 1000
         },
         {
           "date": "2027-02-24",
           "extra": 500,
-          "debtAfter": 94,
+          "debtAfter": 594,
           "floor": 1000
         },
         {
           "date": "2027-03-03",
-          "extra": 94,
+          "extra": 594,
           "debtAfter": 0,
           "floor": 1500
         }
@@ -835,7 +836,7 @@
           "lastPaidAmount": 600,
           "status": "due-soon",
           "confidence": "low",
-          "note": "awaiting confirmation. The R$ 125/day rate is not visible as a daily Pix; withdrawals are lumpy. Weekly totals (excluding the partial first week) range R$ 11,00 to R$ 2.475,00, median R$ 840,00. Monthly totals were about R$ 3.587 in September and R$ 3.633 in October, close to 30 × R$ 125 = R$ 3.750, but payments are bunched. Last tickets were R$ 850,00 on Nov 9 and R$ 600,00 on Nov 15. Expected amount is the weekly total median, not a daily rate. Last week's total R$ 1.450,00 is more than 25% off the weekly median. On Nov 16 a Pix of R$ 400,00 went to Equipe da Vila / Vila staff: Thiago Efraim Lima Maia. Likely staff or manager pay, pending confirmation from Proprietário / Owner: Troy. Not booked as a confirmed payment."
+          "note": "R$ 400 Pix to Vila staff: Thiago Efraim Lima Maia on Nov 16 may be part of this, pending Owner: Troy. awaiting confirmation. The R$ 125/day rate is not visible as a daily Pix; withdrawals are lumpy. Weekly totals (excluding the partial first week) range R$ 11,00 to R$ 2.475,00, median R$ 840,00. Monthly totals were about R$ 3.587 in September and R$ 3.633 in October, close to 30 × R$ 125 = R$ 3.750, but payments are bunched. Last tickets were R$ 850,00 on Nov 9 and R$ 600,00 on Nov 15. Expected amount is the weekly total median, not a daily rate. Last week's total R$ 1.450,00 is more than 25% off the weekly median. On Nov 16 a Pix of R$ 400,00 went to Equipe da Vila / Vila staff: Thiago Efraim Lima Maia. Likely staff or manager pay, pending confirmation from Proprietário / Owner: Troy. Not booked as a confirmed payment."
         },
         {
           "id": "vila-staff",
@@ -1015,7 +1016,7 @@
         {
           "date": "2026-11-18",
           "severity": "red",
-          "text": "Boutique weekly Pix is due Wednesday Nov 18 (median R$ 1.100,00; last payment was R$ 1.167,00). Outstanding supplier debt remains R$ 7.594,00 as of Nov 11. Cash on hand is R$ 1.056,30, so this payment alone needs the night and morning sales first."
+          "text": "Boutique weekly Pix is due Wednesday Nov 18 (median R$ 1.100,00; last payment was R$ 1.167,00). Outstanding supplier debt remains R$ 7.594,00 as of Nov 11. Cash on hand is R$ 656,30, so this payment alone needs the night and morning sales first."
         },
         {
           "date": "2026-11-16",
@@ -1057,7 +1058,8 @@
           "severity": "info",
           "text": "Gás last paid Nov 7 (R$ 216,00); next fill is likely in the coming week. iFood / plataforma R$ 279,99 was paid Nov 11, next around Dec 11. Energy R$ 650,37 was paid Nov 12, next around mid-December."
         }
-      ]
+      ],
+      "restockBasis": "cap"
     }
   ]
 }
