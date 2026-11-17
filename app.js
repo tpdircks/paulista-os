@@ -278,13 +278,13 @@
     const dRows = dailyRows(), feat = featuredDay(dRows);
     let dailyCard;
     if (!feat) {
-      dailyCard = card(t("ds_title"), t("ds_empty_dash"), "");
+      dailyCard = card(t("ds_anota_title"), t("ds_empty_dash"), "");
     } else {
       const isY = feat.date === addDays(today, -1);
       const slice = dRows.slice(0, DAILY_DASH);
       const max = windowMax(slice);
       const count = dRows.length > slice.length ? `${int(slice.length)} / ${int(dRows.length)} ${t("ds_days")}` : `${int(slice.length)} ${t("ds_days")}`;
-      dailyCard = card(t("ds_title"), t("ds_dash_hint"),
+      dailyCard = card(t("ds_anota_title"), t("ds_dash_hint"),
         `<h3>${esc(isY ? t("ds_yesterday") : t("ds_latest"))} · ${fmtD(feat.date)}</h3>
         ${storePeers(feat)}
         <h3>${esc(t("ds_recent"))}</h3><p class="hint">${esc(count)} · ${esc(t("ds_scale"))}</p>
@@ -297,7 +297,7 @@
       <div class="phones">${D.stores.map((x) => `<a class="phonepill" href="tel:+55${x.phone.replace(/\D/g, "")}"><b>${t(x.id)}</b> ${esc(x.phone)}</a>`).join("")}</div></div>
       <div class="heroimg" aria-hidden="true"></div></section>`;
     const planNote = fill(t("plan_note"), { bar: brl(D.debt.bar, 0), vila: brl(D.debt.vila, 0), paid: brl(paidTotal(), 0), left: brl(rem, 0) });
-    return hero + dailyCard + itemDashCard() + card(t("dash_title"), t("dash_hint"),
+    return morningStrip() + hero + dailyCard + itemDashCard() + card(t("dash_title"), t("dash_hint"),
       `<div class="kpis">${kpi(t("k_weeks"), weeksLeft(), t("shared_plan"))}
       ${kpi(t("k_zero"), z ? fmtD(z) : "✓", z ? `${t("wk_of")} ${fmtD(z)} – ${fmtD(addDays(z, 6))}` : t("shared_plan"))}
       ${kpi(t("k_raise"), esc(fmtStart(raise)), `${raiseSub} · ${t("both_stores")}`, "accent")}
@@ -608,6 +608,90 @@
   /* DP_PURE_END */
 
   let dpState = { status: "loading", data: null };
+  let dayState = { status: "loading", data: null };
+  const MORNING_STALE_MS = 36 * 60 * 60 * 1000;
+  function morningStale(asOf, now) {
+    const ms = Date.parse(String(asOf || ""));
+    if (!Number.isFinite(ms)) return true;
+    return (now == null ? Date.now() : now) - ms > MORNING_STALE_MS;
+  }
+  function morningStamp(asOf) {
+    const ms = Date.parse(String(asOf || ""));
+    if (!Number.isFinite(ms)) return "";
+    const when = new Date(ms).toLocaleString(lang === "pt" ? "pt-BR" : "en-US", {
+      timeZone: "America/Belem", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+    });
+    return when + " Belém";
+  }
+  function morningRank(alert) {
+    const s = String(alert && alert.severity || "").toLowerCase();
+    if (s === "red") return 0;
+    if (s === "warn" || s === "amber") return 1;
+    if (s === "info") return 2;
+    return 3;
+  }
+  function morningCard(id, daily, store, meta) {
+    const row = daily && typeof daily === "object" ? daily : {};
+    const asOf = row.asOf || "";
+    const stale = morningStale(asOf);
+    const m = store ? dpModel(store, meta) : null;
+    const bank = dpNum(row.bankBalance) != null ? dpNum(row.bankBalance) : (m ? m.bank : null);
+    const reserva = Object.prototype.hasOwnProperty.call(row, "reserva") ? dpNum(row.reserva) : (store ? dpNum(store.reserva) : null);
+    const sales = dpNum(row.sales7d);
+    const yIn = dpNum(row.yesterdayIn);
+    const yOut = dpNum(row.yesterdayOut);
+    const today = m ? m.today : dpIso(new Date());
+    const due7 = store ? dpSumDue(dpList(store.obligations), today, dpAddDays(today, 7)) : null;
+    const rule = store && store.rule && typeof store.rule === "object" ? store.rule : {};
+    const payDate = dpNextPay(rule.payDay, today);
+    const suggested = dpSuggest(bank, dpFloor(rule, payDate).floor, dpNum(rule.weeklyExtraTarget));
+    const debtLeft = m ? m.current : null;
+    const short = due7 != null && bank != null && Math.round(due7 * 100) > Math.round(bank * 100);
+    const yDate = dpValid(row.date) ? dpAddDays(row.date, -1) : "";
+    const when = yDate ? fmtD(yDate) : t("morning_yesterday");
+    const outs = dpList(row.yesterdayOutflows).map((item) => {
+      const label = dpPublic(item && item.label);
+      const amt = dpNum(item && item.amount);
+      if (!label && amt == null) return "";
+      return `<li><span>${esc(label || t("morning_out"))}</span><b>${dpMoney(amt)}</b></li>`;
+    }).filter(Boolean).join("");
+    const alerts = (store ? dpList(store.alerts) : []).filter((a) => a && a.date === today).sort((a, b) => morningRank(a) - morningRank(b));
+    const alertHtml = alerts.map((a) => {
+      const text = dpPublic(a.text);
+      if (!text) return "";
+      const sev = a.severity === "red" ? "bad" : a.severity === "info" ? "info" : "";
+      return `<p class="flag ${sev}">${esc(text)}</p>`;
+    }).filter(Boolean).join("") || `<p class="hint">${esc(t("morning_none"))}</p>`;
+    const reservaTxt = reserva == null ? esc(t("morning_reserva_none")) : dpMoney(reserva);
+    const stalePill = stale ? ` <span class="pill low">${esc(t("morning_stale"))}</span>` : "";
+    return `<article class="card morning-card${stale ? " stale" : ""}" data-store="${esc(id)}" data-asof="${esc(asOf)}" data-stale="${stale ? "1" : "0"}" data-bank="${esc(dpAttr(bank))}" data-sales7="${esc(dpAttr(sales))}" data-in="${esc(dpAttr(yIn))}" data-out="${esc(dpAttr(yOut))}" data-due7="${esc(dpAttr(due7))}" data-extra="${esc(dpAttr(suggested))}" data-debt="${esc(dpAttr(debtLeft))}" data-reserva="${esc(reserva == null ? "" : dpAttr(reserva))}">
+      <h2>${esc(t(id))}${stalePill}</h2>
+      <p class="src">${esc(t("morning_asof"))} ${esc(morningStamp(asOf) || t("morning_asof_missing"))}</p>
+      <div class="kpis sm">
+        ${kpi(t("morning_bank"), bank == null ? esc(t("dp_na")) : dpMoney(bank))}
+        ${kpi(t("dp_reserva"), reservaTxt, esc(t("dp_reserva_hint")))}
+        ${kpi(t("morning_sales7"), sales == null ? esc(t("dp_na")) : dpMoney(sales))}
+        ${kpi(t("morning_deposits"), yIn == null ? esc(t("dp_na")) : dpMoney(yIn), esc(fill(t("morning_in"), { date: when })))}
+        ${kpi(t("morning_out"), yOut == null ? esc(t("dp_na")) : dpMoney(yOut), esc(when))}
+        ${kpi(t("morning_due"), due7 == null ? esc(t("dp_na")) : dpMoney(due7), bank == null ? "" : esc(t("morning_vs")) + " " + dpMoney(bank), short ? "alert" : "")}
+        ${kpi(t("morning_debt"), debtLeft == null ? esc(t("dp_na")) : dpMoney(debtLeft))}
+        ${kpi(t("morning_extra"), suggested == null ? esc(t("dp_na")) : dpMoney(suggested), payDate ? esc(fmtStartLong(payDate)) : "")}
+      </div>
+      ${outs ? `<h3>${esc(t("morning_outflows"))}</h3><ul class="mouts">${outs}</ul>` : ""}
+      <h3>${esc(t("morning_alerts"))}</h3>${alertHtml}
+    </article>`;
+  }
+  function morningStrip() {
+    if (dayState.status === "loading" || dpState.status === "loading") {
+      return `<section class="morning"><h2>${esc(t("morning_title"))}</h2><p class="hint">${esc(t("morning_loading"))}</p></section>`;
+    }
+    if (dayState.status !== "ready" || dpState.status !== "ready" || !dayState.data || !dpState.data) {
+      return `<section class="morning"><h2>${esc(t("morning_title"))}</h2><p class="flag bad">${esc(t("morning_error"))}</p></section>`;
+    }
+    const meta = { source: dpState.data.source || "Stone extratos", asOf: dpState.data.asOf || "", gapWarnAbove: dpNum(dpState.data.gapWarnAbove) };
+    const cards = ["bar", "vila"].map((id) => morningCard(id, dpList(dayState.data.stores).find((s) => s && s.id === id), dpList(dpState.data.stores).find((s) => s && s.id === id), meta)).join("");
+    return `<section class="morning"><h2>${esc(t("morning_title"))}</h2><div class="morning-grid">${cards}</div></section>`;
+  }
   const dpCalMonth = { bar: "", vila: "" };
   let dpPop = null;
   function dpList(v) { return Array.isArray(v) ? v : []; }
@@ -1204,16 +1288,29 @@
       dpLegacyPlan() +
       card(t("dp_log"), "", `<p class="dp-log">${esc(t("dp_log_help"))}</p><p class="hint"><code>data/debtProfit.json</code> · <code>payments</code> · <code>{ date, amount, note }</code></p>`);
   }
-  function loadDebtProfit() {
-    fetch("data/debtProfit.json", { cache: "no-cache" }).then((r) => {
+  function loadJson(url) {
+    return fetch(url, { cache: "no-cache" }).then((r) => {
       if (!r.ok) throw new Error(String(r.status));
       return r.json();
-    }).then((data) => {
+    });
+  }
+  /* Morning cards read data/stoneDaily.json, one object per store:
+     { id, date, asOf, bankBalance, reserva, sales7d, yesterdayIn, yesterdayOut, yesterdayOutflows:[{ label, amount }] }.
+     Debt remaining, the Wednesday extra, 7-day bills, and today's alerts come from data/debtProfit.json. */
+  function loadDebtProfit() {
+    loadJson("data/debtProfit.json").then((data) => {
       dpState = { status: "ready", data: data };
-      if (view === "profit") render();
+      if (view === "profit" || view === "dashboard") render();
     }).catch(() => {
       dpState = { status: "error", data: null };
-      if (view === "profit") render();
+      if (view === "profit" || view === "dashboard") render();
+    });
+    loadJson("data/stoneDaily.json").then((data) => {
+      dayState = { status: "ready", data: data };
+      if (view === "dashboard") render();
+    }).catch(() => {
+      dayState = { status: "error", data: null };
+      if (view === "dashboard") render();
     });
   }
   V.profit = function () {
