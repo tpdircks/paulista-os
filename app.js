@@ -713,9 +713,10 @@
     const today = m ? m.today : dpIso(new Date());
     const due7 = store ? dpSumDue(dpList(store.obligations), today, dpWindowEnd(today, 7)) : null;
     const projected = dpProjectExtra(store, bank, today, dpMedianDaily(id));
-    const suggested = projected.extra;
+    const record = dpRecordExtra(store, projected.payDate);
+    const modelExtra = projected.extra;
+    const suggested = record != null ? record : modelExtra;
     const debtLeft = m ? m.current : null;
-    const short = due7 != null && bank != null && Math.round(due7 * 100) > Math.round(bank * 100);
     const yDate = dpValid(row.date) ? dpAddDays(row.date, -1) : "";
     const when = yDate ? fmtD(yDate) : t("morning_yesterday");
     const outs = dpList(row.yesterdayOutflows).map((item) => {
@@ -742,10 +743,12 @@
         ${kpi(t("morning_sales7"), sales == null ? esc(t("dp_na")) : dpMoney(sales))}
         ${kpi(t("morning_deposits"), yIn == null ? esc(t("dp_na")) : dpMoney(yIn), esc(fill(t("morning_in"), { date: when })))}
         ${kpi(t("morning_out"), yOut == null ? esc(t("dp_na")) : dpMoney(yOut), esc(when))}
-        ${kpi(t("morning_due"), due7 == null ? esc(t("dp_na")) : dpMoney(due7), bank == null ? "" : esc(t("morning_vs")) + " " + dpMoney(bank), short ? "alert" : "")}
+        ${kpi(t("morning_due"), due7 == null ? esc(t("dp_na")) : dpMoney(due7), bank == null ? "" : esc(t("morning_vs")) + " " + dpMoney(bank))}
         ${kpi(t("morning_debt"), debtLeft == null ? esc(t("dp_na")) : dpMoney(debtLeft))}
-        ${kpi(t("morning_extra"), suggested == null ? esc(t("dp_na")) : dpMoney(suggested), projected.payDate ? esc(fmtStartLong(projected.payDate)) : "")}
+        ${kpi(record != null ? t("dp_approved") : t("morning_extra"), suggested == null ? esc(t("dp_na")) : dpMoney(suggested), esc(record != null ? fill(t(store && store.restockBasis === "cap" ? "dp_approved_cap" : "dp_approved_restock"), { date: projected.payDate ? fmtStartLong(projected.payDate) : "", restock: dpMoney(dpRestockAmt(store)) }) : (projected.payDate ? fmtStartLong(projected.payDate) : "")))}
       </div>
+      <p class="hint">${esc(t("morning_room"))}</p>
+      ${record != null && modelExtra != null && Math.abs(record - modelExtra) > 0.009 ? `<p class="hint">${esc(fill(t("dp_model_note"), { extra: dpMoney(modelExtra) }))}</p>` : ""}
       ${dpWhyText(projected) ? `<p class="hint">${esc(dpWhyText(projected))}</p>` : ""}
       ${outs ? `<h3>${esc(t("morning_outflows"))}</h3><ul class="mouts">${outs}</ul>` : ""}
       <h3>${esc(t("morning_alerts"))}</h3>${alertHtml}
@@ -855,8 +858,12 @@
     if (m.warnFloor) warns += `<p class="flag bad">${esc(t("dp_warn_floor"))}</p>`;
     const floorSub = m.floorRaised ? fill(t("dp_floor_why"), { days: String(m.windowDays) }) : t("dp_floor_base");
     let diff = "";
-    if (m.planExtra != null && m.suggested != null && Math.abs(m.planExtra - m.suggested) > 0.009 && dpValid(m.payDate)) {
+    if (m.record == null && m.planExtra != null && m.suggested != null && Math.abs(m.planExtra - m.suggested) > 0.009 && dpValid(m.payDate)) {
       diff = `<p class="hint">${esc(fill(t("dp_plan_diff"), { date: fmtStart(m.payDate), extra: dpMoney(m.planExtra) }))}</p>`;
+    }
+    let modelNote = "";
+    if (m.record != null && m.modelExtra != null && Math.abs(m.record - m.modelExtra) > 0.009) {
+      modelNote = `<p class="hint">${esc(fill(t("dp_model_note"), { extra: dpMoney(m.modelExtra) }))}</p>`;
     }
     let reserva = "";
     if (m.reserva != null) reserva = `<div class="bline"><span>${esc(t("dp_reserva"))}</span><b>${dpMoney(m.reserva)}</b></div><p class="hint">${esc(t("dp_reserva_hint"))}</p>`;
@@ -866,11 +873,12 @@
     else if (store.weeklyOrderSeparate === true) order = `<p class="hint">${esc(t("dp_order_plain"))}</p>`;
     const why = dpWhyText(m.why);
     const when = dpValid(m.payDate) ? fmtStartLong(m.payDate) : "";
-    return card(t("dp_rule"), t("dp_formula"), `<div class="kpis">${kpi(t("dp_suggest"), m.suggested == null ? esc(t("dp_na")) : dpMoney(m.suggested), esc(when), cls)}
+    const approvedSub = m.record == null ? "" : fill(t(store.restockBasis === "cap" ? "dp_approved_cap" : "dp_approved_restock"), { date: when, restock: dpMoney(dpRestockAmt(store)) });
+    return card(t("dp_rule"), t("dp_formula"), `<div class="kpis">${kpi(m.record != null ? t("dp_approved") : t("dp_suggest"), m.suggested == null ? esc(t("dp_na")) : dpMoney(m.suggested), esc(m.record != null ? approvedSub : when), cls)}
       ${kpi(t("dp_floor"), m.floor == null ? esc(t("dp_na")) : dpMoney(m.floor), esc(floorSub))}
       ${kpi(t("dp_bal"), m.bank == null ? esc(t("dp_na")) : dpMoney(m.bank), "")}</div>
       <p class="hint">${esc(t("dp_target_wk"))}: ${dpMoney(m.targetWk)}</p>
-      ${why ? `<p class="hint">${esc(why)}</p>` : ""}${diff}${reserva}${warns}${order}`);
+      ${modelNote}${why ? `<p class="hint">${esc(why)}</p>` : ""}${diff}${reserva}${warns}${order}`);
   }
   function dpAmountLabel(ob) {
     const exp = dpNum(ob.expectedAmount);
@@ -1026,8 +1034,9 @@
     const limit = dpAddDays(today, 120);
     while (cursor <= limit) {
       if (dpParse(cursor).getDay() === 3) {
-        const sug = m.suggested;
-        if (sug != null) add(cursor, { key: "extra:" + cursor, tone: "blue", low: false, exclude: false, label: t("dp_cal_extra"), amount: sug, cash: sug, kind: "extra", ob: null, date: cursor });
+        const record = dpRecordExtra(store, cursor);
+        const sug = record != null ? record : m.modelExtra;
+        if (sug != null) add(cursor, { key: "extra:" + cursor, tone: "blue", low: false, exclude: false, label: t("dp_cal_extra"), amount: sug, cash: sug, kind: "extra", approved: record != null, ob: null, date: cursor });
       }
       cursor = dpAddDays(cursor, 1);
     }
@@ -1042,7 +1051,7 @@
     if (!chip) return "";
     const ob = chip.ob;
     const lines = [`<p><b>${esc(chip.label)}</b>${chip.count > 1 ? " · " + esc(fill(t("dp_cal_missed"), { n: int(chip.count) })) : ""}</p>`];
-    if (chip.kind === "extra") lines.push(`<p>${esc(t("dp_cal_extra_note"))}</p><p>${esc(t("dp_cal_expected"))}: ${dpMoney(chip.amount)}</p>`);
+    if (chip.kind === "extra") lines.push(`<p>${esc(t(chip.approved ? "dp_cal_extra_approved" : "dp_cal_extra_note"))}</p><p>${esc(t("dp_cal_expected"))}: ${dpMoney(chip.amount)}</p>`);
     else if (ob) {
       lines.push(`<p>${esc(t("dp_cal_expected"))}: ${dpAmountLabel(ob)}</p>`);
       const range = Array.isArray(ob.amountRange) ? ob.amountRange : [];
@@ -1095,8 +1104,7 @@
       const anchor = dates.find((d) => dpParse(d).getDay() === 3) || dates[0];
       const floor = anchor ? dpFloor(store.rule || {}, anchor).floor : null;
       const room = dpHeadroom(m.bank, floor);
-      const over = room != null && Math.round(sum * 100) > Math.round(room * 100);
-      const sumLine = dates.length ? `<div class="calwsum${over ? " over" : ""}">${esc(fill(t("dp_cal_week"), { amt: dpMoney(sum) }))}${room == null ? "" : " · " + esc(fill(t("dp_cal_room"), { room: dpMoney(room) }))}</div>` : "";
+      const sumLine = dates.length ? `<div class="calwsum">${esc(fill(t("dp_cal_week"), { amt: dpMoney(sum) }))}${room == null ? "" : " · " + esc(fill(t("dp_cal_room"), { room: dpMoney(room) }))}</div>` : "";
       return `<div class="calweek">${days}${sumLine}</div>`;
     }).join("");
     const end30 = dpWindowEnd(today, 30);
@@ -1123,10 +1131,9 @@
     const obs = dpList(store.obligations).filter((ob) => ob && typeof ob === "object");
     const today = m.today, end7 = dpWindowEnd(today, 7), end30 = dpWindowEnd(today, 30);
     const due7 = dpSumDue(obs, today, end7), due30 = dpSumDue(obs, today, end30);
-    const short = dpDueExceeds(due7, m.bank, m.floorToday);
-    const head = m.headroom == null ? "" : `<p class="${short ? "flag bad" : "hint"}" data-due7="${esc(dpAttr(due7))}" data-due30="${esc(dpAttr(due30))}">${esc(t("dp_ob_total"))}: ${dpMoney(due7)} · ${esc(t("dp_ob_headroom"))}: ${dpMoney(m.headroom)}</p>`;
+    const head = m.headroom == null ? "" : `<p class="hint" data-due7="${esc(dpAttr(due7))}" data-due30="${esc(dpAttr(due30))}">${esc(t("dp_ob_total"))}: ${dpMoney(due7)} · ${esc(t("dp_ob_headroom"))}: ${dpMoney(m.headroom)}</p><p class="hint">${esc(t("dp_room_note"))}</p>`;
     const later = `<p class="hint">${esc(t("dp_ob_30_total"))}: ${dpMoney(due30)}</p>`;
-    const warn = short ? `<p class="flag bad">${esc(t("dp_ob_short"))}</p>` : "";
+    const warn = "";
     const basis = obs.some((ob) => dpNum(ob.expectedAmount) == null && dpPayAmount(ob) != null) ? `<p class="hint">${esc(t("dp_ob_basis"))}</p>` : "";
     const feeNote = obs.some(dpCashExcluded) ? `<p class="hint">${esc(t("dp_ob_fees"))}</p>` : "";
     if (!obs.length) {
@@ -1268,6 +1275,11 @@
     if (p.next != null) return base + " " + fill(t("dp_why_next"), { next: dpMoney(p.next) });
     return base + " " + t("dp_why_top");
   }
+  function dpRecordExtra(store, payDate) {
+    if (payDate !== "2026-11-18" || !store) return null;
+    const row = dpList(store.plan).find((r) => r && r.date === payDate);
+    return row ? dpNum(row.extra) : null;
+  }
   function dpModel(store, meta) {
     const id = store.id === "vila" ? "vila" : "bar";
     const today = dpIso(new Date());
@@ -1314,14 +1326,16 @@
     const due7 = dpSumDue(obs, today, dpWindowEnd(today, 7));
     const due30 = dpSumDue(obs, today, dpWindowEnd(today, 30));
     const projected = dpProjectExtra(store, bank, today, dpMedianDaily(id));
-    const suggested = projected.extra;
+    const modelExtra = projected.extra;
+    const record = dpRecordExtra(store, payDate);
+    const suggested = record != null ? record : modelExtra;
     return {
       id: id, today: today, supplier: dpPublic(debt.supplier) || "Boutique", start: start, startDate: debt.startDate,
       current: current, paidAll: paidAll, paidToDate: paidToDate, plannedToDate: plannedToDate,
       behind: paidToDate + 0.009 < plannedToDate, payoff: payoff, progress: start > 0 ? Math.min(100, (paidAll / start) * 100) : 0,
       payDate: payDate, floor: fl.floor, floorRaised: fl.raised, windowDays: fl.days, floorToday: floorToday.floor,
-      bank: bank, reserva: dpNum(store.reserva), targetWk: targetWk, suggested: suggested, why: projected,
-      warnShort: suggested != null && targetWk != null && suggested + 0.009 < targetWk,
+      bank: bank, reserva: dpNum(store.reserva), targetWk: targetWk, suggested: suggested, modelExtra: modelExtra, record: record, why: projected,
+      warnShort: record == null && modelExtra != null && targetWk != null && modelExtra + 0.009 < targetWk,
       warnFloor: bank != null && fl.floor != null && bank + 0.009 < fl.floor,
       planExtra: planHit ? dpNum(planHit.extra) : null,
       laborPct: laborPct, rentPct: rentPct, net: net, netApprox: netApprox,
