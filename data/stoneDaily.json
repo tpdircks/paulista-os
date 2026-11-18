@@ -3,41 +3,47 @@
   "stores": [
     {
       "id": "bar",
-      "date": "2026-11-17",
-      "asOf": "2026-11-17T05:10:00-03:00",
-      "bankBalance": 5739.05,
+      "date": "2026-11-18",
+      "asOf": "2026-11-18T05:00:00-03:00",
+      "bankBalance": 6623.24,
       "reserva": null,
-      "sales7d": 14230.45,
-      "yesterdayIn": 1293.95,
-      "yesterdayOut": 1800,
+      "sales7d": 14312.53,
+      "yesterdayIn": 1270.91,
+      "yesterdayOut": 386.72,
       "yesterdayOutflows": [
         {
           "label": {
-            "en": "Owner transfer: Ana Paula Maia Dircks",
-            "pt": "Transferência para a dona: Ana Paula Maia Dircks"
+            "en": "Staff: Mayke",
+            "pt": "Equipe: Mayke"
           },
-          "amount": 1800
+          "amount": 240
+        },
+        {
+          "label": {
+            "en": "Supplier: Pantoja e Coelho",
+            "pt": "Fornecedor: Pantoja e Coelho"
+          },
+          "amount": 144.5
+        },
+        {
+          "label": {
+            "en": "Card fees: Stone",
+            "pt": "Tarifas: Stone"
+          },
+          "amount": 2.22
         }
       ]
     },
     {
       "id": "vila",
-      "date": "2026-11-17",
-      "asOf": "2026-11-17T05:10:00-03:00",
-      "bankBalance": 656.3,
-      "reserva": 1767.81,
-      "sales7d": 3314.62,
-      "yesterdayIn": 0,
-      "yesterdayOut": 400,
-      "yesterdayOutflows": [
-        {
-          "label": {
-            "en": "Vila staff: Thiago Efraim Lima Maia",
-            "pt": "Equipe da Vila: Thiago Efraim Lima Maia"
-          },
-          "amount": 400
-        }
-      ]
+      "date": "2026-11-18",
+      "asOf": "2026-11-18T05:00:00-03:00",
+      "bankBalance": 1027.38,
+      "reserva": 1860.52,
+      "sales7d": 3709.54,
+      "yesterdayIn": 463.79,
+      "yesterdayOut": 0,
+      "yesterdayOutflows": []
     }
   ]
 }
