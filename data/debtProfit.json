@@ -1,12 +1,12 @@
 {
-  "source": "Stone extratos, 2026-11-18 05:00 Belém",
-  "asOf": "2026-11-18",
+  "source": "Stone extratos, 2026-11-19 04:00 Belém",
+  "asOf": "2026-11-19",
   "gapWarnAbove": 0.05,
   "stores": [
     {
       "id": "bar",
-      "asOf": "2026-11-18",
-      "bankBalance": 6623.24,
+      "asOf": "2026-11-19",
+      "bankBalance": 5913.32,
       "reserva": null,
       "debt": {
         "supplier": "Boutique",
@@ -148,7 +148,7 @@
           "lastPaidAmount": 3100,
           "status": "due-soon",
           "confidence": "high",
-          "note": "Outstanding supplier debt R$ 23.064,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. No Boutique Pix on the 2026-11-18 05:00 Belém reading, so no payment is logged. Debt stays R$ 23.064,00, pending Manager: Lucas."
+          "note": "Outstanding supplier debt R$ 23.064,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. No Boutique Pix on the 2026-11-18 05:00 Belém reading, so no payment is logged. Debt stays R$ 23.064,00, pending Manager: Lucas. No Boutique Pix on the 2026-11-19 04:00 Belém reading, so no payment is logged. Debt stays R$ 23.064,00, pending Manager: Lucas."
         },
         {
           "id": "bar-rent-1",
@@ -330,11 +330,11 @@
             266.49,
             3030.7
           ],
-          "lastPaidDate": "2026-11-10",
-          "lastPaidAmount": 1056.48,
+          "lastPaidDate": "2026-11-18",
+          "lastPaidAmount": 1913.68,
           "status": "due-soon",
           "confidence": "low",
-          "note": "awaiting confirmation. Frequent supermarket purchases, often Saturday, amounts highly variable. Expected amount is the weekly total median, not a single ticket. Last ticket was R$ 1.056,48 on 2026-11-10. Last week's total R$ 1.056,48 is more than 25% off the weekly median R$ 1.923,81 (weeks vary widely)."
+          "note": "awaiting confirmation. Frequent supermarket purchases, often Saturday, amounts highly variable. Expected amount is the weekly total median, not a single ticket. Last ticket was R$ 1.056,48 on 2026-11-10. Last week's total R$ 1.056,48 is more than 25% off the weekly median R$ 1.923,81 (weeks vary widely). On 18 Nov a Pix of R$ 1.913,68 went to Supplier: Mateus Supermercados. That ticket is close to the weekly median, so it is not marked unusual. The next Saturday in the window is still 21 Nov."
         },
         {
           "id": "bar-atacadao",
@@ -464,10 +464,10 @@
             0.07,
             0.51
           ],
-          "lastPaidDate": "2026-11-17",
+          "lastPaidDate": "2026-11-18",
           "status": "ok",
           "confidence": "high",
-          "note": "Automatic Stone card fees taken from card sales, not a separate Pix. R$ 576,08 in the Tarifa column of the Oct 1-Nov 16 extrato (47 days), about R$ 86 per week. Already netted in card receivables, so not added to the Pix cash forecast. lastPaidAmount is omitted because fees are not a single daily debit. On Nov 17 the extrato shows Card fees: Stone R$ 2,22. lastPaidAmount stays omitted because one tariff is not the daily average.",
+          "note": "Automatic Stone card fees taken from card sales, not a separate Pix. R$ 576,08 in the Tarifa column of the Oct 1-Nov 16 extrato (47 days), about R$ 86 per week. Already netted in card receivables, so not added to the Pix cash forecast. lastPaidAmount is omitted because fees are not a single daily debit. On Nov 17 the extrato shows Card fees: Stone R$ 2,22. lastPaidAmount stays omitted because one tariff is not the daily average. On 18 Nov the extrato shows Pix fees of about R$ 5,38. lastPaidAmount stays omitted because that total is not the daily average.",
           "excludeFromCash": true
         },
         {
@@ -489,39 +489,31 @@
       ],
       "alerts": [
         {
-          "date": "2026-11-18",
-          "severity": "warn",
-          "text": {
-            "en": "Suggested Wednesday extra to Boutique is R$ 2.000,00, on top of restock of about R$ 2.800,00. Floor in force is R$ 2.000,00. The higher floor of R$ 3.500,00 does not apply: the next 10th is Dec 10, 22 days out, and the window is 7 days. Using the median Anota day on file through Nov 5 (R$ 1.532,60), the simulated balance stays above R$ 2.000,00 through Nov 24 at that extra. The saved plan row for Nov 18 is still R$ 1.000,00, and that amount also stays above the floor. No Boutique Pix was on the 05:00 Belém reading, so no payment is logged. Boutique debt stays R$ 23.064,00, pending Manager: Lucas. Yesterday's by-day sales were not captured.",
-            "pt": "Extra sugerido de quarta para a Boutique: R$ 2.000,00, além da reposição de cerca de R$ 2.800,00. O piso em vigor é R$ 2.000,00. O piso maior de R$ 3.500,00 não entra: o próximo dia 10 é 10/12, daqui a 22 dias, e a janela é de 7 dias. Com a mediana Anota em arquivo até 5/11 (R$ 1.532,60 por dia), o saldo simulado fica acima de R$ 2.000,00 até 24/11 nesse extra. A linha do plano salva para 18/11 continua R$ 1.000,00, e esse valor também fica acima do piso. Nenhum Pix para a Boutique apareceu na leitura das 05:00 Belém, então nenhum pagamento foi lançado. A dívida da Boutique segue R$ 23.064,00, aguardando o Gerente: Lucas. A venda do dia de ontem não foi capturada."
-          }
-        },
-        {
-          "date": "2026-11-18",
-          "severity": "red",
-          "text": {
-            "en": "Bills in the next 7 days (Nov 18-24) total R$ 13.256,78, and bills in the next 30 days (Nov 18-Dec 17) total R$ 55.744,66. Cash is R$ 6.623,24 and the floor is R$ 2.000,00, so the room above the floor is R$ 4.623,24. The 7-day bills exceed that room by R$ 8.633,54. The 7-day total includes Fornecedor Boutique at its expected R$ 2.800,00. These are expected amounts, not money already spent.",
-            "pt": "Contas nos próximos 7 dias (18/11 a 24/11) somam R$ 13.256,78, e nos próximos 30 dias (18/11 a 17/12) somam R$ 55.744,66. O caixa é R$ 6.623,24 e o piso é R$ 2.000,00, então o espaço acima do piso é R$ 4.623,24. As contas de 7 dias passam desse espaço em R$ 8.633,54. O total de 7 dias inclui Fornecedor Boutique no valor esperado de R$ 2.800,00. São valores esperados, não dinheiro já gasto."
-          }
-        },
-        {
-          "date": "2026-11-18",
-          "severity": "warn",
-          "text": {
-            "en": "No Barcarena obligation is overdue. Unusual amounts still open: Água last R$ 150,62 versus expected R$ 269,89; Folha / diárias last full week R$ 1.271,00 versus median R$ 995,00; Mateus last R$ 1.056,48 versus weekly median R$ 1.923,81; Atacadão last R$ 2.201,94 versus weekly median R$ 775,50; Fornecedor (não confirmado) last R$ 220,00 versus R$ 315,30; Super Central last R$ 328,83 versus R$ 214,70. Atacadão's Tuesday Nov 17 was not in yesterday's Pix. The next date in the window is Nov 24. Fornecedor Logui and Fornecedor Mercurio stay unclear, pending Manager: Lucas. Gás, estimated Nov 24 at R$ 162,00, and Aluguel parcela 2 on Nov 21 at R$ 700,00 are inside this 7-day window.",
-            "pt": "Nenhuma obrigação de Barcarena está vencida. Valores fora do padrão ainda abertos: Água último R$ 150,62 contra o esperado de R$ 269,89; Folha / diárias última semana cheia R$ 1.271,00 contra a mediana de R$ 995,00; Mateus último R$ 1.056,48 contra a mediana semanal de R$ 1.923,81; Atacadão último R$ 2.201,94 contra a mediana semanal de R$ 775,50; Fornecedor (não confirmado) último R$ 220,00 contra R$ 315,30; Super Central último R$ 328,83 contra R$ 214,70. A terça 17/11 do Atacadão não apareceu no Pix de ontem. A próxima data na janela é 24/11. Fornecedor Logui e Fornecedor Mercurio seguem sem clareza, aguardando o Gerente: Lucas. Gás, estimado em 24/11 por R$ 162,00, e Aluguel parcela 2 em 21/11 por R$ 700,00 entram nesta janela de 7 dias."
-          }
-        },
-        {
-          "date": "2026-11-18",
+          "date": "2026-11-19",
           "severity": "info",
           "text": {
-            "en": "Nov 17 out was R$ 386,72: Staff: Mayke R$ 240,00 (mapped to Folha / diárias; a partial payment, not a new weekly total), Supplier: Pantoja e Coelho R$ 144,50 (role is supplier; not matched to a named obligation), and Card fees: Stone R$ 2,22. No new payee over R$ 500,00. Nov 17 in was R$ 1.270,91, including an incoming Pix of R$ 123,00 whose sender was not captured. Net on the account was +R$ 884,19. Reserva is not activated.",
-            "pt": "A saída de 17/11 foi R$ 386,72: Equipe: Mayke R$ 240,00 (mapeada para Folha / diárias; pagamento parcial, não é um novo total semanal), Fornecedor: Pantoja e Coelho R$ 144,50 (o papel é fornecedor; não casa com uma obrigação nomeada) e Tarifas: Stone R$ 2,22. Nenhum beneficiário novo acima de R$ 500,00. A entrada de 17/11 foi R$ 1.270,91, incluindo um Pix de R$ 123,00 cujo remetente não foi capturado. O líquido na conta foi +R$ 884,19. A Reserva não está ativada."
+            "en": "Last night, 18 Nov, sales income was about R$ 1.369,00 (Recebimento vendas plus customer Pix). Customer payer names are not listed. Out was Supplier: Mateus Supermercados R$ 1.913,68 and Pix fees about R$ 5,38. Stone shows Limite da Conta of up to R$ 3.000 available. It was not used and is not part of the balance. Reserva is not activated (auto-save off). No Boutique Pix, so no payment is logged. Boutique debt stays R$ 23.064,00, pending Manager: Lucas. Balance at 4:00 AM Belém is R$ 5.913,32. Stone sales over the last 7 days were R$ 13.598,04.",
+            "pt": "Ontem, 18/11, a receita de vendas foi cerca de R$ 1.369,00 (Recebimento vendas mais Pix de clientes). Os nomes de quem pagou não aparecem. Saiu Fornecedor: Mateus Supermercados R$ 1.913,68 e tarifas Pix de cerca de R$ 5,38. A Stone mostra Limite da Conta de até R$ 3.000 disponível. Não foi usado e não entra no saldo. A Reserva não está ativada (guardar automático desligado). Nenhum Pix para a Boutique, então nenhum pagamento foi lançado. A dívida da Boutique segue R$ 23.064,00, aguardando o Gerente: Lucas. O saldo às 4h00 Belém é R$ 5.913,32. Vendas Stone dos últimos 7 dias: R$ 13.598,04."
           }
         },
         {
-          "date": "2026-11-18",
+          "date": "2026-11-19",
+          "severity": "red",
+          "text": {
+            "en": "Bills in the next 7 days (Nov 19-25) total R$ 13.256,78, and bills in the next 30 days (Nov 19-Dec 18) total R$ 54.217,16. Cash is R$ 5.913,32 and the floor is R$ 2.000,00, so room is R$ 3.913,32. The 7-day bills exceed that room by R$ 9.343,46. Room is cash minus the floor. Expected sales income over the week is not counted in room, so this is not a guaranteed shortfall. The 7-day total includes Fornecedor Boutique at its expected R$ 2.800,00 on Wednesday 25 Nov.",
+            "pt": "Contas nos próximos 7 dias (19/11 a 25/11) somam R$ 13.256,78, e nos próximos 30 dias (19/11 a 18/12) somam R$ 54.217,16. O caixa é R$ 5.913,32 e o piso é R$ 2.000,00, então a folga é R$ 3.913,32. As contas de 7 dias passam dessa folga em R$ 9.343,46. A folga é o caixa menos o piso. A venda esperada da semana não entra na folga, então isto não é um buraco garantido. O total de 7 dias inclui Fornecedor Boutique no valor esperado de R$ 2.800,00 na quarta 25/11."
+          }
+        },
+        {
+          "date": "2026-11-19",
+          "severity": "warn",
+          "text": {
+            "en": "No Barcarena obligation is overdue. Supplier: Mateus Supermercados was paid R$ 1.913,68 on 18 Nov. The next Saturday in this window is 21 Nov. Fornecedor Logui and Fornecedor Mercurio stay unclear, pending Manager: Lucas. Gás, estimated 24 Nov, and Aluguel parcela 2 on 21 Nov stay inside this 7-day window.",
+            "pt": "Nenhuma obrigação de Barcarena está vencida. Fornecedor: Mateus Supermercados recebeu R$ 1.913,68 em 18/11. O próximo sábado nesta janela é 21/11. Fornecedor Logui e Fornecedor Mercurio seguem sem clareza, aguardando o Gerente: Lucas. Gás, estimado em 24/11, e Aluguel parcela 2 em 21/11 seguem nesta janela de 7 dias."
+          }
+        },
+        {
+          "date": "2026-11-19",
           "severity": "info",
           "text": {
             "en": "No DAS MEI, tax, or loan payment was identified in this reading. If those are paid from another account or in cash, they will not show here. Do not assume they are zero.",
@@ -533,9 +525,9 @@
     },
     {
       "id": "vila",
-      "asOf": "2026-11-18",
-      "bankBalance": 1027.38,
-      "reserva": 1860.52,
+      "asOf": "2026-11-19",
+      "bankBalance": 1716.33,
+      "reserva": 2043.97,
       "debt": {
         "supplier": "Boutique",
         "startBalance": 7594,
@@ -685,7 +677,7 @@
           "label": "Fornecedor Boutique",
           "category": "debt",
           "cadence": "weekly",
-          "dueWeekday": "Wednesday",
+          "dueWeekday": "Thursday",
           "expectedAmount": 1100,
           "amountRange": [
             500,
@@ -695,7 +687,7 @@
           "lastPaidAmount": 1167,
           "status": "due-soon",
           "confidence": "high",
-          "note": "Outstanding supplier debt R$ 7.594,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. Wednesday series is complete from Sep 2 through Nov 11. No Boutique Pix on the 2026-11-18 05:00 Belém reading, so no payment is logged. Debt stays R$ 7.594,00, pending Manager: Lucas."
+          "note": "Outstanding supplier debt R$ 7.594,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. Wednesday series is complete from Sep 2 through Nov 11. No Boutique Pix on the 2026-11-18 05:00 Belém reading, so no payment is logged. Debt stays R$ 7.594,00, pending Manager: Lucas. No Boutique Pix on 18 Nov or on the 2026-11-19 04:00 Belém reading, so no payment is logged. Debt stays R$ 7.594,00, pending Manager: Lucas. The cheese supplier comes Thursday, so this restock moves from Wednesday to Thursday starting 19 Nov."
         },
         {
           "id": "vila-rent-1",
@@ -983,47 +975,51 @@
       ],
       "alerts": [
         {
-          "date": "2026-11-18",
-          "severity": "red",
-          "text": {
-            "en": "Suggested Wednesday extra to Boutique is R$ 0,00. Vila pays restock only, capped at R$ 700,00. Floor in force is R$ 1.000,00. The higher floor of R$ 1.500,00 does not apply: the next 10th is Dec 10. Cash is R$ 1.027,38, only R$ 27,38 above the floor. After the R$ 700,00 restock cap, the rolled Celular (Claro) amount of R$ 123,37, and one median Anota day on file through Nov 5 (R$ 745,86), the simulated Wednesday balance is about R$ 949,87, under the floor. No Boutique Pix was on the 05:00 Belém reading, so no payment is logged. Boutique debt stays R$ 7.594,00, pending Manager: Lucas. Reserva is R$ 1.860,52 and stays separate. On Nov 17, R$ 92,71 moved into Reserva (Dinheiro Guardado). That is not spending. External out was R$ 0,00. Net on the account was +R$ 371,08.",
-            "pt": "Extra sugerido de quarta para a Boutique: R$ 0,00. A Vila paga só a reposição, com teto de R$ 700,00. O piso em vigor é R$ 1.000,00. O piso maior de R$ 1.500,00 não entra: o próximo dia 10 é 10/12. O caixa é R$ 1.027,38, só R$ 27,38 acima do piso. Depois do teto de reposição de R$ 700,00, da conta de Celular (Claro) atrasada de R$ 123,37 e de um dia da mediana Anota em arquivo até 5/11 (R$ 745,86), o saldo simulado de quarta fica em cerca de R$ 949,87, abaixo do piso. Nenhum Pix para a Boutique apareceu na leitura das 05:00 Belém, então nenhum pagamento foi lançado. A dívida da Boutique segue R$ 7.594,00, aguardando o Gerente: Lucas. A Reserva é R$ 1.860,52 e fica à parte. Em 17/11, R$ 92,71 foram para a Reserva (Dinheiro Guardado). Isso não é gasto. A saída externa foi R$ 0,00. O líquido na conta foi +R$ 371,08."
-          }
-        },
-        {
-          "date": "2026-11-18",
-          "severity": "red",
-          "text": {
-            "en": "Bills in the next 7 days (Nov 18-24) total R$ 5.458,29, and bills in the next 30 days (Nov 18-Dec 17) total R$ 22.355,25. Cash is R$ 1.027,38 and the floor is R$ 1.000,00, so the room above the floor is R$ 27,38. The 7-day bills exceed that room by R$ 5.430,91. The 7-day total includes Fornecedor Boutique at its expected R$ 1.100,00. The restock cap used for the extra is R$ 700,00. The total also rolls in overdue Celular (Claro) at R$ 123,37. These are expected amounts, not money already spent. Yesterday's by-day sales were not captured.",
-            "pt": "Contas nos próximos 7 dias (18/11 a 24/11) somam R$ 5.458,29, e nos próximos 30 dias (18/11 a 17/12) somam R$ 22.355,25. O caixa é R$ 1.027,38 e o piso é R$ 1.000,00, então o espaço acima do piso é R$ 27,38. As contas de 7 dias passam desse espaço em R$ 5.430,91. O total de 7 dias inclui Fornecedor Boutique no valor esperado de R$ 1.100,00. O teto da reposição usado no extra é R$ 700,00. O total também traz o Celular (Claro) vencido de R$ 123,37. São valores esperados, não dinheiro já gasto. A venda do dia de ontem não foi capturada."
-          }
-        },
-        {
-          "date": "2026-11-18",
-          "severity": "red",
-          "text": {
-            "en": "Overdue: Celular (Claro), last paid Oct 9, with no November payment as of Nov 18; Fornecedor supermercado (Mateus), last paid Nov 3; Fornecedor (não confirmado), last paid Oct 18; Fornecedor Super Central, last paid Oct 19. Aluguel parcela 2 of R$ 750,00 falls on Nov 24 and is now inside the 7-day window. Unusual amounts: Claro last R$ 75,48 versus expected R$ 123,37; Mateus last R$ 586,88 versus R$ 317,02; Fornecedor (não confirmado) last R$ 141,50 versus R$ 265,75; Super Central last R$ 69,89 versus R$ 112,04.",
-            "pt": "Vencidas: Celular (Claro), último pagamento em 9/10, sem pagamento em novembro até 18/11; Fornecedor supermercado (Mateus), último pagamento em 3/11; Fornecedor (não confirmado), último pagamento em 18/10; Fornecedor Super Central, último pagamento em 19/10. Aluguel parcela 2 de R$ 750,00 cai em 24/11 e agora entra na janela de 7 dias. Valores fora do padrão: Claro último R$ 75,48 contra o esperado de R$ 123,37; Mateus último R$ 586,88 contra R$ 317,02; Fornecedor (não confirmado) último R$ 141,50 contra R$ 265,75; Super Central último R$ 69,89 contra R$ 112,04."
-          }
-        },
-        {
-          "date": "2026-11-18",
+          "date": "2026-11-19",
           "severity": "warn",
           "text": {
-            "en": "Unmapped payee: Thiago Efraim Lima Maia. Role unknown. Pix of R$ 600,00 on Nov 15, which is over R$ 500,00, and Pix of R$ 400,00 on Nov 16. Not booked as staff pay or manager pay. Other Nov 15 Pix names are also unmapped, are under R$ 500,00, and are not added again on top of the weekly staff total: Unmapped payee: Artur Maia Leite R$ 90,00; Unmapped payee: Sibelly Pereira Nogueira R$ 60,00; Unmapped payee: Ruan dos Santos da Silva R$ 70,00; Unmapped payee: Jose Lucio Gomes da Silva Neto R$ 77,00. No external Pix out on Nov 17.",
-            "pt": "Beneficiário sem mapeamento: Thiago Efraim Lima Maia. Papel desconhecido. Pix de R$ 600,00 em 15/11, acima de R$ 500,00, e Pix de R$ 400,00 em 16/11. Não entra como equipe nem como gerente. Outros nomes do Pix de 15/11 também estão sem mapeamento, ficam abaixo de R$ 500,00 e não são somados de novo por cima do total semanal da equipe: Beneficiário sem mapeamento: Artur Maia Leite R$ 90,00; Beneficiário sem mapeamento: Sibelly Pereira Nogueira R$ 60,00; Beneficiário sem mapeamento: Ruan dos Santos da Silva R$ 70,00; Beneficiário sem mapeamento: Jose Lucio Gomes da Silva Neto R$ 77,00. Nenhuma saída Pix externa em 17/11."
+            "en": "Vila restock shifts to Thursday. The cheese supplier comes Thursday, so Fornecedor Boutique for Vila is due Thursday 19 Nov instead of Wednesday. No Boutique Pix on 18 Nov, so no payment is logged. Boutique debt stays R$ 7.594,00, pending Manager: Lucas. The restock cap used for the extra is still R$ 700,00. The calendar amount stays the expected R$ 1.100,00.",
+            "pt": "A reposição da Vila passa para quinta. O fornecedor de queijo vem na quinta, então Fornecedor Boutique da Vila vence na quinta 19/11, e não na quarta. Nenhum Pix para a Boutique em 18/11, então nenhum pagamento foi lançado. A dívida da Boutique segue R$ 7.594,00, aguardando o Gerente: Lucas. O teto da reposição usado no extra continua R$ 700,00. No calendário o valor segue o esperado de R$ 1.100,00."
           }
         },
         {
-          "date": "2026-11-18",
+          "date": "2026-11-19",
+          "severity": "red",
+          "text": {
+            "en": "Bills in the next 7 days (Nov 19-25) total R$ 5.458,29, and bills in the next 30 days (Nov 19-Dec 18) total R$ 22.355,25. Cash is R$ 1.716,33 and the floor is R$ 1.000,00, so room is R$ 716,33. The 7-day bills exceed that room by R$ 4.741,96. Room is cash minus the floor. Expected sales income over the week is not counted in room, so this is not a guaranteed shortfall. The 7-day total includes Thursday Boutique at R$ 1.100,00 and rolls in overdue Celular (Claro) at R$ 123,37.",
+            "pt": "Contas nos próximos 7 dias (19/11 a 25/11) somam R$ 5.458,29, e nos próximos 30 dias (19/11 a 18/12) somam R$ 22.355,25. O caixa é R$ 1.716,33 e o piso é R$ 1.000,00, então a folga é R$ 716,33. As contas de 7 dias passam dessa folga em R$ 4.741,96. A folga é o caixa menos o piso. A venda esperada da semana não entra na folga, então isto não é um buraco garantido. O total de 7 dias inclui a Boutique de quinta em R$ 1.100,00 e traz o Celular (Claro) vencido de R$ 123,37."
+          }
+        },
+        {
+          "date": "2026-11-19",
+          "severity": "red",
+          "text": {
+            "en": "Overdue: Celular (Claro), last paid Oct 9; Fornecedor supermercado (Mateus), last paid Nov 3; Fornecedor (não confirmado), last paid Oct 18; Fornecedor Super Central, last paid Oct 19. Aluguel parcela 2 of R$ 750,00 on 24 Nov is inside this 7-day window.",
+            "pt": "Vencidas: Celular (Claro), último pagamento em 9/10; Fornecedor supermercado (Mateus), último pagamento em 3/11; Fornecedor (não confirmado), último pagamento em 18/10; Fornecedor Super Central, último pagamento em 19/10. Aluguel parcela 2 de R$ 750,00 em 24/11 entra nesta janela de 7 dias."
+          }
+        },
+        {
+          "date": "2026-11-19",
+          "severity": "warn",
+          "text": {
+            "en": "New payee, role unknown: Unmapped payee: Luis Claudio Tavares de Melo, Pix R$ 45,00 on 18 Nov. Under R$ 500,00. Not booked as staff or as a supplier. Dinheiro Guardado moved R$ 183,45 into Reserva. That is not spending. Owner: Troy deleted the 20% Reserva auto-save rule, so future sales stay in the main balance. Reserva is R$ 2.043,97, withdrawal pending; R$ 1.500 is set aside for the Boutique debt. The withdrawal needs the transaction PIN.",
+            "pt": "Beneficiário novo, papel desconhecido: Beneficiário sem mapeamento: Luis Claudio Tavares de Melo, Pix R$ 45,00 em 18/11. Abaixo de R$ 500,00. Não entra como equipe nem como fornecedor. Dinheiro Guardado levou R$ 183,45 para a Reserva. Isso não é gasto. O proprietário: Troy apagou a regra de guardar 20% na Reserva, então as próximas vendas ficam no saldo principal. Reserva: R$ 2.043,97, saque pendente; R$ 1.500 destinado à dívida Boutique. O saque precisa do PIN da transação."
+          }
+        },
+        {
+          "date": "2026-11-19",
           "severity": "info",
           "text": {
-            "en": "No water payment appears in the Vila history on file. It may be paid in cash, from another account, or included elsewhere. Do not assume it is zero. No DAS MEI, tax, or loan payment was identified in this reading.",
-            "pt": "Nenhum pagamento de água aparece no histórico da Vila que está no arquivo. Pode sair em dinheiro, de outra conta, ou estar em outro lugar. Não trate isso como zero. Nenhum DAS MEI, imposto ou parcela de empréstimo foi identificado nesta leitura."
+            "en": "No water payment appears in the Vila history on file. Do not assume it is zero. No DAS MEI, tax, or loan payment was identified in this reading. 18 Nov sales income was R$ 917,40 (Recebimento vendas R$ 536,40 plus customer Pix R$ 381,00). Customer payer names are not listed.",
+            "pt": "Nenhum pagamento de água aparece no histórico da Vila que está no arquivo. Não trate isso como zero. Nenhum DAS MEI, imposto ou parcela de empréstimo foi identificado nesta leitura. A receita de vendas de 18/11 foi R$ 917,40 (Recebimento vendas R$ 536,40 mais Pix de clientes R$ 381,00). Os nomes de quem pagou não aparecem."
           }
         }
       ],
-      "restockBasis": "cap"
+      "restockBasis": "cap",
+      "reservaNote": {
+        "en": "R$ 2,043.97, withdrawal pending; R$ 1,500 is set aside for the Boutique debt. The 20% auto-save rule was deleted by Owner: Troy, so future sales stay in the balance. The withdrawal needs the transaction PIN.",
+        "pt": "R$ 2.043,97, saque pendente; R$ 1.500 destinado à dívida Boutique. A regra de guardar 20% foi apagada pelo proprietário: Troy, então as próximas vendas ficam no saldo. O saque precisa do PIN da transação."
+      }
     }
   ]
 }

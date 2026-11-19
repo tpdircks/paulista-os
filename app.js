@@ -733,15 +733,18 @@
       return `<p class="flag ${sev}">${esc(text)}</p>`;
     }).filter(Boolean).join("") || `<p class="hint">${esc(t("morning_none"))}</p>`;
     const reservaTxt = reserva == null ? esc(t("morning_reserva_none")) : dpMoney(reserva);
+    const reservaSub = row.reservaNote ? esc(dpPublic(row.reservaNote)) : esc(t("dp_reserva_hint"));
+    const inLabel = row.yesterdayInSales ? t("morning_sales_in") : t("morning_deposits");
+    const inSub = fill(t(row.yesterdayInSales ? "morning_in_sales" : "morning_in"), { date: when });
     const stalePill = stale ? ` <span class="pill low">${esc(t("morning_stale"))}</span>` : "";
     return `<article class="card morning-card${stale ? " stale" : ""}" data-store="${esc(id)}" data-asof="${esc(asOf)}" data-stale="${stale ? "1" : "0"}" data-bank="${esc(dpAttr(bank))}" data-sales7="${esc(dpAttr(sales))}" data-in="${esc(dpAttr(yIn))}" data-out="${esc(dpAttr(yOut))}" data-due7="${esc(dpAttr(due7))}" data-extra="${esc(dpAttr(suggested))}" data-debt="${esc(dpAttr(debtLeft))}" data-reserva="${esc(reserva == null ? "" : dpAttr(reserva))}">
       <h2>${esc(t(id))}${stalePill}</h2>
       <p class="src">${esc(t("morning_asof"))} ${esc(morningStamp(asOf) || t("morning_asof_missing"))}</p>
       <div class="kpis sm">
         ${kpi(t("morning_bank"), bank == null ? esc(t("dp_na")) : dpMoney(bank))}
-        ${kpi(t("dp_reserva"), reservaTxt, esc(t("dp_reserva_hint")))}
+        ${kpi(t("dp_reserva"), reservaTxt, reservaSub)}
         ${kpi(t("morning_sales7"), sales == null ? esc(t("dp_na")) : dpMoney(sales))}
-        ${kpi(t("morning_deposits"), yIn == null ? esc(t("dp_na")) : dpMoney(yIn), esc(fill(t("morning_in"), { date: when })))}
+        ${kpi(inLabel, yIn == null ? esc(t("dp_na")) : dpMoney(yIn), esc(inSub))}
         ${kpi(t("morning_out"), yOut == null ? esc(t("dp_na")) : dpMoney(yOut), esc(when))}
         ${kpi(t("morning_due"), due7 == null ? esc(t("dp_na")) : dpMoney(due7), bank == null ? "" : esc(t("morning_vs")) + " " + dpMoney(bank))}
         ${kpi(t("morning_debt"), debtLeft == null ? esc(t("dp_na")) : dpMoney(debtLeft))}
@@ -763,7 +766,7 @@
     }
     const meta = { source: dpState.data.source || "Stone extratos", asOf: dpState.data.asOf || "", gapWarnAbove: dpNum(dpState.data.gapWarnAbove) };
     const cards = ["bar", "vila"].map((id) => morningCard(id, dpList(dayState.data.stores).find((s) => s && s.id === id), dpList(dpState.data.stores).find((s) => s && s.id === id), meta)).join("");
-    return `<section class="morning"><h2>${esc(t("morning_title"))}</h2><div class="morning-grid">${cards}</div></section>`;
+    return `<section class="morning"><h2>${esc(t("morning_title"))}</h2><p class="hint">${esc(t("morning_night"))}</p><div class="morning-grid">${cards}</div></section>`;
   }
   const dpCalMonth = { bar: "", vila: "" };
   let dpPop = null;
@@ -866,7 +869,7 @@
       modelNote = `<p class="hint">${esc(fill(t("dp_model_note"), { extra: dpMoney(m.modelExtra) }))}</p>`;
     }
     let reserva = "";
-    if (m.reserva != null) reserva = `<div class="bline"><span>${esc(t("dp_reserva"))}</span><b>${dpMoney(m.reserva)}</b></div><p class="hint">${esc(t("dp_reserva_hint"))}</p>`;
+    if (m.reserva != null) reserva = `<div class="bline"><span>${esc(t("dp_reserva"))}</span><b>${dpMoney(m.reserva)}</b></div><p class="hint">${esc(store.reservaNote ? dpPublic(store.reservaNote) : t("dp_reserva_hint"))}</p>`;
     let order = "";
     if (store.restockBasis === "cap") order = `<p class="hint">${esc(fill(t("dp_restock_cap"), { amt: dpMoney(store.weeklyOrderSeparate) }))}</p>`;
     else if (dpNum(store.weeklyOrderSeparate) != null) order = `<p class="hint">${esc(fill(t("dp_restock_median"), { amt: dpMoney(store.weeklyOrderSeparate) }))}</p>`;

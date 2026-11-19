@@ -3,47 +3,54 @@
   "stores": [
     {
       "id": "bar",
-      "date": "2026-11-18",
-      "asOf": "2026-11-18T05:00:00-03:00",
-      "bankBalance": 6623.24,
+      "date": "2026-11-19",
+      "asOf": "2026-11-19T04:00:00-03:00",
+      "bankBalance": 5913.32,
       "reserva": null,
-      "sales7d": 14312.53,
-      "yesterdayIn": 1270.91,
-      "yesterdayOut": 386.72,
+      "sales7d": 13598.04,
+      "yesterdayIn": 1369,
+      "yesterdayInSales": true,
+      "yesterdayOut": 1919.06,
       "yesterdayOutflows": [
         {
           "label": {
-            "en": "Staff: Mayke",
-            "pt": "Equipe: Mayke"
+            "en": "Supplier: Mateus Supermercados",
+            "pt": "Fornecedor: Mateus Supermercados"
           },
-          "amount": 240
+          "amount": 1913.68
         },
         {
           "label": {
-            "en": "Supplier: Pantoja e Coelho",
-            "pt": "Fornecedor: Pantoja e Coelho"
+            "en": "Pix fees: Stone",
+            "pt": "Tarifas Pix: Stone"
           },
-          "amount": 144.5
-        },
-        {
-          "label": {
-            "en": "Card fees: Stone",
-            "pt": "Tarifas: Stone"
-          },
-          "amount": 2.22
+          "amount": 5.38
         }
       ]
     },
     {
       "id": "vila",
-      "date": "2026-11-18",
-      "asOf": "2026-11-18T05:00:00-03:00",
-      "bankBalance": 1027.38,
-      "reserva": 1860.52,
-      "sales7d": 3709.54,
-      "yesterdayIn": 463.79,
-      "yesterdayOut": 0,
-      "yesterdayOutflows": []
+      "date": "2026-11-19",
+      "asOf": "2026-11-19T04:00:00-03:00",
+      "bankBalance": 1716.33,
+      "reserva": 2043.97,
+      "reservaNote": {
+        "en": "R$ 2,043.97, withdrawal pending; R$ 1,500 is set aside for the Boutique debt. The 20% auto-save rule was deleted, so future sales stay in the balance.",
+        "pt": "R$ 2.043,97, saque pendente; R$ 1.500 destinado à dívida Boutique. A regra de guardar 20% foi apagada, então as próximas vendas ficam no saldo."
+      },
+      "sales7d": 4423.48,
+      "yesterdayIn": 917.4,
+      "yesterdayInSales": true,
+      "yesterdayOut": 45,
+      "yesterdayOutflows": [
+        {
+          "label": {
+            "en": "Unmapped payee: Luis Claudio Tavares de Melo",
+            "pt": "Beneficiário sem mapeamento: Luis Claudio Tavares de Melo"
+          },
+          "amount": 45
+        }
+      ]
     }
   ]
 }
