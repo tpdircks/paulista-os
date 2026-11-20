@@ -3,52 +3,73 @@
   "stores": [
     {
       "id": "bar",
-      "date": "2026-11-19",
-      "asOf": "2026-11-19T04:00:00-03:00",
-      "bankBalance": 5913.32,
+      "date": "2026-11-20",
+      "asOf": "2026-11-20T05:05:00-03:00",
+      "bankBalance": 4361.22,
       "reserva": null,
-      "sales7d": 13598.04,
-      "yesterdayIn": 1369,
+      "sales7d": 14367.9,
+      "yesterdayIn": 1724.81,
       "yesterdayInSales": true,
-      "yesterdayOut": 1919.06,
+      "yesterdayOut": 3276.91,
       "yesterdayOutflows": [
         {
           "label": {
-            "en": "Supplier: Mateus Supermercados",
-            "pt": "Fornecedor: Mateus Supermercados"
+            "en": "Supplier: Boutique dos Frios",
+            "pt": "Fornecedor: Boutique dos Frios"
           },
-          "amount": 1913.68
+          "amount": 3200
+        },
+        {
+          "label": {
+            "en": "Unmapped payee: Luiz Felipe Furtado Martins",
+            "pt": "Beneficiário sem mapeamento: Luiz Felipe Furtado Martins"
+          },
+          "amount": 70
         },
         {
           "label": {
             "en": "Pix fees: Stone",
             "pt": "Tarifas Pix: Stone"
           },
-          "amount": 5.38
+          "amount": 6.91
         }
       ]
     },
     {
       "id": "vila",
-      "date": "2026-11-19",
-      "asOf": "2026-11-19T04:00:00-03:00",
-      "bankBalance": 1716.33,
+      "date": "2026-11-20",
+      "asOf": "2026-11-20T05:05:00-03:00",
+      "bankBalance": 937.06,
       "reserva": 2043.97,
       "reservaNote": {
-        "en": "R$ 2,043.97, withdrawal pending; R$ 1,500 is set aside for the Boutique debt. The 20% auto-save rule was deleted, so future sales stay in the balance.",
-        "pt": "R$ 2.043,97, saque pendente; R$ 1.500 destinado à dívida Boutique. A regra de guardar 20% foi apagada, então as próximas vendas ficam no saldo."
+        "en": "R$ 2,043.97, withdrawal pending; it needs the transaction PIN. R$ 1,500 is earmarked for the Boutique debt, pending a decision from Owner: Troy. Auto-save is stopped: no Dinheiro Guardado debit since 18 Nov.",
+        "pt": "R$ 2.043,97, saque pendente; precisa do PIN da transação. R$ 1.500 destinado à dívida Boutique, aguardando decisão do proprietário: Troy. O guardar automático parou: nenhum débito de Dinheiro Guardado desde 18/11."
       },
-      "sales7d": 4423.48,
-      "yesterdayIn": 917.4,
+      "sales7d": 4503.44,
+      "yesterdayIn": 516.73,
       "yesterdayInSales": true,
-      "yesterdayOut": 45,
+      "yesterdayOut": 1296,
       "yesterdayOutflows": [
         {
           "label": {
-            "en": "Unmapped payee: Luis Claudio Tavares de Melo",
-            "pt": "Beneficiário sem mapeamento: Luis Claudio Tavares de Melo"
+            "en": "Supplier: Boutique dos Frios",
+            "pt": "Fornecedor: Boutique dos Frios"
           },
-          "amount": 45
+          "amount": 1183
+        },
+        {
+          "label": {
+            "en": "Unmapped payee: Ruan dos Santos da Silva",
+            "pt": "Beneficiário sem mapeamento: Ruan dos Santos da Silva"
+          },
+          "amount": 70
+        },
+        {
+          "label": {
+            "en": "Unmapped payee: Abeylton Aguiar Viana",
+            "pt": "Beneficiário sem mapeamento: Abeylton Aguiar Viana"
+          },
+          "amount": 43
         }
       ]
     }
