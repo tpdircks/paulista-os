@@ -20,6 +20,14 @@
               "en": "Toward old debt. Manager: Lucas, 19 Nov: restock R$ 2.092 plus R$ 1.108 toward old debt. Pix R$ 3.200,00 to Supplier: Boutique dos Frios, verified in Stone. Debt is now R$ 21.956,00. The Wednesday 18 Nov calendar item is marked paid.",
               "pt": "Abate da dívida antiga. Gerente: Lucas, 19/11: reposição R$ 2.092 mais R$ 1.108 da dívida antiga. Pix R$ 3.200,00 para Fornecedor: Boutique dos Frios, conferido na Stone. A dívida agora é R$ 21.956,00. O item de quarta 18/11 no calendário está pago."
             }
+          },
+          {
+            "date": "2026-11-25",
+            "amount": 1000,
+            "note": {
+              "en": "per Lucas, pending Stone check. 25 Nov: received R$ 2.319,00, paid R$ 3.319,00. Previous debt R$ 21.956,00. Debt portion R$ 1.000,00. Current debt R$ 20.956,00. Last Stone pull was 20 Nov.",
+              "pt": "segundo Lucas, aguardando conferência na Stone. 25/11: recebido R$ 2.319,00, pago R$ 3.319,00. Dívida anterior R$ 21.956,00. Abate da dívida R$ 1.000,00. Dívida atual R$ 20.956,00. Última leitura Stone em 20/11."
+            }
           }
         ]
       },
@@ -153,11 +161,11 @@
             1300,
             5000
           ],
-          "lastPaidDate": "2026-11-18",
-          "lastPaidAmount": 3200,
+          "lastPaidDate": "2026-11-25",
+          "lastPaidAmount": 3319,
           "status": "due-soon",
           "confidence": "high",
-          "note": "Outstanding supplier debt R$ 23.064,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. No Boutique Pix on the 2026-11-18 05:00 Belém reading, so no payment is logged. Debt stays R$ 23.064,00, pending Manager: Lucas. No Boutique Pix on the 2026-11-19 04:00 Belém reading, so no payment is logged. Debt stays R$ 23.064,00, pending Manager: Lucas. On 19 Nov, Manager: Lucas reports restock R$ 2.092 plus R$ 1.108 toward old debt. Pix R$ 3.200,00 to Supplier: Boutique dos Frios, verified in Stone. Debt is now R$ 21.956,00. The Wednesday 18 Nov calendar item is marked paid."
+          "note": "Outstanding supplier debt R$ 23.064,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. No Boutique Pix on the 2026-11-18 05:00 Belém reading, so no payment is logged. Debt stays R$ 23.064,00, pending Manager: Lucas. No Boutique Pix on the 2026-11-19 04:00 Belém reading, so no payment is logged. Debt stays R$ 23.064,00, pending Manager: Lucas. On 19 Nov, Manager: Lucas reports restock R$ 2.092 plus R$ 1.108 toward old debt. Pix R$ 3.200,00 to Supplier: Boutique dos Frios, verified in Stone. Debt is now R$ 21.956,00. The Wednesday 18 Nov calendar item is marked paid. On 25 Nov, per Lucas, pending Stone check: received R$ 2.319,00, paid R$ 3.319,00. Previous debt R$ 21.956,00. Current debt R$ 20.956,00. The 25 Nov calendar item is marked paid. Last Stone pull was 20 Nov."
         },
         {
           "id": "bar-rent-1",
@@ -498,6 +506,14 @@
       ],
       "alerts": [
         {
+          "date": "2026-11-25",
+          "severity": "warn",
+          "text": {
+            "en": "per Lucas, pending Stone check. 25 Nov Boutique: received R$ 2.319,00, paid R$ 3.319,00. Previous debt R$ 21.956,00. Current debt R$ 20.956,00. The 25 Nov calendar item is marked paid. Stone balances are unchanged. Last Stone pull was 20 Nov.",
+            "pt": "segundo Lucas, aguardando conferência na Stone. Boutique em 25/11: recebido R$ 2.319,00, pago R$ 3.319,00. Dívida anterior R$ 21.956,00. Dívida atual R$ 20.956,00. O item de 25/11 no calendário está pago. Os saldos Stone não mudaram. Última leitura Stone em 20/11."
+          }
+        },
+        {
           "date": "2026-11-20",
           "severity": "info",
           "text": {
@@ -540,6 +556,14 @@
             "note": {
               "en": "Toward old debt. Manager: Lucas, 19 Nov: restock R$ 683 plus R$ 500 toward old debt. Pix R$ 1.183,00 to Supplier: Boutique dos Frios, verified in Stone. Debt is now R$ 7.094,00. That R$ 500 is above the restock-only plan, which was capped at R$ 700 with no extra. The Thursday 19 Nov calendar item, shifted from Wednesday 18 Nov, is marked paid.",
               "pt": "Abate da dívida antiga. Gerente: Lucas, 19/11: reposição R$ 683 mais R$ 500 da dívida antiga. Pix R$ 1.183,00 para Fornecedor: Boutique dos Frios, conferido na Stone. A dívida agora é R$ 7.094,00. Esses R$ 500 ficam acima do plano de só reposição, com teto de R$ 700 e sem extra. O item de quinta 19/11 no calendário, passado da quarta 18/11, está pago."
+            }
+          },
+          {
+            "date": "2026-11-25",
+            "amount": 373,
+            "note": {
+              "en": "per Lucas, pending Stone check. 25 Nov: received R$ 627,00, paid R$ 1.000,00. Previous debt R$ 7.094,00. Debt portion R$ 373,00. Current debt R$ 6.721,00. Last Stone pull was 20 Nov.",
+              "pt": "segundo Lucas, aguardando conferência na Stone. 25/11: recebido R$ 627,00, pago R$ 1.000,00. Dívida anterior R$ 7.094,00. Abate da dívida R$ 373,00. Dívida atual R$ 6.721,00. Última leitura Stone em 20/11."
             }
           }
         ]
@@ -693,11 +717,11 @@
             500,
             2000
           ],
-          "lastPaidDate": "2026-11-19",
-          "lastPaidAmount": 1183,
+          "lastPaidDate": "2026-11-25",
+          "lastPaidAmount": 1000,
           "status": "due-soon",
           "confidence": "high",
-          "note": "Outstanding supplier debt R$ 7.594,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. Wednesday series is complete from Sep 2 through Nov 11. No Boutique Pix on the 2026-11-18 05:00 Belém reading, so no payment is logged. Debt stays R$ 7.594,00, pending Manager: Lucas. No Boutique Pix on 18 Nov or on the 2026-11-19 04:00 Belém reading, so no payment is logged. Debt stays R$ 7.594,00, pending Manager: Lucas. The cheese supplier comes Thursday, so this restock moves from Wednesday to Thursday starting 19 Nov. On 19 Nov, Manager: Lucas reports restock R$ 683 plus R$ 500 toward old debt. Pix R$ 1.183,00 to Supplier: Boutique dos Frios, verified in Stone. Debt is now R$ 7.094,00. That R$ 500 is above the restock-only plan (cap R$ 700, no extra). The Thursday 19 Nov calendar item is marked paid. It is the Wednesday 18 Nov item shifted because the cheese supplier comes Thursday."
+          "note": "Outstanding supplier debt R$ 7.594,00 as of 2026-11-11. Paid by Pix weekly on Wednesday when stock is restocked. Historical amounts include restock, not only debt paydown. Wednesday series is complete from Sep 2 through Nov 11. No Boutique Pix on the 2026-11-18 05:00 Belém reading, so no payment is logged. Debt stays R$ 7.594,00, pending Manager: Lucas. No Boutique Pix on 18 Nov or on the 2026-11-19 04:00 Belém reading, so no payment is logged. Debt stays R$ 7.594,00, pending Manager: Lucas. The cheese supplier comes Thursday, so this restock moves from Wednesday to Thursday starting 19 Nov. On 19 Nov, Manager: Lucas reports restock R$ 683 plus R$ 500 toward old debt. Pix R$ 1.183,00 to Supplier: Boutique dos Frios, verified in Stone. Debt is now R$ 7.094,00. That R$ 500 is above the restock-only plan (cap R$ 700, no extra). The Thursday 19 Nov calendar item is marked paid. It is the Wednesday 18 Nov item shifted because the cheese supplier comes Thursday. On 25 Nov, per Lucas, pending Stone check: received R$ 627,00, paid R$ 1.000,00. Previous debt R$ 7.094,00. Current debt R$ 6.721,00. The 25 Nov calendar item is marked paid. Last Stone pull was 20 Nov."
         },
         {
           "id": "vila-rent-1",
@@ -984,6 +1008,14 @@
         }
       ],
       "alerts": [
+        {
+          "date": "2026-11-25",
+          "severity": "warn",
+          "text": {
+            "en": "per Lucas, pending Stone check. 25 Nov Boutique: received R$ 627,00, paid R$ 1.000,00. Previous debt R$ 7.094,00. Current debt R$ 6.721,00. The 25 Nov calendar item is marked paid. Stone balances are unchanged. Last Stone pull was 20 Nov.",
+            "pt": "segundo Lucas, aguardando conferência na Stone. Boutique em 25/11: recebido R$ 627,00, pago R$ 1.000,00. Dívida anterior R$ 7.094,00. Dívida atual R$ 6.721,00. O item de 25/11 no calendário está pago. Os saldos Stone não mudaram. Última leitura Stone em 20/11."
+          }
+        },
         {
           "date": "2026-11-20",
           "severity": "warn",
